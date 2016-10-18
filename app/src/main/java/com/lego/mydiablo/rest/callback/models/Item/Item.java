@@ -27,66 +27,37 @@ public class Item {
     @SerializedName("requiredLevel")
     @Expose
     private Integer requiredLevel;
-    @SerializedName("itemLevel")
-    @Expose
-    private Integer itemLevel;
-    @SerializedName("stackSizeMax")
-    @Expose
-    private Integer stackSizeMax;
-    @SerializedName("bonusAffixes")
-    @Expose
-    private Integer bonusAffixes;
-    @SerializedName("bonusAffixesMax")
-    @Expose
-    private Integer bonusAffixesMax;
-    @SerializedName("accountBound")
-    @Expose
-    private Boolean accountBound;
     @SerializedName("flavorText")
     @Expose
     private String flavorText;
     @SerializedName("typeName")
     @Expose
     private String typeName;
-    @SerializedName("type")
-    @Expose
-    private Type type;
     @SerializedName("damageRange")
     @Expose
     private String damageRange;
-    @SerializedName("slots")
-    @Expose
-    private List<String> slots = new ArrayList<String>();
     @SerializedName("attributes")
     @Expose
     private Attributes attributes;
-    @SerializedName("randomAffixes")
+    @SerializedName("dps")
     @Expose
-    private List<Object> randomAffixes = new ArrayList<Object>();
+    private Property dps;
+    @SerializedName("armor")
+    @Expose
+    private Property armor;
     @SerializedName("gems")
     @Expose
-    private List<Object> gems = new ArrayList<Object>();
-    @SerializedName("socketEffects")
-    @Expose
-    private List<Object> socketEffects = new ArrayList<Object>();
+    private List<Gem> gems = new ArrayList<>();
     @SerializedName("setItemsEquipped")
     @Expose
-    private List<String> setItemsEquipped = new ArrayList<String>();
-    @SerializedName("craftedBy")
-    @Expose
-    private List<Object> craftedBy = new ArrayList<Object>();
-    @SerializedName("seasonRequiredToDrop")
-    @Expose
-    private Integer seasonRequiredToDrop;
-    @SerializedName("isSeasonRequiredToDrop")
-    @Expose
-    private Boolean isSeasonRequiredToDrop;
+    private List<String> setItemsEquipped = new ArrayList<>();
     @SerializedName("description")
     @Expose
     private Object description;
     @SerializedName("blockChance")
     @Expose
     private String blockChance;
+
 
     public String getId() {
         return id;
@@ -136,46 +107,6 @@ public class Item {
         this.requiredLevel = requiredLevel;
     }
 
-    public Integer getItemLevel() {
-        return itemLevel;
-    }
-
-    public void setItemLevel(Integer itemLevel) {
-        this.itemLevel = itemLevel;
-    }
-
-    public Integer getStackSizeMax() {
-        return stackSizeMax;
-    }
-
-    public void setStackSizeMax(Integer stackSizeMax) {
-        this.stackSizeMax = stackSizeMax;
-    }
-
-    public Integer getBonusAffixes() {
-        return bonusAffixes;
-    }
-
-    public void setBonusAffixes(Integer bonusAffixes) {
-        this.bonusAffixes = bonusAffixes;
-    }
-
-    public Integer getBonusAffixesMax() {
-        return bonusAffixesMax;
-    }
-
-    public void setBonusAffixesMax(Integer bonusAffixesMax) {
-        this.bonusAffixesMax = bonusAffixesMax;
-    }
-
-    public Boolean getAccountBound() {
-        return accountBound;
-    }
-
-    public void setAccountBound(Boolean accountBound) {
-        this.accountBound = accountBound;
-    }
-
     public String getFlavorText() {
         return flavorText;
     }
@@ -192,28 +123,12 @@ public class Item {
         this.typeName = typeName;
     }
 
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
     public String getDamageRange() {
         return damageRange;
     }
 
     public void setDamageRange(String damageRange) {
         this.damageRange = damageRange;
-    }
-
-    public List<String> getSlots() {
-        return slots;
-    }
-
-    public void setSlots(List<String> slots) {
-        this.slots = slots;
     }
 
     public Attributes getAttributes() {
@@ -224,28 +139,28 @@ public class Item {
         this.attributes = attributes;
     }
 
-    public List<Object> getRandomAffixes() {
-        return randomAffixes;
+    public Property getDps() {
+        return dps;
     }
 
-    public void setRandomAffixes(List<Object> randomAffixes) {
-        this.randomAffixes = randomAffixes;
+    public void setDps(Property dps) {
+        this.dps = dps;
     }
 
-    public List<Object> getGems() {
+    public Property getArmor() {
+        return armor;
+    }
+
+    public void setArmor(Property armor) {
+        this.armor = armor;
+    }
+
+    public List<Gem> getGems() {
         return gems;
     }
 
-    public void setGems(List<Object> gems) {
+    public void setGems(List<Gem> gems) {
         this.gems = gems;
-    }
-
-    public List<Object> getSocketEffects() {
-        return socketEffects;
-    }
-
-    public void setSocketEffects(List<Object> socketEffects) {
-        this.socketEffects = socketEffects;
     }
 
     public List<String> getSetItemsEquipped() {
@@ -254,26 +169,6 @@ public class Item {
 
     public void setSetItemsEquipped(List<String> setItemsEquipped) {
         this.setItemsEquipped = setItemsEquipped;
-    }
-
-    public List<Object> getCraftedBy() {
-        return craftedBy;
-    }
-
-    public void setCraftedBy(List<Object> craftedBy) {
-        this.craftedBy = craftedBy;
-    }
-
-    public Integer getSeasonRequiredToDrop() {
-        return seasonRequiredToDrop;
-    }
-
-    public void setSeasonRequiredToDrop(Integer seasonRequiredToDrop) {
-        this.seasonRequiredToDrop = seasonRequiredToDrop;
-    }
-
-    public void setSeasonRequiredToDrop(Boolean seasonRequiredToDrop) {
-        isSeasonRequiredToDrop = seasonRequiredToDrop;
     }
 
     public Object getDescription() {
