@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner_content"
+        android:layout_margin="15dp"
+        >
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="←"
+            android:id="@+id/back_button"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/region_spiner"
+            android:id="@+id/textView"
+            android:layout_marginLeft="4dp"
+            android:textColor="@color/btn_text"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/idRegion"
+            android:entries="@array/region"
+            android:textColor="@color/btn_text"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/class_spiner"
+            android:id="@+id/textView3"
+            android:layout_marginLeft="4dp"
+            android:textColor="@color/btn_text"
+            android:gravity="end"
+            android:paddingRight="5dp"
+            tools:ignore="RtlSymmetry"/>
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/idClass"
+            android:entries="@array/hero_class"
+            android:textColor="@color/btn_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/season_spiner"
+            android:id="@+id/textView2"
+            android:layout_marginLeft="4dp"
+            android:textColor="@color/btn_text" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/idSeason"
+            android:entries="@array/season"
+            android:textColor="@color/btn_text"/>
+
+    </LinearLayout>
+
+    <ProgressBar
+        style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:background="@color/colorBar"
+        android:indeterminate="true"
+        android:max="100"
+        android:visibility="gone"
+        tools:targetApi="lollipop"/>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="8dp">
+
+        <include layout="@layout/item_list"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+    </FrameLayout>
+
+
+</LinearLayout>

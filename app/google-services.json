@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "185734405763",
+    "firebase_url": "https://mydiablo-fcc8c.firebaseio.com",
+    "project_id": "mydiablo-fcc8c",
+    "storage_bucket": "mydiablo-fcc8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185734405763:android:2292765b5de3206e",
+        "android_client_info": {
+          "package_name": "com.lego.mydiablo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "185734405763-g2grqhhjmc59fosmunfdk1diak1mql4l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd91bW8F88KWoKxAHDXKij0X_RQeR9KP8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

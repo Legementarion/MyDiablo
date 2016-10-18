@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_floating_material_dark">
+
+    <FrameLayout
+        android:name="com.example.lego.mydiablo.ActivityAndView.MenuFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout="@layout/menu_fragment"
+        android:id="@+id/start_menu_fragment"
+        android:background="@drawable/bg_all">
+    </FrameLayout>
+
+</LinearLayout>

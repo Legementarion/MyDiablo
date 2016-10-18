@@ -1,3 +1,70 @@
 <resources>
     <string name="app_name">MyDiablo</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="bt_normal">Normal</string>
+    <string name="bt_hardcore">HardCore</string>
+    <string name="bt_season">Season</string>
+    <string name="bt_season_hardcore">Season Hardcore</string>
+    <string name="region_spiner">Region</string>
+    <string name="season_spiner">Season</string>
+    <string name="class_spiner">Class</string>
+    <string name="doubleClick_backBtn">Tab again to exit</string>
+    <string name="Authorization_title">Authorization…</string>
+
+    <string-array name="hero_class">
+        <item>barbarian</item>
+        <item>monk</item>
+        <item>wizard</item>
+        <item>wd</item>
+        <item>dh</item>
+        <item>crusader</item>
+    </string-array>
+    <string-array name="season">
+        <item>7</item>
+        <item>6</item>
+        <item>5</item>
+        <item>4</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="region">
+        <item>EU</item>
+        <item>US</item>
+        <item>TW</item>
+        <item>KR</item>
+    </string-array>
+
+    <string name="stats">Hero Stats</string>
+
+    <string name="stat_Life">Life</string>
+    <string name="stat_Damage">Damage</string>
+    <string name="stat_Toughness">Toughness</string>
+    <string name="stat_Healing">Healing</string>
+    <string name="stat_AttackSpeed">Attack Speed</string>
+    <string name="stat_Armor">Armor</string>
+    <string name="stat_Strength">Strength</string>
+    <string name="stat_Dexterity">Dexterity</string>
+    <string name="stat_Vitality">Vitality</string>
+    <string name="stat_Intelligence">Intelligence</string>
+    <string name="stat_PhysicalResist">Physical Resist</string>
+    <string name="stat_FireResist">Fire Resist</string>
+    <string name="stat_ColdResist">Cold Resist</string>
+    <string name="stat_LightningResist">Lightning Resist</string>
+    <string name="stat_PoisonResist">Poison Resist</string>
+    <string name="stat_ArcaneResist">Arcane Resist</string>
+    <string name="stat_CritDamage">Crit Damage</string>
+    <string name="stat_BlockChance">Block Chance</string>
+    <string name="stat_BlockAmountMin">Block Amount Min</string>
+    <string name="stat_BlockAmountMax">Block Amount Max</string>
+    <string name="stat_DamageIncrease">Damage Increase</string>
+    <string name="stat_CritChance">Crit Chance</string>
+    <string name="stat_DamageReduction">Damage Reduction</string>
+    <string name="stat_LifeSteal">Life Steal</string>
+    <string name="stat_LifePerKill">Life PerKill</string>
+    <string name="stat_GoldFind">Gold Find</string>
+    <string name="stat_MagicFind">Magic Find</string>
+    <string name="stat_LifeOnHit">Life On Hit</string>
+    <string name="stat_PrimaryResource">Primary Resource</string>
+    <string name="stat_SecondaryResource">Secondary Resource</string>
 </resources>

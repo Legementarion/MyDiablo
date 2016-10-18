@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
+    <color name="btn_text">#fcfcfc</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorBar">#a9003a</color>
+
+    <color name="green">#8b08e71a</color>
+    <color name="orange">#abec7b0c</color>
+    <color name="yellow">#cee8ef0c</color>
+
+    <color name="positiveColor">#10c909</color>
+    <color name="negativeColor">#dc2612</color>
+
+    <integer-array name="color_array">
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/yellow</item>
+    </integer-array>
+
 </resources>

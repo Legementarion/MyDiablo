@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:gravity="center_vertical">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="@string/bt_normal"
+            android:textOn="@string/bt_normal"
+            android:id="@+id/bt_normal"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_on_off"
+            android:textColor="@color/btn_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:gravity="center_vertical">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="@string/bt_hardcore"
+            android:textOn="@string/bt_hardcore"
+            android:id="@+id/bt_harcore"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_on_off"
+            android:textColor="@color/btn_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:gravity="center_vertical">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="@string/bt_season"
+            android:textOff="@string/bt_season"
+            android:id="@+id/bt_season"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_on_off"
+            android:textColor="@color/btn_text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:gravity="center_vertical">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="@string/bt_season_hardcore"
+            android:textOff="@string/bt_season_hardcore"
+            android:id="@+id/bt_season_hardcore"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_on_off"
+            android:textColor="@color/btn_text" />
+    </LinearLayout>
+</LinearLayout>
