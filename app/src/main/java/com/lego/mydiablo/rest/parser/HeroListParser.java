@@ -94,7 +94,7 @@ public class HeroListParser {
     }
 
     public void getTopHeroDetail(String battleTag, int heroId) {
-        if (battleTag != null) {
+        if (battleTag != null) {    //TODO new exceptions for account without id
             mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU)
                     .subscribeOn(Schedulers.io())       //request
                     .observeOn(AndroidSchedulers.mainThread())      //parsing
@@ -228,6 +228,7 @@ public class HeroListParser {
 
         } catch (NullPointerException ex) {
             ex.printStackTrace();
+            Log.d("Hero parse", "heroStatParse: " + hero.getId());
         }
     }
 
@@ -264,6 +265,7 @@ public class HeroListParser {
                             result_item.setTitle(item.getName());
                             result_item.setImageUrl(item.getIcon());
                             result_item.setAttribute1(item.getDamageRange());
+                            //FIXME item parse
                         }
                     });
         }
