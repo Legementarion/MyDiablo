@@ -1,6 +1,7 @@
 package com.lego.mydiablo.rest.callback.models.HeroDetail;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.Items.Items;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.LegendaryPowers.Legendary;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.Skills.Skills;
@@ -10,6 +11,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class HeroDetail {
     @SerializedName("id")
     @Expose

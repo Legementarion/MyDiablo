@@ -49,21 +49,34 @@ public class HeroListParser {
         for (int i = 0; i < heroList.getRow().size(); i++) {
             Hero currentHero = new Hero();
             try {
-                currentHero.setmBattleTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(0).getString());    //player data
-                currentHero.setmClass(heroList.getRow().get(i).getPlayer().get(0).getData().get(2).getString());
-                currentHero.setmLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber());
-
-                if (heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber() != null) {
-                    currentHero.setmParagonLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber());
-                }
-                if (heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getId().equals("HeroClanTag")) {
-                    currentHero.setmClanName(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getString());
-                    currentHero.setmClanTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(7).getString());
-                    currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(8).getNumber());
+                if (heroList.getRow().get(i).getPlayer().get(0).getData().get(0).getId().equals("HeroBattleTag")) {
+                    currentHero.setmBattleTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(0).getString());    //player data
+                    currentHero.setmClass(heroList.getRow().get(i).getPlayer().get(0).getData().get(2).getString());
+                    currentHero.setmLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber());
+                    if (heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber() != null) {
+                        currentHero.setmParagonLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber());
+                    }
+                    if (heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getId().equals("HeroClanTag")) {
+                        currentHero.setmClanTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getString());
+                        currentHero.setmClanName(heroList.getRow().get(i).getPlayer().get(0).getData().get(7).getString());
+                        currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(8).getNumber());
+                    } else {
+                        currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getNumber());
+                    }
                 } else {
-                    currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getNumber());
+                    currentHero.setmClass(heroList.getRow().get(i).getPlayer().get(0).getData().get(1).getString());
+                    currentHero.setmLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(3).getNumber());
+                    if (heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber() != null) {
+                        currentHero.setmParagonLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber());
+                    }
+                    if (heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getId().equals("HeroClanTag")) {
+                        currentHero.setmClanTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getString());
+                        currentHero.setmClanName(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getString());
+                        currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(7).getNumber());
+                    } else {
+                        currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber());
+                    }
                 }
-
                 currentHero.setSeasonValue(heroList.getEra());
 
                 currentHero.setmRank(heroList.getRow().get(i).getData().get(0).getNumber());     //other data
@@ -81,26 +94,28 @@ public class HeroListParser {
     }
 
     public void getTopHeroDetail(String battleTag, int heroId) {
-        mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU)
-                .subscribeOn(Schedulers.io())       //request
-                .observeOn(AndroidSchedulers.mainThread())      //parsing
-                .subscribe(new Subscriber<HeroDetail>() {
-                    @Override
-                    public void onCompleted() {
-                        unsubscribe();
-                    }
+        if (battleTag != null) {
+            mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU)
+                    .subscribeOn(Schedulers.io())       //request
+                    .observeOn(AndroidSchedulers.mainThread())      //parsing
+                    .subscribe(new Subscriber<HeroDetail>() {
+                        @Override
+                        public void onCompleted() {
+                            unsubscribe();
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Log.d("Error", "onError: HERO DETAIL " + e);
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                            Log.d("Error", "onError: HERO DETAIL " + e);
+                        }
 
-                    @Override
-                    public void onNext(HeroDetail hero) {
-                        heroStatParse(hero, heroId);
-                    }
-                });
+                        @Override
+                        public void onNext(HeroDetail hero) {
+                            heroStatParse(hero, heroId);
+                        }
+                    });
+        }
     }
 
     private void heroStatParse(HeroDetail hero, int heroId) {
@@ -249,10 +264,10 @@ public class HeroListParser {
                             result_item.setTitle(item.getName());
                             result_item.setImageUrl(item.getIcon());
                             result_item.setAttribute1(item.getDamageRange());
-                            Log.d("Result Item", "onNext: "+ result_item.getAttribute1());
                         }
                     });
         }
+        Log.d("Result Item", "onNext: " + result_item.getAttribute1());
         return result_item;
     }
 }

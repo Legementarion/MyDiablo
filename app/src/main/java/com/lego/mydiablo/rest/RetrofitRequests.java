@@ -1,8 +1,16 @@
 package com.lego.mydiablo.rest;
 
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
 import com.lego.mydiablo.rest.callback.models.HeroList.HeroList;
 import com.lego.mydiablo.rest.callback.models.Item.Item;
+
+import java.lang.reflect.Modifier;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -10,6 +18,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -38,6 +47,13 @@ public class RetrofitRequests {
 
     private void create() {
 
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY);
+
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithModifiers(Modifier.TRANSIENT)
+                .create();
+
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -56,7 +72,8 @@ public class RetrofitRequests {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL_API)
                 .client(httpClient.build())
-                .addConverterFactory(GsonConverterFactory.create())
+//                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .addCallAdapterFactory(rxAdapter)
                 .build();
         api = retrofit.create(BlizzardApi.class);

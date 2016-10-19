@@ -2,6 +2,8 @@ package com.lego.mydiablo.logic;
 
 import android.app.Activity;
 import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.lego.mydiablo.data.DataBaseController;
 import com.lego.mydiablo.data.model.Hero;
@@ -47,13 +49,13 @@ public class Core {
                 .subscribeOn(Schedulers.io())
                 .flatMap(heroes -> mDataBaseController.saveToDatabase(heroes))
                 .doOnNext(heroList -> {
-                    for (int i = 0; i < mItemsPerPage/4; i++) {
+                    for (int i = 0; i < mItemsPerPage / 4; i++) {
                         mParser.getTopHeroDetail(heroList.get(i).getmBattleTag(), heroList.get(i).getId());
                     }
                 }).flatMap(heroList -> mDataBaseController.saveToDatabase(heroList));
     }
 
     public void updateProgressBar(int value) {
-        mProgressBar.updateProgressBar(value, SIZE);
+        new Handler(Looper.getMainLooper()).post(() -> mProgressBar.updateProgressBar(value, SIZE));    //execute from main thread
     }
 }
