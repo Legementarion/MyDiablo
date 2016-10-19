@@ -39,7 +39,10 @@ public class Item {
     private String damageRange;
     @SerializedName("attributes")
     @Expose
-    private HashMap<String,Property> attributes;
+    private Attributes mAttributes;
+    @SerializedName("attributesRaw")
+    @Expose
+    private AttributesRaw mAttributesRaw;
     @SerializedName("dps")
     @Expose
     private Property dps;
@@ -180,11 +183,20 @@ public class Item {
         this.blockChance = blockChance;
     }
 
-    public HashMap<String, Property> getAttributes() {
-        return attributes;
+    public Attributes getAttributes() {
+        return mAttributes;
     }
 
-    public void setAttributes(HashMap<String, Property> attributes) {
-        this.attributes = attributes;
+    public void setAttributes(Attributes attributes) {
+        mAttributes = attributes;
     }
+
+    public AttributesRaw getAttributesRaw() {
+        return mAttributesRaw;
+    }
+
+    public void setAttributesRaw(AttributesRaw attributesRaw) {
+        mAttributesRaw = attributesRaw;
+    }
+
 }
