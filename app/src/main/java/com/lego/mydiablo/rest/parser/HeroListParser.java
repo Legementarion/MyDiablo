@@ -248,6 +248,8 @@ public class HeroListParser {
                         public void onNext(com.lego.mydiablo.rest.callback.models.Item.Item item) {
                             result_item.setTitle(item.getName());
                             result_item.setImageUrl(item.getIcon());
+                            result_item.setAttribute1(item.getDamageRange());
+                            Log.d("Result Item", "onNext: "+ result_item.getAttribute1());
                         }
                     });
         }

@@ -5,8 +5,12 @@ package com.lego.mydiablo.utils;
  */
 
 public class Settings {
+
+
     public static boolean mTwoPane; //portrait\landscape
     public static boolean mDetailActive;
+
+    public static String mBattleTag;
     public static String mToken; //access token
     public static String mMode = null;
 

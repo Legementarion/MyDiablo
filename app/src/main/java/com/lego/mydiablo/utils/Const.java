@@ -23,6 +23,7 @@ public class Const {
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
 
     public static final String DATA_PATH = "data/";
+    public static final String ACCOUNT_USER = "account/user";
     public static final String D3_PROFILE = "profile/";
     public static final String D3 = "d3/";
     public static final String HERO = "/hero/";

@@ -21,7 +21,7 @@ import android.widget.FrameLayout;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.rest.AuthRequest;
-import com.lego.mydiablo.rest.callback.AccessToken;
+import com.lego.mydiablo.rest.callback.models.UserData.AccessToken;
 import com.lego.mydiablo.utils.Const;
 import com.lego.mydiablo.utils.Settings;
 import com.lego.mydiablo.view.fragments.ItemListFragment;
@@ -46,6 +46,7 @@ import static com.lego.mydiablo.utils.Const.AUTHORIZE_URI;
 import static com.lego.mydiablo.utils.Const.CREDENTIALS;
 import static com.lego.mydiablo.utils.Const.REDIRECTION_URI;
 import static com.lego.mydiablo.utils.Const.RESPONSE_TYPE;
+import static com.lego.mydiablo.utils.Settings.mBattleTag;
 import static com.lego.mydiablo.utils.Settings.mDetailActive;
 import static com.lego.mydiablo.utils.Settings.mToken;
 import static com.lego.mydiablo.utils.Settings.mTwoPane;
@@ -166,6 +167,7 @@ public class DiabloActivity extends FragmentActivity implements MenuCallBack {
                                 @Override
                                 public void onNext(AccessToken accessToken) {
                                     mToken = accessToken.getAccess_token();
+                                    AuthRequest.getBattleTag();
                                 }
                             });
                     mAuthDialog.dismiss();

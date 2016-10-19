@@ -4,13 +4,17 @@ package com.lego.mydiablo.rest;
  * @author Lego on 13.05.2016.
  */
 
-import com.lego.mydiablo.rest.callback.AccessToken;
-import com.lego.mydiablo.rest.callback.CheckedToken;
+import com.lego.mydiablo.rest.callback.models.UserData.AccessToken;
+import com.lego.mydiablo.rest.callback.models.UserData.CheckedToken;
+import com.lego.mydiablo.rest.callback.models.UserData.UserTag;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
 
 
@@ -30,4 +34,12 @@ public interface AuthApi {
     Call<CheckedToken> checkToken(
             @Field("token") String token
     );
+
+    @GET
+    Call<UserTag> getTag(
+            @Url String url,
+            @Query("access_token") String token
+    );
+
+
 }

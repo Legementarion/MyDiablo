@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Item {
@@ -38,7 +39,7 @@ public class Item {
     private String damageRange;
     @SerializedName("attributes")
     @Expose
-    private Attributes attributes;
+    private HashMap<String,Property> attributes;
     @SerializedName("dps")
     @Expose
     private Property dps;
@@ -131,14 +132,6 @@ public class Item {
         this.damageRange = damageRange;
     }
 
-    public Attributes getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Attributes attributes) {
-        this.attributes = attributes;
-    }
-
     public Property getDps() {
         return dps;
     }
@@ -185,5 +178,13 @@ public class Item {
 
     public void setBlockChance(String blockChance) {
         this.blockChance = blockChance;
+    }
+
+    public HashMap<String, Property> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(HashMap<String, Property> attributes) {
+        this.attributes = attributes;
     }
 }

@@ -1,4 +1,4 @@
-package com.lego.mydiablo.rest.callback;
+package com.lego.mydiablo.rest.callback.models.UserData;
 
 /**
  * @author Lego on 15.09.2016.
