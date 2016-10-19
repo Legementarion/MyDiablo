@@ -59,7 +59,7 @@ public class HeroListParser {
                     if (heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getId().equals("HeroClanTag")) {
                         currentHero.setmClanTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getString());
                         currentHero.setmClanName(heroList.getRow().get(i).getPlayer().get(0).getData().get(7).getString());
-                        currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(8).getNumber());
+                        currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(8).getNumber());    // if era = 1 and query = barbarian -> Error field doesn't exist
                     } else {
                         currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getNumber());
                     }
@@ -94,7 +94,7 @@ public class HeroListParser {
     }
 
     public void getTopHeroDetail(String battleTag, int heroId) {
-        if (battleTag != null) {    //TODO new exceptions for account without id
+        if (battleTag != null && !battleTag.equals("")) {    //TODO new exceptions for account without id
             mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU)
                     .subscribeOn(Schedulers.io())       //request
                     .observeOn(AndroidSchedulers.mainThread())      //parsing
