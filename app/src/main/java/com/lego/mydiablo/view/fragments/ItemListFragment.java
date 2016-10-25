@@ -91,10 +91,18 @@ public class ItemListFragment extends Fragment implements Paginate.Callbacks {
     private Paginate mPaginate;
 
     @Override
+    public void onStop() {
+        if (mPaginate != null) {
+            mPaginate.unbind();
+        }
+        super.onStop();
+    }
+
+
+    @Override
     public void onDestroyView() {
-        super.onDestroyView();
         mUnbinder.unbind();
-        mPaginate.unbind();
+        super.onDestroyView();
     }
 
     @Override
@@ -147,7 +155,7 @@ public class ItemListFragment extends Fragment implements Paginate.Callbacks {
             } else {
                 mSeasonAdapter = new SeasonAdapter(getContext(), R.layout.spinner, mCurrentEraList);
             }
-        }else {
+        } else {
             mSeasonAdapter = new SeasonAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.season));
         }
     }

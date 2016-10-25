@@ -19,6 +19,7 @@
         <item>dh</item>
         <item>crusader</item>
     </string-array>
+
     <string-array name="season">
         <item>8</item>
         <item>7</item>
@@ -29,6 +30,7 @@
         <item>2</item>
         <item>1</item>
     </string-array>
+
     <string-array name="region">
         <item>EU</item>
         <item>US</item>

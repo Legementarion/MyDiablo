@@ -19,6 +19,7 @@ public class Const {
     public final static String GRANT_TYPE_AUTHORIZE = "authorization_code";
     public final static String REDIRECTION_URI = "&redirect_uri=";
     public final static String RESPONSE_TYPE = "?response_type=code";
+
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
 
@@ -27,7 +28,6 @@ public class Const {
     public static final String D3_PROFILE = "profile/";
     public static final String D3 = "d3/";
     public static final String HERO = "/hero/";
-    public static final String ITEM = "item/";
     public static final String ERA = "era/";
     public static final String SEASON = "season/";
     public static final String LEADERBOARD_RIFT = "/leaderboard/rift-";

@@ -129,4 +129,5 @@ public class RetrofitRequests {
     public Observable<Item> getItem(final String data, final String locale) {
         return api.getItem(BASE_URL_API + D3 + DATA_PATH + data, locale, CLIENT_ID);
     }
+
 }

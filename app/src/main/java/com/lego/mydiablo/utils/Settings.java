@@ -16,6 +16,7 @@ public class Settings {
     public static String mHARDCODE = null;
 
     public static String mCurrentZone;
+    public static String mCurrentLocale;
     public static String[] mCurrentSeasonList;
     public static String[] mCurrentEraList;
 
