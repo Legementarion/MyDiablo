@@ -82,6 +82,7 @@ public class HeroListParser {
                 currentHero.setmRank(heroList.getRow().get(i).getData().get(0).getNumber());     //other data
                 currentHero.setmRiftLevel(heroList.getRow().get(i).getData().get(1).getNumber());
                 currentHero.setmRiftTime(heroList.getRow().get(i).getData().get(2).getTimestamp());
+
             } catch (IndexOutOfBoundsException ex) {
                 Log.d("Error", "parseFromJson: array out of range cell " + i);
             }
@@ -94,7 +95,7 @@ public class HeroListParser {
     }
 
     public void getTopHeroDetail(String battleTag, int heroId) {
-        if (battleTag != null && !battleTag.equals("")) {    //TODO new exceptions for account without id
+        if (battleTag != null && !battleTag.equals("")) {
             mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU)
                     .subscribeOn(Schedulers.io())       //request
                     .observeOn(AndroidSchedulers.mainThread())      //parsing

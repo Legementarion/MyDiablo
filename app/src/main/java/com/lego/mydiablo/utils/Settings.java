@@ -13,8 +13,11 @@ public class Settings {
     public static String mBattleTag;
     public static String mToken; //access token
     public static String mMode = null;
+    public static String mHARDCODE = null;
 
     public static String mCurrentZone;
+    public static String[] mCurrentSeasonList;
+    public static String[] mCurrentEraList;
 
     public static int mItemsPerPage = 20;
 }

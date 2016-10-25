@@ -28,8 +28,11 @@ public class Const {
     public static final String D3 = "d3/";
     public static final String HERO = "/hero/";
     public static final String ITEM = "item/";
-    public static final String HERO_BOARD_PATH = "era/";
+    public static final String ERA = "era/";
+    public static final String SEASON = "season/";
     public static final String LEADERBOARD_RIFT = "/leaderboard/rift-";
+    public static final String NO_VALUE = "";
+    public static final String HARDCORE = "hardcore-";
 
     public static final String LOCALE_RU = "ru_RU";
     public static final String LOCALE_EN = "en_GB";

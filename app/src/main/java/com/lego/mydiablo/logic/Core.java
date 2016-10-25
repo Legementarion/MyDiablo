@@ -43,10 +43,11 @@ public class Core {
     }
 
     public Observable<List<Hero>> doRequest(String heroClass, String heroSeason) {
-        return mServerRequest.getSeasonLeaderTop(heroSeason, heroClass)
-                .flatMap(heroList -> mParser.parseData(heroList))
+        return mServerRequest.getEraLeaderTop(heroSeason, heroClass)
+//                .doOnSubscribe(()->updateProgressBar(1)) for update progress bar
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
+                .flatMap(heroList -> mParser.parseData(heroList))
                 .flatMap(heroes -> mDataBaseController.saveToDatabase(heroes))
                 .doOnNext(heroList -> {
                     for (int i = 0; i < mItemsPerPage / 4; i++) {

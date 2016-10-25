@@ -40,8 +40,11 @@ import butterknife.Unbinder;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import rx.Subscriber;
 
+import static com.lego.mydiablo.utils.Const.SEASON;
 import static com.lego.mydiablo.utils.Const.SIZE;
 import static com.lego.mydiablo.utils.Const.START_PROGRESS_VALUE;
+import static com.lego.mydiablo.utils.Settings.mCurrentEraList;
+import static com.lego.mydiablo.utils.Settings.mCurrentSeasonList;
 import static com.lego.mydiablo.utils.Settings.mItemsPerPage;
 import static com.lego.mydiablo.utils.Settings.mMode;
 
@@ -75,13 +78,18 @@ public class ItemListFragment extends Fragment implements ProgressBar, Paginate.
 
     private MenuCallBack menuCallBack;
     private Core mCore;
-    private Unbinder mUnbinder;
     private RealmDataController mRealmDataController;
+
+    private TableItemRecyclerViewAdapter mTableItemRecyclerViewAdapter;
+    private ClassAdapter mClassAdapter;
+    private SeasonAdapter mSeasonAdapter;
+
     private boolean mDoubleQuery = true;
     private boolean mEmptyData = true;
-    private TableItemRecyclerViewAdapter mTableItemRecyclerViewAdapter;
     private boolean mLoading = false;
     private int mPage;
+
+    private Unbinder mUnbinder;
     private Paginate mPaginate;
 
     @Override
@@ -118,20 +126,32 @@ public class ItemListFragment extends Fragment implements ProgressBar, Paginate.
             mBackBtn.setVisibility(View.VISIBLE);
         }
 
-        final ClassAdapter classAdapter = new ClassAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.hero_class));
-        mClassSpinner.setAdapter(classAdapter);
+        fillAdapterArrays();
+
+        mClassAdapter = new ClassAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.hero_class));
+        mClassSpinner.setAdapter(mClassAdapter);
         mClassSpinner.getBackground().setColorFilter(getResources().getColor(R.color.btn_text), PorterDuff.Mode.SRC_ATOP);
 
-        final SeasonAdapter seasonAdapter = new SeasonAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.season));
-        mSeasonSpinner.setAdapter(seasonAdapter);
+        mSeasonSpinner.setAdapter(mSeasonAdapter);
         mSeasonSpinner.getBackground().setColorFilter(getResources().getColor(R.color.btn_text), PorterDuff.Mode.SRC_ATOP);
 
+        //TODO Region selector
         RegionAdapter regionAdapter = new RegionAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.region));
         mRegionSpinner.setAdapter(regionAdapter);
 
         setupRecyclerView(mRecyclerView);
 
         return rootView;
+    }
+
+    private void fillAdapterArrays() {
+        if (mCurrentEraList != null && mCurrentSeasonList != null) {
+            if (mMode.equals(SEASON)) {
+                mSeasonAdapter = new SeasonAdapter(getContext(), R.layout.spinner, mCurrentSeasonList);
+            } else {
+                mSeasonAdapter = new SeasonAdapter(getContext(), R.layout.spinner, mCurrentEraList);
+            }
+        }
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -176,43 +196,44 @@ public class ItemListFragment extends Fragment implements ProgressBar, Paginate.
                     mEmptyData = false;
                     setupRecyclerView(mRecyclerView, mRealmDataController.getHeroList(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString()));
                 } else {
-                    mPage = 0;
                     mEmptyData = true;
                 }
                 new Handler().postDelayed(() -> mDoubleQuery = true, 2000);
-                mCore.doRequest(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString()).subscribe(new Subscriber<List<Hero>>() {
-                    @Override
-                    public void onCompleted() {
+                mCore.doRequest(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString())
+                        .cache()
+                        .subscribe(new Subscriber<List<Hero>>() {
+                            @Override
+                            public void onCompleted() {
 
-                    }
+                            }
 
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-                        updateProgressBar(START_PROGRESS_VALUE, SIZE);
-                    }
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                                updateProgressBar(START_PROGRESS_VALUE, SIZE);
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        Log.e("Request hero list", "onError: ", e);
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                                Log.e("Request hero list", "onError: ", e);
 
-                        if (e.getMessage().matches("40[1-3]{1}.*")){
-                            Log.e("Request hero list", "onError: regex work fine");
-                        }
-                    }
+                                if (e.getMessage().matches("40[1-3]{1}.*")) {
+                                    Log.e("Request hero list", "onError: regex work fine");
+                                }
+                            }
 
-                    @Override
-                    public void onNext(List<Hero> heroList) {
-                        if (mEmptyData) {
-                            setupRecyclerView(mRecyclerView, heroList);
-                            mEmptyData = false;
-                        } else {
-                            mTableItemRecyclerViewAdapter.setItems(heroList);
-                        }
-                        updateProgressBar(SIZE, SIZE);
-                    }
-                });
+                            @Override
+                            public void onNext(List<Hero> heroList) {
+                                if (mEmptyData) {
+                                    setupRecyclerView(mRecyclerView, heroList);
+                                    mEmptyData = false;
+                                } else {
+                                    mTableItemRecyclerViewAdapter.setItems(heroList);
+                                }
+                                updateProgressBar(SIZE, SIZE);
+                            }
+                        });
             }
         }
     }

@@ -21,6 +21,7 @@ import android.widget.FrameLayout;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.rest.AuthRequest;
+import com.lego.mydiablo.rest.RetrofitRequests;
 import com.lego.mydiablo.rest.callback.models.UserData.AccessToken;
 import com.lego.mydiablo.utils.Const;
 import com.lego.mydiablo.utils.Settings;
@@ -57,11 +58,9 @@ public class DiabloActivity extends FragmentActivity implements MenuCallBack {
     @BindView(R.id.start_menu_fragment)
     FrameLayout mContainer;
 
-
     private Unbinder mUnbinder;
     private WebView mWebView;
     private Dialog mAuthDialog;
-    private EventBus bus = EventBus.getDefault();
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -69,17 +68,14 @@ public class DiabloActivity extends FragmentActivity implements MenuCallBack {
      */
     private FragmentManager mFragmentManager;
     private MenuFragment mMenuFragment;
-    private Realm mRealm;
-
     private ItemListFragment mListFragment;
+
+    private Realm mRealm;
+    private RetrofitRequests mRetrofitRequests;
+    private EventBus bus = EventBus.getDefault();
+
     private boolean doubleBackToExitPressedOnce;
-
     private String mAuthCode;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,13 +96,12 @@ public class DiabloActivity extends FragmentActivity implements MenuCallBack {
                 AuthRequest.checkToken(mToken);
             }
         }
-
     }
 
     public void config() {
-
         // Register as a subscriber
         bus.register(this);
+        mRetrofitRequests = RetrofitRequests.getInstance();
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Settings.mTwoPane = true;
@@ -168,6 +163,8 @@ public class DiabloActivity extends FragmentActivity implements MenuCallBack {
                                 public void onNext(AccessToken accessToken) {
                                     mToken = accessToken.getAccess_token();
                                     AuthRequest.getBattleTag();
+                                    mRetrofitRequests.getEraCount();
+                                    mRetrofitRequests.getSeasonCount();
                                 }
                             });
                     mAuthDialog.dismiss();
@@ -227,11 +224,11 @@ public class DiabloActivity extends FragmentActivity implements MenuCallBack {
             if (mDetailActive) {
                 mFragmentManager.beginTransaction().replace(R.id.start_menu_fragment, mMenuFragment).commit();
                 mFragmentManager.beginTransaction().replace(R.id.item_list, mListFragment).commit();
-                mDetailActive = false;
+//                mDetailActive = false;
             } else {
                 mFragmentManager.beginTransaction().replace(R.id.start_menu_fragment, mListFragment).commit();
                 mFragmentManager.beginTransaction().replace(R.id.item_list, fragment).commit();
-                mDetailActive = true;
+//                mDetailActive = true;
             }
         } else {
             if (fragment == null){

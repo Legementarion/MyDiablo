@@ -17,6 +17,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.lego.mydiablo.utils.Const.ERA;
+import static com.lego.mydiablo.utils.Const.HARDCORE;
+import static com.lego.mydiablo.utils.Const.NO_VALUE;
+import static com.lego.mydiablo.utils.Const.SEASON;
+import static com.lego.mydiablo.utils.Settings.mHARDCODE;
 import static com.lego.mydiablo.utils.Settings.mMode;
 
 /**
@@ -83,25 +88,29 @@ public class MenuFragment extends Fragment implements MenuView {
         switch (view.getId()){
             case R.id.bt_normal:
                 button_CHECKED = 1;
-                mMode = normal.getText().toString();
+                mMode = ERA;
+                mHARDCODE = NO_VALUE;
                 normal.setChecked(true);
                 break;
 
             case R.id.bt_harcore:
                 button_CHECKED = 2;
-                mMode = hardcore.getText().toString();
+                mMode = ERA;
+                mHARDCODE = HARDCORE;
                 hardcore.setChecked(true);
                 break;
 
             case R.id.bt_season:
                 button_CHECKED = 3;
-                mMode = season.getText().toString();
+                mMode = SEASON;
+                mHARDCODE = NO_VALUE;
                 season.setChecked(true);
                 break;
 
             case R.id.bt_season_hardcore:
                 button_CHECKED = 4;
-                mMode = season_hardcore.getText().toString();
+                mMode = SEASON;
+                mHARDCODE = HARDCORE;
                 season_hardcore.setChecked(true);
                 break;
         }
