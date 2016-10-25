@@ -25,19 +25,16 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.lego.mydiablo.utils.Const.LOCALE_RU;
-import static com.lego.mydiablo.utils.Const.START_PROGRESS_VALUE;
 
 
 public class HeroListParser {
 
     private RetrofitRequests mRetrofitRequests;
     private RealmDataController mRealmDataController;
-    private Core mCore;
 
-    public HeroListParser(Core core) {
+    public HeroListParser() {
         mRetrofitRequests = RetrofitRequests.getInstance();
         mRealmDataController = RealmDataController.getInstance();
-        mCore = core;
     }
 
     public Observable<List<Hero>> parseData(HeroList heroList) {
@@ -87,9 +84,6 @@ public class HeroListParser {
                 Log.d("Error", "parseFromJson: array out of range cell " + i);
             }
             currentHeroList.add(currentHero);
-            if (i > START_PROGRESS_VALUE) {
-                mCore.updateProgressBar(i);
-            }
         }
         return currentHeroList;
     }

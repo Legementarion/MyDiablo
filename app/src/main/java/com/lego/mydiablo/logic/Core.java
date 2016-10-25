@@ -25,16 +25,11 @@ import static com.lego.mydiablo.utils.Settings.mItemsPerPage;
 public class Core {
     private static Core mCore;
     private RetrofitRequests mServerRequest = RetrofitRequests.getInstance();
-    private ProgressBar mProgressBar;
     private static DataBaseController mDataBaseController;
     private HeroListParser mParser;
 
     private Core(Application application) {
-        mParser = new HeroListParser(this);
-    }
-
-    public void forCheckState(ProgressBar progressBar) {
-        this.mProgressBar = progressBar;
+        mParser = new HeroListParser();
     }
 
     public static Core getInstance(Activity activity, DataBaseController dataBaseController) {
@@ -44,7 +39,6 @@ public class Core {
 
     public Observable<List<Hero>> doRequest(String heroClass, String heroSeason) {
         return mServerRequest.getEraLeaderTop(heroSeason, heroClass)
-//                .doOnSubscribe(()->updateProgressBar(1)) for update progress bar
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .flatMap(heroList -> mParser.parseData(heroList))
@@ -56,7 +50,4 @@ public class Core {
                 }).flatMap(heroList -> mDataBaseController.saveToDatabase(heroList));
     }
 
-    public void updateProgressBar(int value) {
-        new Handler(Looper.getMainLooper()).post(() -> mProgressBar.updateProgressBar(value, SIZE));    //execute from main thread
-    }
 }

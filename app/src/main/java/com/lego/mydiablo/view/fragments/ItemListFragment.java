@@ -20,7 +20,6 @@ import com.lego.mydiablo.R;
 import com.lego.mydiablo.data.RealmDataController;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.logic.Core;
-import com.lego.mydiablo.logic.ProgressBar;
 import com.lego.mydiablo.utils.Settings;
 import com.lego.mydiablo.view.adapters.ClassAdapter;
 import com.lego.mydiablo.view.adapters.PaginateLoadingListItemCreator;
@@ -56,7 +55,7 @@ import static com.lego.mydiablo.utils.Settings.mMode;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class ItemListFragment extends Fragment implements ProgressBar, Paginate.Callbacks {
+public class ItemListFragment extends Fragment implements Paginate.Callbacks {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -81,7 +80,6 @@ public class ItemListFragment extends Fragment implements ProgressBar, Paginate.
     private RealmDataController mRealmDataController;
 
     private TableItemRecyclerViewAdapter mTableItemRecyclerViewAdapter;
-    private ClassAdapter mClassAdapter;
     private SeasonAdapter mSeasonAdapter;
 
     private boolean mDoubleQuery = true;
@@ -104,7 +102,6 @@ public class ItemListFragment extends Fragment implements ProgressBar, Paginate.
         super.onCreate(savedInstanceState);
         mRealmDataController = RealmDataController.with(this);
         mCore = Core.getInstance(this.getActivity(), mRealmDataController);
-        mCore.forCheckState(this);
     }
 
     @Override
@@ -117,7 +114,6 @@ public class ItemListFragment extends Fragment implements ProgressBar, Paginate.
         }
 
         menuCallBack = (MenuCallBack) getActivity();    //callbacks
-        mCore.forCheckState(this);
 
         /**Видим кнопку назад, если нет второго фрагмента */
         if (Settings.mTwoPane) {
@@ -128,8 +124,8 @@ public class ItemListFragment extends Fragment implements ProgressBar, Paginate.
 
         fillAdapterArrays();
 
-        mClassAdapter = new ClassAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.hero_class));
-        mClassSpinner.setAdapter(mClassAdapter);
+        ClassAdapter classAdapter = new ClassAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.hero_class));
+        mClassSpinner.setAdapter(classAdapter);
         mClassSpinner.getBackground().setColorFilter(getResources().getColor(R.color.btn_text), PorterDuff.Mode.SRC_ATOP);
 
         mSeasonSpinner.setAdapter(mSeasonAdapter);
@@ -151,6 +147,8 @@ public class ItemListFragment extends Fragment implements ProgressBar, Paginate.
             } else {
                 mSeasonAdapter = new SeasonAdapter(getContext(), R.layout.spinner, mCurrentEraList);
             }
+        }else {
+            mSeasonAdapter = new SeasonAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.season));
         }
     }
 
@@ -201,16 +199,12 @@ public class ItemListFragment extends Fragment implements ProgressBar, Paginate.
                 new Handler().postDelayed(() -> mDoubleQuery = true, 2000);
                 mCore.doRequest(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString())
                         .cache()
+                        .doOnSubscribe(() -> updateProgressBar(true))
+                        .doAfterTerminate(() -> updateProgressBar(false))
                         .subscribe(new Subscriber<List<Hero>>() {
                             @Override
                             public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onStart() {
-                                super.onStart();
-                                updateProgressBar(START_PROGRESS_VALUE, SIZE);
+                                unsubscribe();
                             }
 
                             @Override
@@ -231,23 +225,19 @@ public class ItemListFragment extends Fragment implements ProgressBar, Paginate.
                                 } else {
                                     mTableItemRecyclerViewAdapter.setItems(heroList);
                                 }
-                                updateProgressBar(SIZE, SIZE);
                             }
                         });
             }
         }
     }
 
-    @Override
-    public void updateProgressBar(int value, int size) {
-        double progress = 0;
+    public void updateProgressBar(boolean active) {
         if (mProgressBar.getVisibility() == View.GONE) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
-            progress = (value / 10);
-            mProgressBar.setProgress((int) (progress));
+            mProgressBar.setProgress(START_PROGRESS_VALUE);
         }
-        if ((int) progress == 100) {
+        if (!active) {
             mProgressBar.setVisibility(View.GONE);
         }
     }
