@@ -32,7 +32,7 @@ public class TableItemRecyclerViewAdapter
     private List<Hero> mHeroList;
     private Context mContext;
     private EventBus bus = EventBus.getDefault();
-    FragmentEvent event;
+    private FragmentEvent event;
 
     public TableItemRecyclerViewAdapter(List<Hero> heroList, Context context) {
         mHeroList = heroList;
@@ -41,8 +41,7 @@ public class TableItemRecyclerViewAdapter
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_list_content, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_content, parent, false);
         return new ViewHolder(view);
     }
 
@@ -109,7 +108,6 @@ public class TableItemRecyclerViewAdapter
         @BindView(R.id.idClass)
         ImageView mClassView;
 
-
         ViewHolder(View view) {
             super(view);
             mView = view;
@@ -121,4 +119,5 @@ public class TableItemRecyclerViewAdapter
             return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
+
 }

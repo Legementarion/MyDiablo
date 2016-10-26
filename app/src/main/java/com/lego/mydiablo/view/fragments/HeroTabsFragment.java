@@ -1,6 +1,7 @@
 package com.lego.mydiablo.view.fragments;
 
 import android.animation.Animator;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.support.v7.widget.Toolbar;
@@ -18,51 +20,125 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.view.adapters.HeroTabsPagerAdapter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.squareup.picasso.Picasso;
 
 import com.lego.mydiablo.R;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
+import static com.lego.mydiablo.utils.Settings.mDetailActive;
+
 
 public class HeroTabsFragment extends Fragment {
+
+    @BindView(R.id.viewpager)
+    ViewPager mViewPager;
+    @BindView(R.id.tabs)
+    SmartTabLayout mTabLayout;
+    @BindView(R.id.background_linear_layout)
+    LinearLayout mBackgroundLinearLayout;
+    @BindView(R.id.background_linear_layout_2)
+    LinearLayout mBackgroundLinearLayout2;
+    @BindView(R.id.image_background_logo)
+    ImageView mImageBackgroundLogo;
+    @BindView(R.id.image_back)
+    ImageButton mImageBackButton;
+    @BindView(R.id.background_tool_bar)
+    ImageView mImageBackgroundToolBar;
+    @BindView(R.id.animator_icon_relative_layout)
+    RelativeLayout mAnimatorIconRelativeLayout;
+    @BindView(R.id.app_bar)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.text_view_title_toolbar)
+    TextView mTitleTextView;
+    @BindView(R.id.toolbar)
+    Toolbar mToolBar;
+    @BindView(R.id.collapsing_toolbar_layout_news_tabs)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+
     private final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
     private final int PERCENTAGE_TO_INVISIBLE_TAB = 75;
     private final double PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR = 0.75;
     private int mMaxScrollSize;
-    private ViewPager mViewPager;
-    private SmartTabLayout mTabLayout;
-    private HeroTabsPagerAdapter mAdapter;
-    private LinearLayout mBackgroundLinearLayout, mBackgroundLinearLayout2;
-    private ImageView mImageAvatar, mImageSearch, mImageNews, mImageBackgroundLogo;
-    private ImageView mImageBackgroundToolBar;
-    private AppBarLayout mAppBarLayout;
-    private Toolbar mToolBar;
-    private TextView mTitleTextView;
     private int mPositionViewPage;
-    private Animation animation;
-    private Boolean mHideToolBar = false, mVisibleImageNews = true, mVisibleTab = true;
-    private CollapsingToolbarLayout mCollapsingToolbarLayout;
-    private Animator circleRevealAnim;
-    private RelativeLayout mAnimatorIconRelativeLayout;
-    private LinkedHashMap mapImageURL = new LinkedHashMap<String, String>();
+    private boolean mHideToolBar = false, mVisibleImageNews = true, mVisibleTab = true;
 
+    private HeroTabsPagerAdapter mAdapter;
+    private FragmentEvent event;
+
+    private EventBus bus = EventBus.getDefault();
+    private Animation animation;
+    private Animator circleRevealAnim;
+    private Unbinder mUnbinder;
+    private Resources res;
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View mView = inflater.inflate(R.layout.fragment_hero_tabs, container, false);
+        mUnbinder = ButterKnife.bind(this, mView);
+        setupViewPager();
+        res = getResources();
+        mTabLayout.setCustomTabView((container1, position, adapter) -> {
+            View itemView = inflater.inflate(R.layout.custom_tab_provider, container1, false);
+            TextView text = (TextView) itemView.findViewById(R.id.custom_tab_text);
+            text.setText(adapter.getPageTitle(position));
+            ImageView icon = (ImageView) itemView.findViewById(R.id.custom_tab_icon);
+            switch (position) {
+                case 0:
+                    icon.setImageDrawable(res.getDrawable(R.mipmap.ic_launcher));
+                    break;
+                case 1:
+                    icon.setImageDrawable(res.getDrawable(R.mipmap.ic_launcher));
+                    break;
+                case 2:
+                    icon.setImageDrawable(res.getDrawable(R.mipmap.ic_launcher));
+                    break;
+                default:
+                    throw new IllegalStateException("Invalid position: " + position);
+            }
+
+            return itemView;
+        });
+        mTabLayout.setViewPager(mViewPager);
+        mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(mAdapter.getColor(0), PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
+        mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
+        mDetailActive = true;
+        setColorCoordinatorLayout(0);
+        animation();
+        return mView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        mUnbinder.unbind();
+        mDetailActive = false;
+        super.onDestroyView();
+    }
 
     private final SimpleOnPageChangeListener mOnPageChangeListener = new SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
             mPositionViewPage = position;
-            setBackgroundForToolbar(position);
-
             animationCloseImageNews();
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -73,7 +149,6 @@ public class HeroTabsFragment extends Fragment {
                 public void onAnimationEnd(Animation animation) {
                     animationShowImageNews();
                     setColorCoordinatorLayout(position);
-
                     animationFillingColor(position);
                 }
 
@@ -86,66 +161,31 @@ public class HeroTabsFragment extends Fragment {
         }
     };
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.fragment_news_tabs, container, false);
+    @OnClick(R.id.image_back)
+    void onButtonPressed(View v) {
+        event = new FragmentEvent(null);
+        bus.post(event);    //send to diablo activity
+    }
 
-        mViewPager = (ViewPager) mView.findViewById(R.id.viewpager);
-        setupViewPager();
-
-        mTabLayout = (SmartTabLayout) mView.findViewById(R.id.tabs);
-        mTabLayout.setViewPager(mViewPager);
-
-        mBackgroundLinearLayout = (LinearLayout) mView.findViewById(R.id.background_linear_layout);
-        mBackgroundLinearLayout2 = (LinearLayout) mView.findViewById(R.id.background_linear_layout_2);
-        mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(mAdapter.getColor(0), PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
-
-        mImageAvatar = (ImageView) mView.findViewById(R.id.image_avatar);
-
-        mImageAvatar.setOnClickListener(v -> showSetting());
-
-        mImageSearch = (ImageView) mView.findViewById(R.id.search_image);
-
-        mImageNews = (ImageView) mView.findViewById(R.id.image_news_tabs);
-        mImageBackgroundToolBar = (ImageView) mView.findViewById(R.id.background_tool_bar);
-        mAnimatorIconRelativeLayout = (RelativeLayout) mView.findViewById(R.id.animator_icon_relative_layout);
-        mImageBackgroundLogo = (ImageView) mView.findViewById(R.id.image_background_logo);
-
-        mToolBar = (Toolbar) mView.findViewById(R.id.toolbar);
-
-        mTitleTextView = (TextView) mView.findViewById(R.id.text_view_title_toolbar);
-        mCollapsingToolbarLayout = (CollapsingToolbarLayout) mView.findViewById(R.id.collapsing_toolbar_layout_news_tabs);
-        mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
-
-        setColorCoordinatorLayout(0);
-
-        mAppBarLayout = (AppBarLayout) mView.findViewById(R.id.app_bar);
+    private void animation() {
         mAppBarLayout.addOnOffsetChangedListener(((appBarLayout, verticalOffset) -> {
-
-
             int percentage = (Math.abs(verticalOffset)) * 100 / mMaxScrollSize;
-
             if (mToolBar.getHeight() - appBarLayout.getHeight() == verticalOffset) {
                 mTitleTextView.setText(mAdapter.getPageTitle(mPositionViewPage));
-
                 mHideToolBar = true;
                 mVisibleImageNews = false;
-
             } else {
                 if (mHideToolBar) {
                     mTitleTextView.setText("");
                     mHideToolBar = false;
                 }
             }
-
             if (percentage >= PERCENTAGE_TO_ANIMATE_AVATAR && mVisibleImageNews) {
                 mVisibleImageNews = false;
                 animationCloseImageNews();
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
-
                     }
 
                     @Override
@@ -155,18 +195,15 @@ public class HeroTabsFragment extends Fragment {
 
                     @Override
                     public void onAnimationRepeat(Animation animation) {
-
                     }
                 });
             }
-
             if (percentage <= PERCENTAGE_TO_ANIMATE_AVATAR && !mVisibleImageNews) {
                 mVisibleImageNews = true;
                 animationShowImageNews();
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
-
                     }
 
                     @Override
@@ -176,7 +213,6 @@ public class HeroTabsFragment extends Fragment {
 
                     @Override
                     public void onAnimationRepeat(Animation animation) {
-
                     }
                 });
             }
@@ -184,13 +220,11 @@ public class HeroTabsFragment extends Fragment {
                 mVisibleTab = false;
                 mTabLayout.setVisibility(View.INVISIBLE);
             }
-
             if (percentage < PERCENTAGE_TO_INVISIBLE_TAB && !mVisibleTab) {
                 mVisibleTab = true;
                 mTabLayout.setVisibility(View.VISIBLE);
             }
         }));
-        return mView;
     }
 
     private void animationCloseImageNews() {
@@ -206,9 +240,6 @@ public class HeroTabsFragment extends Fragment {
     private void animationShowImageNews() {
         animation = AnimationUtils.loadAnimation(getContext(), R.anim.scale_show);
         mAnimatorIconRelativeLayout.startAnimation(animation);
-    }
-
-    private void showSetting() {
     }
 
     private void setupViewPager() {
@@ -227,7 +258,6 @@ public class HeroTabsFragment extends Fragment {
             alphaHex = "0" + alphaHex;
         }
         originalColor = originalColor.replace("#", "#" + alphaHex);
-
         return originalColor;
     }
 
@@ -260,33 +290,9 @@ public class HeroTabsFragment extends Fragment {
                 }
             });
             circleRevealAnim.start();
-        } else
+        } else {
             mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(mAdapter.getColor(position), PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
-
-    }
-
-    private void setBackgroundForToolbar(int position) {
-        Iterator entries = mapImageURL.entrySet().iterator();
-        int i = 0;
-        while (entries.hasNext()) {
-            Map.Entry entry = (Map.Entry) entries.next();
-            if (i == position) {
-                Picasso.with(getContext())
-                        .load((String) entry.getValue())
-                        .into(mImageBackgroundToolBar);
-                break;
-            }
-            i++;
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
 }

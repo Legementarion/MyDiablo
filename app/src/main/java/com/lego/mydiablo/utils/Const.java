@@ -42,7 +42,8 @@ public class Const {
     public static final String ZONE_TW = "tw";
     public static final String ZONE_KR = "kr";
 
-
     public static final int SIZE = 1000;
     public static final int START_PROGRESS_VALUE = 50;
+
+    public static final String COLOR = "FF151615";
 }

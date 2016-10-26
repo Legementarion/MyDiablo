@@ -53,7 +53,6 @@ public class ItemDetailFragment extends Fragment {
     CoordinatorLayout mFrameLayout;
 
     private RealmDataController mRealmDataController;
-    private EventBus bus = EventBus.getDefault();
 
     private Hero mHero;
     private int mHeroId = 0;
@@ -82,13 +81,6 @@ public class ItemDetailFragment extends Fragment {
         if (getArguments() != null) {
             mHeroId = getArguments().getInt(ARG_ITEM_ID);
         }
-        mDetailActive = true;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mDetailActive = false;
     }
 
     @Override

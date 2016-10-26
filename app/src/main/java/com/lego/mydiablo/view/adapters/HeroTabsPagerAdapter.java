@@ -1,17 +1,17 @@
 package com.lego.mydiablo.view.adapters;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.lego.mydiablo.R;
-import com.lego.mydiablo.view.fragments.MenuFragment;
+import com.lego.mydiablo.view.fragments.ItemDetailFragment;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.lego.mydiablo.utils.Const.COLOR;
 
 public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
 
@@ -25,11 +25,11 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
         bundle.putInt(POSITION_PAGE, 0);
         addFragment("1");
         addFragment("2");
-
+        addFragment("3");
     }
 
     private void addFragment(String title) {
-        mFragmentList.add(new MenuFragment());
+        mFragmentList.add(ItemDetailFragment.newInstance(84123926));
         mFragmentTitleList.add(title);
     }
 
@@ -49,9 +49,7 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
     }
 
     public String getColor(int position){
-        return "#99b342";
+        return COLOR;
     }
-
-
 
 }
