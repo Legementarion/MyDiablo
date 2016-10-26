@@ -41,8 +41,6 @@ public class ItemDetailFragment extends Fragment {
     ExpandableListView mPlayerExpandableListView;
     @BindView(R.id.userParam)
     ExpandableListView mUserExpandableListView;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
     @BindView(R.id.statsCompare)
     RecyclerView mRecyclerView;
     @BindView(R.id.playerName)
@@ -88,10 +86,6 @@ public class ItemDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_item_detail, container, false);
         ButterKnife.bind(this, rootView);
-
-        fab.setOnClickListener(view -> Snackbar.make(view, "Compare", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show());
 
         mRealmDataController = RealmDataController.with(this);
 

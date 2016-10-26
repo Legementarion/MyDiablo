@@ -101,10 +101,10 @@
 
                     <ImageButton
                         android:id="@+id/image_back"
-                        android:layout_width="@dimen/avatar_size"
+                        android:layout_width="30dp"
                         android:layout_height="@dimen/avatar_size"
                         android:layout_gravity="center_vertical"
-                        android:contentDescription="your_image_description"
+                        android:contentDescription="@null"
                         android:gravity="end"
                         android:src="@drawable/common_google_signin_btn_icon_light"/>
 
@@ -112,6 +112,7 @@
                         android:id="@+id/image_title_toolbar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@null"
                         android:layout_gravity="center_horizontal"
                         android:scaleType="fitXY"/>
 
@@ -125,6 +126,15 @@
                         android:textColor="@color/icons"
                         android:textSize="18sp"/>
 
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fab"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@android:drawable/stat_notify_chat"
+                        app:layout_anchor="@+id/app_bar"
+                        app:fabSize="normal"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/_10dp"/>
 
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>

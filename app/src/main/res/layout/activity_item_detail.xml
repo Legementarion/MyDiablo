@@ -85,15 +85,4 @@
         </LinearLayout>
     </FrameLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|left"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/stat_notify_chat"
-        app:layout_anchor="@+id/app_bar"
-        app:layout_anchorGravity="top|right"
-        tools:ignore="RtlHardcoded"/>
-
 </android.support.design.widget.CoordinatorLayout>

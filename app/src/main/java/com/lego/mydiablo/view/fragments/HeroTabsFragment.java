@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -57,6 +59,8 @@ public class HeroTabsFragment extends Fragment {
     ImageView mImageBackgroundLogo;
     @BindView(R.id.image_news_tabs)
     ImageView mImageLogo;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
     @BindView(R.id.image_back)
     ImageButton mImageBackButton;
     @BindView(R.id.background_tool_bar)
@@ -119,6 +123,9 @@ public class HeroTabsFragment extends Fragment {
             }
             return itemView;
         });
+        fab.setOnClickListener(view -> Snackbar.make(view, "Compare", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show());
         mTabLayout.setViewPager(mViewPager);
         mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
         mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
