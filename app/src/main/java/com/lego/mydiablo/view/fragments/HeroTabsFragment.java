@@ -10,7 +10,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.support.v7.widget.Toolbar;
@@ -29,21 +28,18 @@ import android.widget.TextView;
 import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.view.adapters.HeroTabsPagerAdapter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.squareup.picasso.Picasso;
 
 import com.lego.mydiablo.R;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.lego.mydiablo.utils.Const.COLOR;
+import static com.lego.mydiablo.utils.Const.NO_VALUE;
 import static com.lego.mydiablo.utils.Settings.mDetailActive;
 
 
@@ -59,6 +55,8 @@ public class HeroTabsFragment extends Fragment {
     LinearLayout mBackgroundLinearLayout2;
     @BindView(R.id.image_background_logo)
     ImageView mImageBackgroundLogo;
+    @BindView(R.id.image_news_tabs)
+    ImageView mImageLogo;
     @BindView(R.id.image_back)
     ImageButton mImageBackButton;
     @BindView(R.id.background_tool_bar)
@@ -69,6 +67,8 @@ public class HeroTabsFragment extends Fragment {
     AppBarLayout mAppBarLayout;
     @BindView(R.id.text_view_title_toolbar)
     TextView mTitleTextView;
+    @BindView(R.id.image_title_toolbar)
+    ImageView mImageTitle;
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
     @BindView(R.id.collapsing_toolbar_layout_news_tabs)
@@ -82,13 +82,13 @@ public class HeroTabsFragment extends Fragment {
     private boolean mHideToolBar = false, mVisibleImageNews = true, mVisibleTab = true;
 
     private HeroTabsPagerAdapter mAdapter;
-    private FragmentEvent event;
+    private FragmentEvent mEvent;
 
-    private EventBus bus = EventBus.getDefault();
-    private Animation animation;
-    private Animator circleRevealAnim;
+    private EventBus mEventBus = EventBus.getDefault();
+    private Animation mAnimation;
+    private Animator mCircleRevealAnim;
     private Unbinder mUnbinder;
-    private Resources res;
+    private Resources mResources;
 
 
     @Nullable
@@ -97,7 +97,8 @@ public class HeroTabsFragment extends Fragment {
         View mView = inflater.inflate(R.layout.fragment_hero_tabs, container, false);
         mUnbinder = ButterKnife.bind(this, mView);
         setupViewPager();
-        res = getResources();
+        mResources = getResources();
+        mImageLogo.setImageDrawable(mResources.getDrawable(R.drawable.diablo_logo));
         mTabLayout.setCustomTabView((container1, position, adapter) -> {
             View itemView = inflater.inflate(R.layout.custom_tab_provider, container1, false);
             TextView text = (TextView) itemView.findViewById(R.id.custom_tab_text);
@@ -105,25 +106,24 @@ public class HeroTabsFragment extends Fragment {
             ImageView icon = (ImageView) itemView.findViewById(R.id.custom_tab_icon);
             switch (position) {
                 case 0:
-                    icon.setImageDrawable(res.getDrawable(R.mipmap.ic_launcher));
+                    icon.setImageDrawable(mResources.getDrawable(R.mipmap.ic_launcher));
                     break;
                 case 1:
-                    icon.setImageDrawable(res.getDrawable(R.mipmap.ic_launcher));
+                    icon.setImageDrawable(mResources.getDrawable(R.mipmap.ic_launcher));
                     break;
                 case 2:
-                    icon.setImageDrawable(res.getDrawable(R.mipmap.ic_launcher));
+                    icon.setImageDrawable(mResources.getDrawable(R.mipmap.ic_launcher));
                     break;
                 default:
                     throw new IllegalStateException("Invalid position: " + position);
             }
-
             return itemView;
         });
         mTabLayout.setViewPager(mViewPager);
-        mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(mAdapter.getColor(0), PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
+        mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
         mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
         mDetailActive = true;
-        setColorCoordinatorLayout(0);
+        setColorCoordinatorLayout();
         animation();
         return mView;
     }
@@ -140,7 +140,7 @@ public class HeroTabsFragment extends Fragment {
         public void onPageSelected(int position) {
             mPositionViewPage = position;
             animationCloseImageNews();
-            animation.setAnimationListener(new Animation.AnimationListener() {
+            mAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
                 }
@@ -148,8 +148,8 @@ public class HeroTabsFragment extends Fragment {
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     animationShowImageNews();
-                    setColorCoordinatorLayout(position);
-                    animationFillingColor(position);
+                    setColorCoordinatorLayout();
+                    animationFillingColor();
                 }
 
                 @Override
@@ -162,9 +162,9 @@ public class HeroTabsFragment extends Fragment {
     };
 
     @OnClick(R.id.image_back)
-    void onButtonPressed(View v) {
-        event = new FragmentEvent(null);
-        bus.post(event);    //send to diablo activity
+    void onButtonPressed() {
+        mEvent = new FragmentEvent(null);
+        mEventBus.post(mEvent);    //send to diablo activity
     }
 
     private void animation() {
@@ -172,18 +172,20 @@ public class HeroTabsFragment extends Fragment {
             int percentage = (Math.abs(verticalOffset)) * 100 / mMaxScrollSize;
             if (mToolBar.getHeight() - appBarLayout.getHeight() == verticalOffset) {
                 mTitleTextView.setText(mAdapter.getPageTitle(mPositionViewPage));
+                mImageTitle.setImageDrawable(mResources.getDrawable(R.mipmap.ic_launcher));
                 mHideToolBar = true;
                 mVisibleImageNews = false;
             } else {
                 if (mHideToolBar) {
-                    mTitleTextView.setText("");
+                    mTitleTextView.setText(NO_VALUE);
+                    mImageTitle.setImageDrawable(null);
                     mHideToolBar = false;
                 }
             }
             if (percentage >= PERCENTAGE_TO_ANIMATE_AVATAR && mVisibleImageNews) {
                 mVisibleImageNews = false;
                 animationCloseImageNews();
-                animation.setAnimationListener(new Animation.AnimationListener() {
+                mAnimation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
                     }
@@ -201,7 +203,7 @@ public class HeroTabsFragment extends Fragment {
             if (percentage <= PERCENTAGE_TO_ANIMATE_AVATAR && !mVisibleImageNews) {
                 mVisibleImageNews = true;
                 animationShowImageNews();
-                animation.setAnimationListener(new Animation.AnimationListener() {
+                mAnimation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
                     }
@@ -228,18 +230,18 @@ public class HeroTabsFragment extends Fragment {
     }
 
     private void animationCloseImageNews() {
-        animation = AnimationUtils.loadAnimation(getContext(), R.anim.scale_close);
-        mAnimatorIconRelativeLayout.startAnimation(animation);
+        mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.scale_close);
+        mAnimatorIconRelativeLayout.startAnimation(mAnimation);
     }
 
-    private void setColorCoordinatorLayout(int position) {
-        mCollapsingToolbarLayout.setContentScrimColor(Color.parseColor(mAdapter.getColor(position)));
-        mImageBackgroundLogo.setColorFilter(Color.parseColor(mAdapter.getColor(position)));
+    private void setColorCoordinatorLayout() {
+        mCollapsingToolbarLayout.setContentScrimColor(Color.parseColor(COLOR));
+        mImageBackgroundLogo.setColorFilter(Color.parseColor(COLOR));
     }
 
     private void animationShowImageNews() {
-        animation = AnimationUtils.loadAnimation(getContext(), R.anim.scale_show);
-        mAnimatorIconRelativeLayout.startAnimation(animation);
+        mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.scale_show);
+        mAnimatorIconRelativeLayout.startAnimation(mAnimation);
     }
 
     private void setupViewPager() {
@@ -261,23 +263,23 @@ public class HeroTabsFragment extends Fragment {
         return originalColor;
     }
 
-    private void animationFillingColor(int position) {
+    private void animationFillingColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int cx = (int) mBackgroundLinearLayout2.getX() + mBackgroundLinearLayout2.getWidth() / 2;
             int cy = mBackgroundLinearLayout2.getHeight() / 2;
             int finalRadius = Math.max(mBackgroundLinearLayout2.getWidth(), mBackgroundLinearLayout2.getHeight());
 
-            circleRevealAnim = ViewAnimationUtils.createCircularReveal(mBackgroundLinearLayout2, cx, cy, 0, finalRadius);
-            circleRevealAnim.setStartDelay(5);
-            circleRevealAnim.addListener(new Animator.AnimatorListener() {
+            mCircleRevealAnim = ViewAnimationUtils.createCircularReveal(mBackgroundLinearLayout2, cx, cy, 0, finalRadius);
+            mCircleRevealAnim.setStartDelay(5);
+            mCircleRevealAnim.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
-                    mBackgroundLinearLayout2.setBackgroundColor(Color.parseColor(mAdapter.getColor(position)));
+                    mBackgroundLinearLayout2.setBackgroundColor(Color.parseColor(COLOR));
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(mAdapter.getColor(position), PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
+                    mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
                     mBackgroundLinearLayout2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
                 }
 
@@ -289,9 +291,9 @@ public class HeroTabsFragment extends Fragment {
                 public void onAnimationRepeat(Animator animation) {
                 }
             });
-            circleRevealAnim.start();
+            mCircleRevealAnim.start();
         } else {
-            mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(mAdapter.getColor(position), PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
+            mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
         }
     }
 

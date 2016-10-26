@@ -4,7 +4,8 @@
                                                  xmlns:tools="http://schemas.android.com/tools"
                                                  android:id="@+id/main_content"
                                                  android:layout_width="match_parent"
-                                                 android:layout_height="match_parent">
+                                                 android:layout_height="match_parent"
+                                                 android:paddingTop="@dimen/_10dp">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -54,7 +55,7 @@
                     android:layout_height="@dimen/size_image_news_background"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/barbarian"
+                    android:src="@drawable/background_oval"
                     tools:ignore="ContentDescription"/>
 
                 <ImageView
@@ -107,6 +108,13 @@
                         android:gravity="end"
                         android:src="@drawable/common_google_signin_btn_icon_light"/>
 
+                    <ImageView
+                        android:id="@+id/image_title_toolbar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="fitXY"/>
+
                     <TextView
                         android:id="@+id/text_view_title_toolbar"
                         android:layout_width="wrap_content"
@@ -116,6 +124,7 @@
                         android:layout_weight="1"
                         android:textColor="@color/icons"
                         android:textSize="18sp"/>
+
 
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>

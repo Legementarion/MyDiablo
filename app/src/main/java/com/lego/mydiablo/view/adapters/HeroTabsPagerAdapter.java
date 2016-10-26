@@ -11,7 +11,6 @@ import com.lego.mydiablo.view.fragments.ItemDetailFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lego.mydiablo.utils.Const.COLOR;
 
 public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
 
@@ -46,10 +45,6 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
-    }
-
-    public String getColor(int position){
-        return COLOR;
     }
 
 }

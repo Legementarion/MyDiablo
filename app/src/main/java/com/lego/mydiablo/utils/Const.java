@@ -45,5 +45,5 @@ public class Const {
     public static final int SIZE = 1000;
     public static final int START_PROGRESS_VALUE = 50;
 
-    public static final String COLOR = "FF151615";
+    public static final String COLOR = "#0B0B0B";
 }

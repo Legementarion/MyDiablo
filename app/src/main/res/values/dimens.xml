@@ -6,9 +6,9 @@
     <dimen name="class_icon_height">100dp</dimen>
     <dimen name="_10dp">10dp</dimen>
     <dimen name="avatar_size">30dp</dimen>
-    <dimen name="size_image_news_background">100dp</dimen> <!-- size_image_news + 4 -->
+    <dimen name="size_image_news_background">100dp</dimen>
     <dimen name="size_collapsing_toolbar_layout_news_tabs">180dp</dimen>
-    <dimen name="size_image_news">50dp</dimen>
+    <dimen name="size_image_news">120dp</dimen>
     <dimen name="size_collapsing_toolbar_layout">256dp</dimen>
 
     <dimen name="text_margin">16dp</dimen>

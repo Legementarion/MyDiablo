@@ -98,7 +98,7 @@ public class ItemDetailFragment extends Fragment {
         if (mHeroId != 0) {
             mHero = mRealmDataController.getHero(mHeroId);
         }
-        switchBG(mHero.getmClass(), mHero.getmGender());
+
         fillData();
 
         expandablePlayerListTitle = new ArrayList<>(expandablePlayerListDetail.keySet());
@@ -107,17 +107,6 @@ public class ItemDetailFragment extends Fragment {
         return rootView;
     }
 
-    private void switchBG(String s, int i) {
-        switch (s) {
-            case "barbarian":
-                if (i == 0) {
-                    mFrameLayout.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.barbarian_male_port));
-                }else {
-                    mFrameLayout.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.barbarian_female_port));
-                }
-                break;
-        }
-    }
 
     private void fillData() {
         expandablePlayerListDetail = new HashMap<>();
