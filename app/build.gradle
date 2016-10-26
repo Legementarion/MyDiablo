@@ -18,13 +18,13 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion '23.0.3'
 
     defaultConfig {
         applicationId "com.lego.mydiablo"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -59,10 +59,10 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     //base support libs
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:support-v4:25.0.0'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
 
     //reactive
@@ -94,6 +94,11 @@ dependencies {
     compile 'com.github.markomilos:paginate:0.5.1'
     compile 'jp.wasabeef:recyclerview-animators:2.2.4'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0'
+
+    //SmartTabLayout
+    compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    compile 'com.ogaclejapan.smarttablayout:utils-v13:1.6.1@aar'
+
     //Google services
     compile 'com.google.firebase:firebase-core:9.6.0'
     compile 'com.google.firebase:firebase-messaging:9.6.0'

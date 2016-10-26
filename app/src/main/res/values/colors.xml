@@ -6,6 +6,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBar">#a9003a</color>
 
+    <color name="transparent">#0008e71a</color>
+    <color name="icons">#111211</color>
+
     <color name="green">#8b08e71a</color>
     <color name="orange">#abec7b0c</color>
     <color name="yellow">#cee8ef0c</color>

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.events.FragmentEvent;
-import com.lego.mydiablo.view.fragments.ItemDetailFragment;
+import com.lego.mydiablo.view.fragments.HeroTabsFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -55,7 +55,8 @@ public class TableItemRecyclerViewAdapter
         holder.mRankView.setText("Rift - " + hero.getmRiftLevel());
         holder.mView.setTag(hero.getId());
         holder.mView.setOnClickListener(v -> {
-            event = new FragmentEvent(ItemDetailFragment.newInstance(hero.getId()));
+//            event = new FragmentEvent(ItemDetailFragment.newInstance(hero.getId()));
+            event = new FragmentEvent(new HeroTabsFragment());
             bus.post(event);    //send to diablo activity
         });
     }

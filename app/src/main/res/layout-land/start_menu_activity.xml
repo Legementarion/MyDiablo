@@ -8,12 +8,11 @@
 
     <FrameLayout
         android:name="com.example.lego.mydiablo.ActivityAndView.MenuFragment"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/menu_fragment"
         android:id="@+id/start_menu_fragment"
-        android:layout_weight="5"
-        android:background="@drawable/bg2">
+        android:background="@drawable/bg2"
+        android:layout_width="180dp">
     </FrameLayout>
 
     <FrameLayout

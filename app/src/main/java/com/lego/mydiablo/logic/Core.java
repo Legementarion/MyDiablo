@@ -1,10 +1,5 @@
 package com.lego.mydiablo.logic;
 
-import android.app.Activity;
-import android.app.Application;
-import android.os.Handler;
-import android.os.Looper;
-
 import com.lego.mydiablo.data.DataBaseController;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.rest.RetrofitRequests;
@@ -16,7 +11,6 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.lego.mydiablo.utils.Const.SIZE;
 import static com.lego.mydiablo.utils.Settings.mItemsPerPage;
 
 /**
@@ -28,13 +22,13 @@ public class Core {
     private static DataBaseController mDataBaseController;
     private HeroListParser mParser;
 
-    private Core(Application application) {
+    private Core() {
         mParser = new HeroListParser();
     }
 
-    public static Core getInstance(Activity activity, DataBaseController dataBaseController) {
+    public static Core getInstance(DataBaseController dataBaseController) {
         mDataBaseController = dataBaseController;
-        return mCore == null ? (mCore = new Core(activity.getApplication())) : mCore;
+        return mCore == null ? (mCore = new Core()) : mCore;
     }
 
     public Observable<List<Hero>> doRequest(String heroClass, String heroSeason) {

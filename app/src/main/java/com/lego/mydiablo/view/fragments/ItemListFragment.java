@@ -109,7 +109,7 @@ public class ItemListFragment extends Fragment implements Paginate.Callbacks {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRealmDataController = RealmDataController.with(this);
-        mCore = Core.getInstance(this.getActivity(), mRealmDataController);
+        mCore = Core.getInstance(mRealmDataController);
     }
 
     @Override
