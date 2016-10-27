@@ -61,7 +61,7 @@ public class TableItemRecyclerViewAdapter
 
     public void add(List<Hero> items) {
         int previousDataSize = this.mHeroList.size();
-        if (items.size()>0) {
+        if (!items.isEmpty()) {
             this.mHeroList.addAll(items);
             notifyItemRangeInserted(previousDataSize, items.size());
         }
@@ -69,20 +69,12 @@ public class TableItemRecyclerViewAdapter
 
     private Drawable pickImage(String s) {
         switch (s) {
-            case "barbarian":
-                return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(s, "drawable", mContext.getPackageName()));
             case "demon hunter":
                 return mContext.getResources().getDrawable(mContext.getResources().getIdentifier("dh", "drawable", mContext.getPackageName()));
             case "witch doctor":
                 return mContext.getResources().getDrawable(mContext.getResources().getIdentifier("wd", "drawable", mContext.getPackageName()));
-            case "crusader":
-                return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(s, "drawable", mContext.getPackageName()));
-            case "monk":
-                return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(s, "drawable", mContext.getPackageName()));
-            case "wizard":
-                return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(s, "drawable", mContext.getPackageName()));
             default:
-                return null;
+                return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(s, "drawable", mContext.getPackageName()));
         }
     }
 

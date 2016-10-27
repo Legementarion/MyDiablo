@@ -78,10 +78,10 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 
     //MVP
-    compile 'com.arello-mobile:moxy:1.0.1'
-    compile 'com.arello-mobile:moxy-android:1.0.1'
-    compile 'com.arello-mobile:moxy-app-compat:1.0.1'
-    provided 'com.arello-mobile:moxy-compiler:1.0.1'
+    compile 'com.arello-mobile:moxy:1.1.1'
+    compile 'com.arello-mobile:moxy-android:1.1.1'
+    compile 'com.arello-mobile:moxy-app-compat:1.1.1'
+    provided 'com.arello-mobile:moxy-compiler:1.1.1'
 
     //Other
     apt 'com.jakewharton:butterknife-compiler:8.2.1'

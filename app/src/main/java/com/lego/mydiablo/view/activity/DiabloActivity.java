@@ -59,7 +59,6 @@ public class DiabloActivity extends FragmentActivity implements MenuCallBack {
     FrameLayout mContainer;
 
     private Unbinder mUnbinder;
-    private WebView mWebView;
     private Dialog mAuthDialog;
 
     /**
@@ -133,11 +132,11 @@ public class DiabloActivity extends FragmentActivity implements MenuCallBack {
         mAuthDialog.setContentView(R.layout.auth_dialog);
         mAuthDialog.setTitle(R.string.Authorization_title);
         String url = AUTHORIZE_URI + RESPONSE_TYPE + CREDENTIALS + REDIRECTION_URI + Const.REDIRECT_URI;
-        mWebView = (WebView) mAuthDialog.findViewById(R.id.wvOauth);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.loadUrl(url);
+        WebView webView = (WebView) mAuthDialog.findViewById(R.id.wvOauth);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(url);
 
-        mWebView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -153,12 +152,10 @@ public class DiabloActivity extends FragmentActivity implements MenuCallBack {
                                     if (!isUnsubscribed())
                                         unsubscribe();
                                 }
-
                                 @Override
                                 public void onError(Throwable e) {
                                     Log.e("getAccessToken", e.toString());
                                 }
-
                                 @Override
                                 public void onNext(AccessToken accessToken) {
                                     mToken = accessToken.getAccess_token();
@@ -184,15 +181,13 @@ public class DiabloActivity extends FragmentActivity implements MenuCallBack {
     }
 
     @Override
-    public void MenuCallBackClick(View view) {
-        switch (view.getId()) {
-            case R.id.back_button:
-                switchFragment(mMenuFragment);
-                break;
-            default:
-                if (!Settings.mTwoPane)
-                    switchFragment(mListFragment);
-                break;
+    public void menuCallBackClick(View view) {
+        int i = view.getId();
+        if (i == R.id.back_button) {
+            switchFragment(mMenuFragment);
+        } else {
+            if (!Settings.mTwoPane)
+                switchFragment(mListFragment);
         }
     }
 
@@ -224,11 +219,9 @@ public class DiabloActivity extends FragmentActivity implements MenuCallBack {
             if (mDetailActive) {
                 mFragmentManager.beginTransaction().replace(R.id.start_menu_fragment, mMenuFragment).commit();
                 mFragmentManager.beginTransaction().replace(R.id.item_list, mListFragment).commit();
-//                mDetailActive = false;
             } else {
                 mFragmentManager.beginTransaction().replace(R.id.start_menu_fragment, mListFragment).commit();
                 mFragmentManager.beginTransaction().replace(R.id.item_list, fragment).commit();
-//                mDetailActive = true;
             }
         } else {
             if (fragment == null){

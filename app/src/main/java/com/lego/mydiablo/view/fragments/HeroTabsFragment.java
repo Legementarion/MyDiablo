@@ -80,7 +80,6 @@ public class HeroTabsFragment extends Fragment {
 
     private final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
     private final int PERCENTAGE_TO_INVISIBLE_TAB = 75;
-    private final double PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR = 0.75;
     private int mMaxScrollSize;
     private int mPositionViewPage;
     private boolean mHideToolBar = false, mVisibleImageNews = true, mVisibleTab = true;
@@ -127,7 +126,6 @@ public class HeroTabsFragment extends Fragment {
                 .setAction("Action", null)
                 .show());
         mTabLayout.setViewPager(mViewPager);
-//        mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
         mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
         mDetailActive = true;
         setColorCoordinatorLayout();
@@ -150,21 +148,19 @@ public class HeroTabsFragment extends Fragment {
             mAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
+                    // Do nothing
                 }
-
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     animationShowImageNews();
                     setColorCoordinatorLayout();
                     animationFillingColor();
                 }
-
                 @Override
                 public void onAnimationRepeat(Animation animation) {
+                    // Do nothing
                 }
             });
-
-
         }
     };
 
@@ -175,7 +171,7 @@ public class HeroTabsFragment extends Fragment {
     }
 
     private void animation() {
-        mAppBarLayout.addOnOffsetChangedListener(((appBarLayout, verticalOffset) -> {
+        mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             int percentage = (Math.abs(verticalOffset)) * 100 / mMaxScrollSize;
             if (mToolBar.getHeight() - appBarLayout.getHeight() == verticalOffset) {
                 mTitleTextView.setText(mAdapter.getPageTitle(mPositionViewPage));
@@ -197,15 +193,15 @@ public class HeroTabsFragment extends Fragment {
                 mAnimation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
+                        // Do nothing
                     }
-
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         mAnimatorIconRelativeLayout.setVisibility(View.INVISIBLE);
                     }
-
                     @Override
                     public void onAnimationRepeat(Animation animation) {
+                        // Do nothing
                     }
                 });
             }
@@ -215,15 +211,15 @@ public class HeroTabsFragment extends Fragment {
                 mAnimation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
+                        // Do nothing
                     }
-
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         mAnimatorIconRelativeLayout.setVisibility(View.VISIBLE);
                     }
-
                     @Override
                     public void onAnimationRepeat(Animation animation) {
+                        // Do nothing
                     }
                 });
             }
@@ -235,7 +231,7 @@ public class HeroTabsFragment extends Fragment {
                 mVisibleTab = true;
                 mTabLayout.setVisibility(View.VISIBLE);
             }
-        }));
+        });
     }
 
     private void animationCloseImageNews() {
@@ -261,17 +257,6 @@ public class HeroTabsFragment extends Fragment {
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
     }
 
-    //alpha from 0.0 to 1.0
-    private String addAlphaToColor(String originalColor, double alpha) {
-        long alphaFixed = Math.round(alpha * 255);
-        String alphaHex = Long.toHexString(alphaFixed);
-        if (alphaHex.length() == 1) {
-            alphaHex = "0" + alphaHex;
-        }
-        originalColor = originalColor.replace("#", "#" + alphaHex);
-        return originalColor;
-    }
-
     private void animationFillingColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int cx = (int) mBackgroundLinearLayout2.getX() + mBackgroundLinearLayout2.getWidth() / 2;
@@ -285,24 +270,20 @@ public class HeroTabsFragment extends Fragment {
                 public void onAnimationStart(Animator animation) {
                     mBackgroundLinearLayout2.setBackgroundColor(Color.parseColor(COLOR));
                 }
-
                 @Override
                 public void onAnimationEnd(Animator animation) {
-//                    mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
                     mBackgroundLinearLayout2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
                 }
-
                 @Override
                 public void onAnimationCancel(Animator animation) {
+                    // Do nothing
                 }
-
                 @Override
                 public void onAnimationRepeat(Animator animation) {
+                    // Do nothing
                 }
             });
             mCircleRevealAnim.start();
-        } else {
-//            mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
         }
     }
 

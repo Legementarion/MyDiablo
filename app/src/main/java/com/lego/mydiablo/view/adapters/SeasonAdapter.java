@@ -32,24 +32,25 @@ public class SeasonAdapter  extends ArrayAdapter<String>{
 
     @Override
     public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
-        convertView = super.getView(position, convertView, parent);
-        ButterKnife.bind(this,convertView);
+        View rootView = super.getView(position, convertView, parent);
+        ButterKnife.bind(this,rootView);
         mLabel.setTextSize(20);
         mLabel.setGravity(Gravity.CENTER);
         mLabel.setTextColor(Color.BLACK);
-        return convertView;
+        return rootView;
     }
 
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        View rootView = convertView;
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.spinner, null);
+            rootView = View.inflate(mContext, R.layout.spinner, null);
         }
-        ButterKnife.bind(this,convertView);
+        ButterKnife.bind(this,rootView);
         mLabel.setText(seasonList[position]);
         mLabel.setTextSize(20);
         mLabel.setTextColor(Color.WHITE);
-        return convertView;
+        return rootView;
     }
 }

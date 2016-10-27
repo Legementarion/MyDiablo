@@ -6,7 +6,6 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -177,19 +176,9 @@ public class ItemListFragment extends Fragment implements Paginate.Callbacks {
                 .build();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-    }
-
     @OnClick(R.id.back_button)
     void onButtonPressed(View v) {
-        menuCallBack.MenuCallBackClick(v);
+        menuCallBack.menuCallBackClick(v);
     }
 
     @OnItemSelected({R.id.idSeason, R.id.idClass})
@@ -214,17 +203,13 @@ public class ItemListFragment extends Fragment implements Paginate.Callbacks {
                             public void onCompleted() {
                                 unsubscribe();
                             }
-
                             @Override
                             public void onError(Throwable e) {
-                                e.printStackTrace();
                                 Log.e("Request hero list", "onError: ", e);
-
                                 if (e.getMessage().matches("40[1-3]{1}.*")) {
                                     Log.e("Request hero list", "onError: regex work fine");
                                 }
                             }
-
                             @Override
                             public void onNext(List<Hero> heroList) {
                                 if (mEmptyData) {

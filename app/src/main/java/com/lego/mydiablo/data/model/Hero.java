@@ -33,7 +33,9 @@ public class Hero extends RealmObject {
     private Stats mHeroStats;
     private RealmList<LegendaryPower> mHeroPower = new RealmList<>();
 
-    public Hero(){}
+    public Hero(){
+        // Do nothing
+    }
 
     public int getId() {
         return id;

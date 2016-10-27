@@ -2,13 +2,15 @@ package com.lego.mydiablo.view.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ToggleButton;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.lego.mydiablo.R;
+import com.lego.mydiablo.presenter.fragment.MenuPresenter;
 import com.lego.mydiablo.presenter.fragment.MenuView;
 import com.lego.mydiablo.utils.Settings;
 
@@ -28,10 +30,10 @@ import static com.lego.mydiablo.utils.Settings.mMode;
  * Created by Lego on 08.03.2016.
  */
 
-public class MenuFragment extends Fragment implements MenuView {
+public class MenuFragment extends MvpAppCompatFragment implements MenuView {
 
-//    @InjectPresenter                  MVP Is Future
-//    MenuPresenter mMenuPresenter;
+    @InjectPresenter
+    MenuPresenter mMenuPresenter;
 
     /**Кнопки меню*/
     @BindView(R.id.bt_normal)
@@ -41,11 +43,11 @@ public class MenuFragment extends Fragment implements MenuView {
     @BindView(R.id.bt_season)
     ToggleButton season;
     @BindView(R.id.bt_season_hardcore)
-    ToggleButton season_hardcore;
+    ToggleButton seasonHardcore;
 
     /**Номер кнопки для восстановления при повороте */
     private static int button_CHECKED;
-    private static String BUTTON_CHECKED = "BUTTON_CHECKED";
+    private static String BUTTON_CHECKED_TAG = "BUTTON_CHECKED_TAG";
 
     private MenuCallBack menuCallBack;
     private Unbinder unbinder;
@@ -71,7 +73,7 @@ public class MenuFragment extends Fragment implements MenuView {
 
         /**Сохранять нажатую кнопку при повороте єкрана */
         if (savedInstanceState != null) {
-            button_CHECKED = savedInstanceState.getInt(BUTTON_CHECKED);
+            button_CHECKED = savedInstanceState.getInt(BUTTON_CHECKED_TAG);
         }
         return rootView;
     }
@@ -111,18 +113,18 @@ public class MenuFragment extends Fragment implements MenuView {
                 button_CHECKED = 4;
                 mMode = SEASON;
                 mHARDCODE = HARDCORE;
-                season_hardcore.setChecked(true);
+                seasonHardcore.setChecked(true);
                 break;
         }
         if (!Settings.mTwoPane) {
-            menuCallBack.MenuCallBackClick(view);
+            menuCallBack.menuCallBackClick(view);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(BUTTON_CHECKED, button_CHECKED);
+        outState.putInt(BUTTON_CHECKED_TAG, button_CHECKED);
     }
 
     @Override
@@ -137,7 +139,7 @@ public class MenuFragment extends Fragment implements MenuView {
         normal.setChecked(false);
         hardcore.setChecked(false);
         season.setChecked(false);
-        season_hardcore.setChecked(false);
+        seasonHardcore.setChecked(false);
     }
 
     @Override
@@ -162,11 +164,30 @@ public class MenuFragment extends Fragment implements MenuView {
                 season.setChecked(true);
                 break;
             case 4:
-                season_hardcore.setChecked(true);
+                seasonHardcore.setChecked(true);
                 break;
             default:
                 break;
         }
     }
 
+    @Override
+    public void updatePressButton(int check) {
+        switch (check) {
+            case 1:
+                normal.setChecked(true);
+                break;
+            case 2:
+                hardcore.setChecked(true);
+                break;
+            case 3:
+                season.setChecked(true);
+                break;
+            case 4:
+                seasonHardcore.setChecked(true);
+                break;
+            default:
+                break;
+        }
+    }
 }

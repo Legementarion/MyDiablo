@@ -32,7 +32,6 @@ public class PaginateLoadingListItemCreator implements LoadingListItemCreator {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         VH vh = (VH) holder;
         vh.tvLoading.setText(String.format("Total Hero loaded: %d.\nLoading more...", mTableItemRecyclerViewAdapter.getItemCount()));
-
         // This is how you can make full span if you are using StaggeredGridLayoutManager
         if (mRecyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
             StaggeredGridLayoutManager.LayoutParams params = (StaggeredGridLayoutManager.LayoutParams) vh.itemView.getLayoutParams();
@@ -43,11 +42,9 @@ public class PaginateLoadingListItemCreator implements LoadingListItemCreator {
 
     private class VH extends RecyclerView.ViewHolder {
         TextView tvLoading;
-
         VH(View itemView) {
             super(itemView);
             tvLoading = (TextView) itemView.findViewById(R.id.tv_loading_text);
-
         }
     }
 }
