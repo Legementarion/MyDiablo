@@ -50,7 +50,7 @@ public class TableItemRecyclerViewAdapter
         Hero hero = mHeroList.get(position);
         holder.mIdView.setText("#" + hero.getmRank());
         holder.mContentView.setText(hero.getmBattleTag());
-        holder.mClassView.setImageDrawable(pickImageClass(hero.getmClass()));
+        holder.mClassView.setImageDrawable(pickImage(hero.getmClass()));
         holder.mRankView.setText("Rift - " + hero.getmRiftLevel());
         holder.mView.setTag(hero.getId());
         holder.mView.setOnClickListener(v -> {
@@ -67,7 +67,7 @@ public class TableItemRecyclerViewAdapter
         }
     }
 
-    private Drawable pickImageClass(String s) {
+    private Drawable pickImage(String s) {
         switch (s) {
             case "barbarian":
                 return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(s, "drawable", mContext.getPackageName()));

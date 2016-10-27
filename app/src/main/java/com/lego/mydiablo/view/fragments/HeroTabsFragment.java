@@ -127,7 +127,7 @@ public class HeroTabsFragment extends Fragment {
                 .setAction("Action", null)
                 .show());
         mTabLayout.setViewPager(mViewPager);
-        mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
+//        mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
         mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
         mDetailActive = true;
         setColorCoordinatorLayout();
@@ -180,6 +180,7 @@ public class HeroTabsFragment extends Fragment {
             if (mToolBar.getHeight() - appBarLayout.getHeight() == verticalOffset) {
                 mTitleTextView.setText(mAdapter.getPageTitle(mPositionViewPage));
                 mImageTitle.setImageDrawable(mResources.getDrawable(R.mipmap.ic_launcher));
+                fab.setVisibility(View.GONE);
                 mHideToolBar = true;
                 mVisibleImageNews = false;
             } else {
@@ -187,6 +188,7 @@ public class HeroTabsFragment extends Fragment {
                     mTitleTextView.setText(NO_VALUE);
                     mImageTitle.setImageDrawable(null);
                     mHideToolBar = false;
+                    fab.setVisibility(View.VISIBLE);
                 }
             }
             if (percentage >= PERCENTAGE_TO_ANIMATE_AVATAR && mVisibleImageNews) {
@@ -286,7 +288,7 @@ public class HeroTabsFragment extends Fragment {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
+//                    mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
                     mBackgroundLinearLayout2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
                 }
 
@@ -300,7 +302,7 @@ public class HeroTabsFragment extends Fragment {
             });
             mCircleRevealAnim.start();
         } else {
-            mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
+//            mBackgroundLinearLayout.setBackgroundColor(Color.parseColor(addAlphaToColor(COLOR, PERCENTAGE_TRANSPARENT_BACKGROUND_COLOR)));
         }
     }
 

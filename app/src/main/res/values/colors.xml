@@ -9,6 +9,7 @@
     <color name="transparent">#0008e71a</color>
     <color name="icons">#d42215</color>
     <color name="underline">#f7e70d</color>
+    <color name="background_detail">#1b1b1a</color>
 
     <color name="green">#8b08e71a</color>
     <color name="orange">#abec7b0c</color>

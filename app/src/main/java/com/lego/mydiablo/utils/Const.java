@@ -4,7 +4,10 @@ package com.lego.mydiablo.utils;
  * @author Lego on 10.09.2016.
  */
 
-public class Const {
+public final class Const {
+
+    private Const(){}
+
     public static String CLIENT_ID = "qbsqcqpj8dwcyqs4bc5rsxgwyjx5tkue";
     public static String CLIENT_SECRET = "JcgAFKPQBxrPZGwsx3NfKrnAK2DkS9Ug";
 
@@ -14,11 +17,11 @@ public class Const {
     public static final String AUTHORIZE_URI = "https://eu.battle.net/oauth/authorize";
     public static final String REDIRECT_URI = "https://localhost/";
 
-    public final static String GRANT_TYPE_REFRESH = "refresh_token";
-    public final static String CREDENTIALS = "&client_id=" + Const.CLIENT_ID + "&client_secret=" + Const.CLIENT_SECRET;
-    public final static String GRANT_TYPE_AUTHORIZE = "authorization_code";
-    public final static String REDIRECTION_URI = "&redirect_uri=";
-    public final static String RESPONSE_TYPE = "?response_type=code";
+    public static final String GRANT_TYPE_REFRESH = "refresh_token";
+    public static final String CREDENTIALS = "&client_id=" + Const.CLIENT_ID + "&client_secret=" + Const.CLIENT_SECRET;
+    public static final String GRANT_TYPE_AUTHORIZE = "authorization_code";
+    public static final String REDIRECTION_URI = "&redirect_uri=";
+    public static final String RESPONSE_TYPE = "?response_type=code";
 
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
