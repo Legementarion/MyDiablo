@@ -8,6 +8,8 @@ import com.lego.mydiablo.rest.callback.models.UserData.CheckedToken;
 import com.lego.mydiablo.rest.callback.models.UserData.UserTag;
 import com.lego.mydiablo.utils.Const;
 
+import java.io.IOException;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -67,8 +69,8 @@ public class AuthRequest {
         );
     }
 
-    public static Call<CheckedToken> checkToken(String token) {
-        return api.checkToken(token);
+    public static Observable<CheckedToken> checkToken(String token) {
+            return api.checkToken(token);
     }
 
     public static void getBattleTag() {

@@ -74,7 +74,6 @@ public class ItemListFragment extends Fragment implements Paginate.Callbacks {
     @BindView(R.id.item_list)
     RecyclerView mRecyclerView;
 
-    private MenuCallBack menuCallBack;
     private Core mCore;
     private RealmDataController mRealmDataController;
 
@@ -120,7 +119,6 @@ public class ItemListFragment extends Fragment implements Paginate.Callbacks {
             Settings.mTwoPane = true;
         }
 
-        menuCallBack = (MenuCallBack) getActivity();    //callbacks
 
         /**Видим кнопку назад, если нет второго фрагмента */
         if (Settings.mTwoPane) {
@@ -149,7 +147,7 @@ public class ItemListFragment extends Fragment implements Paginate.Callbacks {
 
     private void fillAdapterArrays() {
         if (mCurrentEraList != null && mCurrentSeasonList != null) {
-            if (mMode.equals(SEASON)) {
+            if (mMode != null && mMode.equals(SEASON)) {
                 mSeasonAdapter = new SeasonAdapter(getContext(), R.layout.spinner, mCurrentSeasonList);
             } else {
                 mSeasonAdapter = new SeasonAdapter(getContext(), R.layout.spinner, mCurrentEraList);
@@ -178,7 +176,7 @@ public class ItemListFragment extends Fragment implements Paginate.Callbacks {
 
     @OnClick(R.id.back_button)
     void onButtonPressed(View v) {
-        menuCallBack.menuCallBackClick(v);
+//        menuCallBack.menuCallBackClick(v);
     }
 
     @OnItemSelected({R.id.idSeason, R.id.idClass})

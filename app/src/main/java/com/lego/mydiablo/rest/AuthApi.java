@@ -31,7 +31,7 @@ public interface AuthApi {
 
     @FormUrlEncoded
     @POST("/oauth/check_token")
-    Call<CheckedToken> checkToken(
+    Observable<CheckedToken> checkToken(
             @Field("token") String token
     );
 

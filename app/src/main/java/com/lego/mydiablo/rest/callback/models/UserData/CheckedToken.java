@@ -1,13 +1,14 @@
 package com.lego.mydiablo.rest.callback.models.UserData;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CheckedToken {
-
     @SerializedName("exp")
     @Expose
     private Integer exp;
@@ -20,6 +21,9 @@ public class CheckedToken {
     @SerializedName("client_id")
     @Expose
     private String clientId;
+    @SerializedName("error")
+    @Expose
+    private String error;
 
     public Integer getExp() {
         return exp;
@@ -51,5 +55,13 @@ public class CheckedToken {
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

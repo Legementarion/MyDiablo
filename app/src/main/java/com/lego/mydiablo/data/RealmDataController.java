@@ -100,7 +100,6 @@ public class RealmDataController implements DataBaseController {
         return Observable.just(supportFillList(heroList, 0, mItemsPerPage));
     }
 
-
     @Override
     public void updateDatabase(Hero item) {
         mRealm.executeTransaction(realm -> {
@@ -118,4 +117,5 @@ public class RealmDataController implements DataBaseController {
         }
         return heroList;
     }
+    
 }
