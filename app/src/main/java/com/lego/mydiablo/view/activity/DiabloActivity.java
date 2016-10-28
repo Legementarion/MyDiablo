@@ -29,9 +29,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static com.lego.mydiablo.utils.Const.AUTHORIZE_URI;
 import static com.lego.mydiablo.utils.Const.CREDENTIALS;
@@ -42,7 +39,7 @@ import static com.lego.mydiablo.utils.Const.RESPONSE_TYPE;
 
 public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
 
-    @InjectPresenter(type = PresenterType.GLOBAL)
+    @InjectPresenter(type = PresenterType.WEAK)
     DiabloPresenter mDiabloPresenter;
 
     @BindView(R.id.start_menu_fragment)
@@ -66,7 +63,6 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_menu_activity);
         mUnbinder = ButterKnife.bind(this);
-        Log.d("Track", "onCreate: activity");
         mFragmentManager = getSupportFragmentManager();
         mDiabloPresenter.config(this, mFragmentManager);
 

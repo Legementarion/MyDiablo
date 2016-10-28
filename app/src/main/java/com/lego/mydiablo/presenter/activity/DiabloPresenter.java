@@ -61,16 +61,23 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     }
 
     @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-        if (mToken == null) {
-            Log.d("Track", "onFirstViewAttach: " + mToken);
-            getViewState().openAuthDialog();
-        } else {
-            Log.d("Track", "onFirstViewAttach: check session");
+    public void attachView(DiabloView view) {
+        super.attachView(view);
+        if (mToken != null) {
             checkSession();
         }
     }
+
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        if (mToken == null) {
+            getViewState().openAuthDialog();
+        } else {
+            checkSession();
+        }
+    }
+
 
     private void checkSession() {
         AuthRequest.checkToken(mToken).observeOn(AndroidSchedulers.mainThread())
@@ -91,9 +98,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
                     public void onNext(CheckedToken checkedToken) {
                         if (checkedToken.getError() != null) {
                             getViewState().openAuthDialog();
-                            Log.d("Track", "onNext:  token error ");
                         }
-                        Log.d("Track", "onNext:  token pass");
                     }
                 });
     }
