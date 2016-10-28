@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -17,14 +15,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.lego.mydiablo.R;
 
-import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.presenter.activity.DiabloPresenter;
 import com.lego.mydiablo.presenter.activity.DiabloView;
-import com.lego.mydiablo.rest.callback.models.UserData.CheckedToken;
-import com.lego.mydiablo.utils.Settings;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +57,6 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
         mUnbinder = ButterKnife.bind(this);
         mFragmentManager = getSupportFragmentManager();
         mDiabloPresenter.config(this, mFragmentManager);
-
     }
 
     public void prepareSignIn() {

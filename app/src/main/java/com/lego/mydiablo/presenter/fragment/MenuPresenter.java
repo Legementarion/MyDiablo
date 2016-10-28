@@ -6,6 +6,8 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.lego.mydiablo.R;
 
+import org.greenrobot.eventbus.EventBus;
+
 import static com.lego.mydiablo.utils.Const.ERA;
 import static com.lego.mydiablo.utils.Const.HARDCORE;
 import static com.lego.mydiablo.utils.Const.NO_VALUE;
@@ -15,6 +17,8 @@ import static com.lego.mydiablo.utils.Settings.mMode;
 
 @InjectViewState
 public class MenuPresenter extends MvpPresenter<MenuView> {
+
+    private EventBus bus = EventBus.getDefault();
 
     public void pressButton(View view) {
         int sChecked;
@@ -43,6 +47,9 @@ public class MenuPresenter extends MvpPresenter<MenuView> {
                 sChecked = 0; //dummy
                 break;
         }
+//        bus.post(new FragmentEvent());
         getViewState().updatePressButton(sChecked);
     }
+
+
 }

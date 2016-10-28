@@ -32,7 +32,6 @@ public class TableItemRecyclerViewAdapter
     private List<Hero> mHeroList;
     private Context mContext;
     private EventBus bus = EventBus.getDefault();
-    private FragmentEvent event;
 
     public TableItemRecyclerViewAdapter(List<Hero> heroList, Context context) {
         mHeroList = heroList;
@@ -54,8 +53,7 @@ public class TableItemRecyclerViewAdapter
         holder.mRankView.setText("Rift - " + hero.getmRiftLevel());
         holder.mView.setTag(hero.getId());
         holder.mView.setOnClickListener(v -> {
-            event = new FragmentEvent(new HeroTabsFragment());
-            bus.post(event);    //send to diablo activity
+            bus.post(new FragmentEvent(new HeroTabsFragment()));    //send to diablo activity
         });
     }
 
