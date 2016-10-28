@@ -3,8 +3,6 @@ package com.lego.mydiablo.view.fragments;
 
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,16 +19,12 @@ import com.lego.mydiablo.data.RealmDataController;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.view.adapters.ProfileExpandableListAdapter;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.lego.mydiablo.utils.Settings.mDetailActive;
 
 
 public class ItemDetailFragment extends Fragment {
@@ -105,38 +99,38 @@ public class ItemDetailFragment extends Fragment {
     private void fillData() {
         expandablePlayerListDetail = new HashMap<>();
         List<String> general = new ArrayList<>();
-        Log.d("ItemDetailFragment", "fillData: " + mHero.getmBattleTag());
+        Log.d("ItemDetailFragment", "fillData: " + mHero.getBattleTag());
         general.add(getString(R.string.stat_Life) + " - ololo soon");
-//        general.add(getString(R.string.stat_Life) + " - " + mHero.getmHeroStats().getLife());
-//        general.add(getString(R.string.stat_Damage) + " - " + mHero.getmHeroStats().getDamage());
-//        general.add(getString(R.string.stat_Toughness) + " - " + mHero.getmHeroStats().getToughness());
-//        general.add(getString(R.string.stat_Healing) + " - " + mHero.getmHeroStats().getHealing());
-//        general.add(getString(R.string.stat_AttackSpeed) + " - " + mHero.getmHeroStats().getAttackSpeed());
-//        general.add(getString(R.string.stat_Armor) + " - " + mHero.getmHeroStats().getArmor());
-//        general.add(getString(R.string.stat_Strength) + " - " + mHero.getmHeroStats().getStrength());
-//        general.add(getString(R.string.stat_Dexterity) + " - " + mHero.getmHeroStats().getDexterity());
-//        general.add(getString(R.string.stat_Vitality) + " - " + mHero.getmHeroStats().getVitality());
-//        general.add(getString(R.string.stat_Intelligence) + " - " + mHero.getmHeroStats().getIntelligence());
-//        general.add(getString(R.string.stat_PhysicalResist) + " - " + mHero.getmHeroStats().getPhysicalResist());
-//        general.add(getString(R.string.stat_FireResist) + " - " + mHero.getmHeroStats().getFireResist());
-//        general.add(getString(R.string.stat_ColdResist) + " - " + mHero.getmHeroStats().getColdResist());
-//        general.add(getString(R.string.stat_LightningResist) + " - " + mHero.getmHeroStats().getLightningResist());
-//        general.add(getString(R.string.stat_PoisonResist) + " - " + mHero.getmHeroStats().getPoisonResist());
-//        general.add(getString(R.string.stat_ArcaneResist) + " - " + mHero.getmHeroStats().getArcaneResist());
-//        general.add(getString(R.string.stat_CritDamage) + " - " + mHero.getmHeroStats().getCritDamage());
-//        general.add(getString(R.string.stat_BlockChance) + " - " + mHero.getmHeroStats().getBlockChance());
-//        general.add(getString(R.string.stat_BlockAmountMin) + " - " + mHero.getmHeroStats().getBlockAmountMin());
-//        general.add(getString(R.string.stat_BlockAmountMax) + " - " + mHero.getmHeroStats().getBlockAmountMax());
-//        general.add(getString(R.string.stat_DamageIncrease) + " - " + mHero.getmHeroStats().getDamageIncrease());
-//        general.add(getString(R.string.stat_CritChance) + " - " + mHero.getmHeroStats().getCritChance());
-//        general.add(getString(R.string.stat_DamageReduction) + " - " + mHero.getmHeroStats().getDamageReduction());
-//        general.add(getString(R.string.stat_LifeSteal) + " - " + mHero.getmHeroStats().getLifeSteal());
-//        general.add(getString(R.string.stat_LifePerKill) + " - " + mHero.getmHeroStats().getLifePerKill());
-//        general.add(getString(R.string.stat_LifeOnHit) + " - " + mHero.getmHeroStats().getLifeOnHit());
-//        general.add(getString(R.string.stat_MagicFind) + " - " + mHero.getmHeroStats().getMagicFind());
-//        general.add(getString(R.string.stat_GoldFind) + " - " + mHero.getmHeroStats().getGoldFind());
-//        general.add(getString(R.string.stat_PrimaryResource) + " - " + mHero.getmHeroStats().getPrimaryResource());
-//        general.add(getString(R.string.stat_SecondaryResource) + " - " + mHero.getmHeroStats().getSecondaryResource());
+//        general.add(getString(R.string.stat_Life) + " - " + mHero.getHeroStats().getLife());
+//        general.add(getString(R.string.stat_Damage) + " - " + mHero.getHeroStats().getDamage());
+//        general.add(getString(R.string.stat_Toughness) + " - " + mHero.getHeroStats().getToughness());
+//        general.add(getString(R.string.stat_Healing) + " - " + mHero.getHeroStats().getHealing());
+//        general.add(getString(R.string.stat_AttackSpeed) + " - " + mHero.getHeroStats().getAttackSpeed());
+//        general.add(getString(R.string.stat_Armor) + " - " + mHero.getHeroStats().getArmor());
+//        general.add(getString(R.string.stat_Strength) + " - " + mHero.getHeroStats().getStrength());
+//        general.add(getString(R.string.stat_Dexterity) + " - " + mHero.getHeroStats().getDexterity());
+//        general.add(getString(R.string.stat_Vitality) + " - " + mHero.getHeroStats().getVitality());
+//        general.add(getString(R.string.stat_Intelligence) + " - " + mHero.getHeroStats().getIntelligence());
+//        general.add(getString(R.string.stat_PhysicalResist) + " - " + mHero.getHeroStats().getPhysicalResist());
+//        general.add(getString(R.string.stat_FireResist) + " - " + mHero.getHeroStats().getFireResist());
+//        general.add(getString(R.string.stat_ColdResist) + " - " + mHero.getHeroStats().getColdResist());
+//        general.add(getString(R.string.stat_LightningResist) + " - " + mHero.getHeroStats().getLightningResist());
+//        general.add(getString(R.string.stat_PoisonResist) + " - " + mHero.getHeroStats().getPoisonResist());
+//        general.add(getString(R.string.stat_ArcaneResist) + " - " + mHero.getHeroStats().getArcaneResist());
+//        general.add(getString(R.string.stat_CritDamage) + " - " + mHero.getHeroStats().getCritDamage());
+//        general.add(getString(R.string.stat_BlockChance) + " - " + mHero.getHeroStats().getBlockChance());
+//        general.add(getString(R.string.stat_BlockAmountMin) + " - " + mHero.getHeroStats().getBlockAmountMin());
+//        general.add(getString(R.string.stat_BlockAmountMax) + " - " + mHero.getHeroStats().getBlockAmountMax());
+//        general.add(getString(R.string.stat_DamageIncrease) + " - " + mHero.getHeroStats().getDamageIncrease());
+//        general.add(getString(R.string.stat_CritChance) + " - " + mHero.getHeroStats().getCritChance());
+//        general.add(getString(R.string.stat_DamageReduction) + " - " + mHero.getHeroStats().getDamageReduction());
+//        general.add(getString(R.string.stat_LifeSteal) + " - " + mHero.getHeroStats().getLifeSteal());
+//        general.add(getString(R.string.stat_LifePerKill) + " - " + mHero.getHeroStats().getLifePerKill());
+//        general.add(getString(R.string.stat_LifeOnHit) + " - " + mHero.getHeroStats().getLifeOnHit());
+//        general.add(getString(R.string.stat_MagicFind) + " - " + mHero.getHeroStats().getMagicFind());
+//        general.add(getString(R.string.stat_GoldFind) + " - " + mHero.getHeroStats().getGoldFind());
+//        general.add(getString(R.string.stat_PrimaryResource) + " - " + mHero.getHeroStats().getPrimaryResource());
+//        general.add(getString(R.string.stat_SecondaryResource) + " - " + mHero.getHeroStats().getSecondaryResource());
 
         expandablePlayerListDetail.put(getString(R.string.stats), general);
     }

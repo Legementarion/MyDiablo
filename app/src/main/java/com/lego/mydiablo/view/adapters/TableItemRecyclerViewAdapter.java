@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  */
 
 public class TableItemRecyclerViewAdapter
-        extends RecyclerView.Adapter<TableItemRecyclerViewAdapter.ViewHolder> {
+        extends RecyclerView.Adapter<TableItemRecyclerViewAdapter.HeroViewHolder> {
 
     private List<Hero> mHeroList;
     private Context mContext;
@@ -39,22 +39,22 @@ public class TableItemRecyclerViewAdapter
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HeroViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_content, parent, false);
-        return new ViewHolder(view);
+        return new HeroViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final HeroViewHolder holder, int position) {
         Hero hero = mHeroList.get(position);
-        holder.mIdView.setText("#" + hero.getmRank());
-        holder.mContentView.setText(hero.getmBattleTag());
-        holder.mClassView.setImageDrawable(pickImage(hero.getmClass()));
-        holder.mRankView.setText("Rift - " + hero.getmRiftLevel());
+        holder.mIdView.setText("#" + hero.getRank());
+        holder.mContentView.setText(hero.getBattleTag());
+        holder.mClassView.setImageDrawable(pickImage(hero.getHeroClass()));
+        holder.mRankView.setText("Rift - " + hero.getRiftLevel());
         holder.mView.setTag(hero.getId());
-        holder.mView.setOnClickListener(v -> {
-            bus.post(new FragmentEvent(new HeroTabsFragment()));    //send to diablo activity
-        });
+        holder.mView.setOnClickListener(v ->
+            bus.post(new FragmentEvent(new HeroTabsFragment()))    //send to diablo activity
+        );
     }
 
     public void add(List<Hero> items) {
@@ -86,7 +86,7 @@ public class TableItemRecyclerViewAdapter
         return mHeroList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class HeroViewHolder extends RecyclerView.ViewHolder {
         View mView;
         @BindView(R.id.id)
         TextView mIdView;
@@ -97,7 +97,7 @@ public class TableItemRecyclerViewAdapter
         @BindView(R.id.idClass)
         ImageView mClassView;
 
-        ViewHolder(View view) {
+        HeroViewHolder(View view) {
             super(view);
             mView = view;
             ButterKnife.bind(this, mView);

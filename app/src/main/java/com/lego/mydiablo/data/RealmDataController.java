@@ -75,7 +75,7 @@ public class RealmDataController implements DataBaseController {
     public List<Hero> getNextHero(String heroClass, String season, int size) {
         RealmResults<Hero> results = mRealm.where(Hero.class).equalTo("mClass", heroClass).equalTo("mSeasonValue", Integer.valueOf(season))
                 .findAllSorted("mRank", Sort.ASCENDING);
-        if (results.size() == 0) {
+        if (results.isEmpty()) {
             return results;
         } else {
             return supportFillList(results, size - mItemsPerPage, size);
@@ -117,5 +117,5 @@ public class RealmDataController implements DataBaseController {
         }
         return heroList;
     }
-    
+
 }

@@ -17,7 +17,7 @@ public class CheckedToken {
     private String userName;
     @SerializedName("authorities")
     @Expose
-    private List<String> authorities = new ArrayList<String>();
+    private List<String> authorities = new ArrayList<>();
     @SerializedName("client_id")
     @Expose
     private String clientId;

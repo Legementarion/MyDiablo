@@ -19,7 +19,6 @@ public class Item extends RealmObject {
     private RealmList<Socet> mSocet;
     private String mParamDescription;
 
-
     private String mAttribute1;
     private String mAttribute2;
     private String mAttribute3;
@@ -30,7 +29,9 @@ public class Item extends RealmObject {
     private String mAttribute8;
     private String mLegendaryAttribute;
 
-    public Item(){}
+    public Item(){
+        //do nothing
+    }
 
     public String getTitle() {
         return mTitle;

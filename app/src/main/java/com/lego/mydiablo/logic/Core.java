@@ -39,7 +39,7 @@ public class Core {
                 .flatMap(heroes -> mDataBaseController.saveToDatabase(heroes))
                 .doOnNext(heroList -> {
                     for (int i = 0; i < mItemsPerPage / 4; i++) {
-                        mParser.getTopHeroDetail(heroList.get(i).getmBattleTag(), heroList.get(i).getId());
+                        mParser.getTopHeroDetail(heroList.get(i).getBattleTag(), heroList.get(i).getId());
                     }
                 }).flatMap(heroList -> mDataBaseController.saveToDatabase(heroList));
     }

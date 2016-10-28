@@ -1,6 +1,5 @@
 package com.lego.mydiablo.data;
 
-
 import com.lego.mydiablo.data.model.Hero;
 
 import java.util.List;

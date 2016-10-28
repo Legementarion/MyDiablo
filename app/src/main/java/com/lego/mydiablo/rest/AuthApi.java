@@ -17,8 +17,7 @@ import retrofit2.http.Query;
 import retrofit2.http.Url;
 import rx.Observable;
 
-
-public interface AuthApi {
+interface AuthApi {
 
     @FormUrlEncoded
     @POST("/oauth/token")
@@ -40,6 +39,5 @@ public interface AuthApi {
             @Url String url,
             @Query("access_token") String token
     );
-
 
 }

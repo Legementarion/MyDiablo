@@ -12,8 +12,7 @@ import retrofit2.http.Query;
 import retrofit2.http.Url;
 import rx.Observable;
 
-public interface BlizzardApi {
-
+interface BlizzardApi {
 
     @GET("/data/d3/season/")
     Call<Season> checkSeasons(

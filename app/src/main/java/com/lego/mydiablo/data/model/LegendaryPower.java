@@ -3,10 +3,6 @@ package com.lego.mydiablo.data.model;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by PlayWeb-11 on 9/29/2016.
- */
-
 public class LegendaryPower extends RealmObject{
 
     @PrimaryKey
@@ -15,37 +11,40 @@ public class LegendaryPower extends RealmObject{
     private String mIcon;
     private String mColor;
 
-    public LegendaryPower(){}
+    public LegendaryPower(){
+        //do nothing
+    }
 
-    public String getmId() {
+    public String getId() {
         return mId;
     }
 
-    public void setmId(String mId) {
+    public void setId(String mId) {
         this.mId = mId;
     }
 
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 
-    public void setmName(String mName) {
+    public void setName(String mName) {
         this.mName = mName;
     }
 
-    public String getmIcon() {
+    public String getIcon() {
         return mIcon;
     }
 
-    public void setmIcon(String mIcon) {
+    public void setIcon(String mIcon) {
         this.mIcon = mIcon;
     }
 
-    public String getmColor() {
+    public String getColor() {
         return mColor;
     }
 
-    public void setmColor(String mColor) {
+    public void setColor(String mColor) {
         this.mColor = mColor;
     }
+
 }

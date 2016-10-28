@@ -45,148 +45,148 @@ public class Hero extends RealmObject {
         this.id = id;
     }
 
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 
-    public void setmName(String mName) {
+    public void setName(String mName) {
         this.mName = mName;
     }
 
-    public String getmClass() {
+    public String getHeroClass() {
         return mClass;
     }
 
-    public void setmClass(String mClass) {
+    public void setHeroClass(String mClass) {
         this.mClass = mClass;
     }
 
-    public int getmGender() {
+    public int getGender() {
         return mGender;
     }
 
-    public void setmGender(int mGender) {
+    public void setGender(int mGender) {
         this.mGender = mGender;
     }
 
-    public int getmLevel() {
+    public int getLevel() {
         return mLevel;
     }
 
-    public void setmLevel(int mLevel) {
+    public void setLevel(int mLevel) {
         this.mLevel = mLevel;
     }
 
-    public int getmParagonLevel() {
+    public int getParagonLevel() {
         return mParagonLevel;
     }
 
-    public void setmParagonLevel(int mParagonLevel) {
+    public void setParagonLevel(int mParagonLevel) {
         this.mParagonLevel = mParagonLevel;
     }
 
-    public boolean ismHardcore() {
+    public boolean isHardcore() {
         return mHardcore;
     }
 
-    public void setmHardcore(boolean mHardcore) {
+    public void setHardcore(boolean mHardcore) {
         this.mHardcore = mHardcore;
     }
 
-    public boolean ismSeasonal() {
+    public boolean isSeasonal() {
         return mSeasonal;
     }
 
-    public void setmSeasonal(boolean mSeasonal) {
+    public void setSeasonal(boolean mSeasonal) {
         this.mSeasonal = mSeasonal;
     }
 
-    public List<Skill> getmActiveSkills() {
+    public List<Skill> getActiveSkills() {
         return mActiveSkills;
     }
 
-    public void setmActiveSkills(RealmList<Skill> mActiveSkills) {
+    public void setActiveSkills(RealmList<Skill> mActiveSkills) {
         this.mActiveSkills = mActiveSkills;
     }
 
-    public RealmList<Skill> getmPassiveSkills() {
+    public RealmList<Skill> getPassiveSkills() {
         return mPassiveSkills;
     }
 
-    public void setmPassiveSkills(RealmList<Skill> mPassiveSkills) {
+    public void setPassiveSkills(RealmList<Skill> mPassiveSkills) {
         this.mPassiveSkills = mPassiveSkills;
     }
 
-    public RealmList<Item> getmHeroComplect() {
+    public RealmList<Item> getHeroComplect() {
         return mHeroComplect;
     }
 
-    public void setmHeroComplect(RealmList<Item> mHeroComplect) {
+    public void setHeroComplect(RealmList<Item> mHeroComplect) {
         this.mHeroComplect = mHeroComplect;
     }
 
-    public Stats getmHeroStats() {
+    public Stats getHeroStats() {
         return mHeroStats;
     }
 
-    public void setmHeroStats(Stats mHeroStats) {
+    public void setHeroStats(Stats mHeroStats) {
         this.mHeroStats = mHeroStats;
     }
 
 
-    public RealmList<LegendaryPower> getmHeroPower() {
+    public RealmList<LegendaryPower> getHeroPower() {
         return mHeroPower;
     }
 
-    public void setmHeroPower(RealmList<LegendaryPower> mHeroPower) {
+    public void setHeroPower(RealmList<LegendaryPower> mHeroPower) {
         this.mHeroPower = mHeroPower;
     }
 
-    public String getmBattleTag() {
+    public String getBattleTag() {
         return mBattleTag;
     }
 
-    public void setmBattleTag(String mBattleTag) {
+    public void setBattleTag(String mBattleTag) {
         this.mBattleTag = mBattleTag;
     }
 
-    public String getmClanName() {
+    public String getClanName() {
         return mClanName;
     }
 
-    public void setmClanName(String mClanName) {
+    public void setClanName(String mClanName) {
         this.mClanName = mClanName;
     }
 
-    public String getmClanTag() {
+    public String getClanTag() {
         return mClanTag;
     }
 
-    public void setmClanTag(String mClanTag) {
+    public void setClanTag(String mClanTag) {
         this.mClanTag = mClanTag;
     }
 
-    public int getmRank() {
+    public int getRank() {
         return mRank;
     }
 
-    public void setmRank(int mRank) {
+    public void setRank(int mRank) {
         this.mRank = mRank;
     }
 
-    public int getmRiftLevel() {
+    public int getRiftLevel() {
         return mRiftLevel;
     }
 
-    public void setmRiftLevel(int mRiftLevel) {
+    public void setRiftLevel(int mRiftLevel) {
         this.mRiftLevel = mRiftLevel;
     }
 
-    public long getmRiftTime() {
+    public long getRiftTime() {
         return mRiftTime;
     }
 
-    public void setmRiftTime(long mRiftTime) {
+    public void setRiftTime(long mRiftTime) {
         this.mRiftTime = mRiftTime;
     }
 

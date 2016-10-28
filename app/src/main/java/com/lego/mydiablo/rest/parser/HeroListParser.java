@@ -9,7 +9,6 @@ import com.lego.mydiablo.data.model.LegendaryPower;
 import com.lego.mydiablo.data.model.Rune;
 import com.lego.mydiablo.data.model.Skill;
 import com.lego.mydiablo.data.model.Stats;
-import com.lego.mydiablo.logic.Core;
 import com.lego.mydiablo.rest.RetrofitRequests;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.Items.ItemDetail;
@@ -47,28 +46,28 @@ public class HeroListParser {
             Hero currentHero = new Hero();
             try {
                 if (heroList.getRow().get(i).getPlayer().get(0).getData().get(0).getId().equals("HeroBattleTag")) {
-                    currentHero.setmBattleTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(0).getString());    //player data
-                    currentHero.setmClass(heroList.getRow().get(i).getPlayer().get(0).getData().get(2).getString());
-                    currentHero.setmLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber());
+                    currentHero.setBattleTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(0).getString());    //player data
+                    currentHero.setHeroClass(heroList.getRow().get(i).getPlayer().get(0).getData().get(2).getString());
+                    currentHero.setLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber());
                     if (heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber() != null) {
-                        currentHero.setmParagonLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber());
+                        currentHero.setParagonLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber());
                     }
                     if (heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getId().equals("HeroClanTag")) {
-                        currentHero.setmClanTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getString());
-                        currentHero.setmClanName(heroList.getRow().get(i).getPlayer().get(0).getData().get(7).getString());
+                        currentHero.setClanTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getString());
+                        currentHero.setClanName(heroList.getRow().get(i).getPlayer().get(0).getData().get(7).getString());
                         currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(8).getNumber());    // if era = 1 and query = barbarian -> Error field doesn't exist
                     } else {
                         currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getNumber());
                     }
                 } else {
-                    currentHero.setmClass(heroList.getRow().get(i).getPlayer().get(0).getData().get(1).getString());
-                    currentHero.setmLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(3).getNumber());
+                    currentHero.setHeroClass(heroList.getRow().get(i).getPlayer().get(0).getData().get(1).getString());
+                    currentHero.setLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(3).getNumber());
                     if (heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber() != null) {
-                        currentHero.setmParagonLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber());
+                        currentHero.setParagonLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber());
                     }
                     if (heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getId().equals("HeroClanTag")) {
-                        currentHero.setmClanTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getString());
-                        currentHero.setmClanName(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getString());
+                        currentHero.setClanTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getString());
+                        currentHero.setClanName(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getString());
                         currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(7).getNumber());
                     } else {
                         currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber());
@@ -76,9 +75,9 @@ public class HeroListParser {
                 }
                 currentHero.setSeasonValue(heroList.getEra());
 
-                currentHero.setmRank(heroList.getRow().get(i).getData().get(0).getNumber());     //other data
-                currentHero.setmRiftLevel(heroList.getRow().get(i).getData().get(1).getNumber());
-                currentHero.setmRiftTime(heroList.getRow().get(i).getData().get(2).getTimestamp());
+                currentHero.setRank(heroList.getRow().get(i).getData().get(0).getNumber());     //other data
+                currentHero.setRiftLevel(heroList.getRow().get(i).getData().get(1).getNumber());
+                currentHero.setRiftTime(heroList.getRow().get(i).getData().get(2).getTimestamp());
 
             } catch (IndexOutOfBoundsException ex) {
                 Log.d("Error", "parseFromJson: array out of range cell " + i);
@@ -120,19 +119,19 @@ public class HeroListParser {
             Hero newHeroData = new Hero();
 
             newHeroData.setId(currentHero.getId());
-            newHeroData.setmBattleTag(currentHero.getmBattleTag());
-            newHeroData.setmClass(currentHero.getmClass());
-            newHeroData.setmGender(hero.getGender());
-            newHeroData.setmLevel(currentHero.getmLevel());
-            newHeroData.setmParagonLevel(currentHero.getmParagonLevel());
+            newHeroData.setBattleTag(currentHero.getBattleTag());
+            newHeroData.setHeroClass(currentHero.getHeroClass());
+            newHeroData.setGender(hero.getGender());
+            newHeroData.setLevel(currentHero.getLevel());
+            newHeroData.setParagonLevel(currentHero.getParagonLevel());
 
-            if (currentHero.getmClanName() != null) {
-                newHeroData.setmClanName(currentHero.getmClanName());
-                newHeroData.setmClanTag(currentHero.getmClanTag());
+            if (currentHero.getClanName() != null) {
+                newHeroData.setClanName(currentHero.getClanName());
+                newHeroData.setClanTag(currentHero.getClanTag());
             }
 
-            newHeroData.setmHardcore(hero.getHardcore());
-            newHeroData.setmSeasonal(hero.getSeasonal());
+            newHeroData.setHardcore(hero.getHardcore());
+            newHeroData.setSeasonal(hero.getSeasonal());
 
             Stats stats = new Stats();
             stats.setLife(hero.getStats().getLife());
@@ -166,18 +165,18 @@ public class HeroListParser {
             stats.setPrimaryResource(hero.getStats().getPrimaryResource());
             stats.setSecondaryResource(hero.getStats().getSecondaryResource());
 
-            newHeroData.setmHeroStats(stats);
+            newHeroData.setHeroStats(stats);
 
             RealmList<LegendaryPower> heroLegendaryPowers = new RealmList<>();
             for (int i = 0; i < hero.getLegendaryPowers().size(); i++) {
                 LegendaryPower legendaryPower = new LegendaryPower();
-                legendaryPower.setmId(hero.getLegendaryPowers().get(i).getId());
-                legendaryPower.setmName(hero.getLegendaryPowers().get(i).getName());
-                legendaryPower.setmIcon(hero.getLegendaryPowers().get(i).getIcon());
-                legendaryPower.setmColor(hero.getLegendaryPowers().get(i).getDisplayColor());
+                legendaryPower.setId(hero.getLegendaryPowers().get(i).getId());
+                legendaryPower.setName(hero.getLegendaryPowers().get(i).getName());
+                legendaryPower.setIcon(hero.getLegendaryPowers().get(i).getIcon());
+                legendaryPower.setColor(hero.getLegendaryPowers().get(i).getDisplayColor());
                 heroLegendaryPowers.add(legendaryPower);
             }
-            newHeroData.setmHeroPower(heroLegendaryPowers);
+            newHeroData.setHeroPower(heroLegendaryPowers);
 
             RealmList<Skill> heroSkillsActive = new RealmList<>();
             for (int i = 0; i < hero.getSkills().getActive().size(); i++) {
@@ -192,13 +191,13 @@ public class HeroListParser {
                     heroSkillsActive.add(skill);
                 }
             }
-            newHeroData.setmActiveSkills(heroSkillsActive);
+            newHeroData.setActiveSkills(heroSkillsActive);
 
             RealmList<Skill> heroSkillsPassive = new RealmList<>();
             for (int i = 0; i < hero.getSkills().getPassive().size(); i++) {
                 heroSkillsPassive.add(setSkill(hero, i));
             }
-            newHeroData.setmPassiveSkills(heroSkillsPassive);
+            newHeroData.setPassiveSkills(heroSkillsPassive);
 
             RealmList<Item> heroItems = new RealmList<>();
             heroItems.add(setItem(hero.getItems().getHead()));
@@ -217,7 +216,7 @@ public class HeroListParser {
             if (hero.getItems().getOffHand() != null) {
                 heroItems.add(setItem(hero.getItems().getOffHand()));
             }
-            newHeroData.setmHeroComplect(heroItems);
+            newHeroData.setHeroComplect(heroItems);
 
             RealmDataController.getInstance().updateDatabase(newHeroData);
 
