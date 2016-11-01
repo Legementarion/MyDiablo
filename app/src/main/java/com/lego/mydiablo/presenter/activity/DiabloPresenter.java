@@ -136,6 +136,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         mLastFragment = MENU;
         if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Settings.mTwoPane = true;
+            mLastFragment = LIST;
             setTwoScreen();
         }
     }
@@ -143,11 +144,12 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     public void setTwoScreen() {
         switch (mLastFragment) {
             case MENU:
-                getViewState().showFragment(R.id.additional_container, MenuFragment.newInstance(), MenuFragment.TAG);
-                getViewState().showFragment(R.id.main_container, ItemListFragment.newInstance(), ItemListFragment.TAG);
-                break;
+//                getViewState().showFragment(R.id.additional_container, MenuFragment.newInstance(), MenuFragment.TAG);
+//                getViewState().showFragment(R.id.main_container, ItemListFragment.newInstance(), ItemListFragment.TAG);
+//                break;
             case LIST:
                 getViewState().showFragment(R.id.additional_container, MenuFragment.newInstance(), MenuFragment.TAG);
+                getViewState().showFragment(R.id.main_container, ItemListFragment.newInstance(), ItemListFragment.TAG);
                 break;
             case DETAIL:
                 getViewState().showFragment(R.id.additional_container, ItemListFragment.newInstance(), ItemListFragment.TAG);
