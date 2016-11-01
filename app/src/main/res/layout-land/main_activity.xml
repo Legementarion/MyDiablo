@@ -10,14 +10,14 @@
         android:name="com.example.lego.mydiablo.ActivityAndView.MenuFragment"
         android:layout_height="match_parent"
         tools:layout="@layout/menu_fragment"
-        android:id="@+id/start_menu_fragment"
+        android:id="@+id/additional_container"
         android:background="@drawable/bg2"
         android:layout_width="180dp">
     </FrameLayout>
 
     <FrameLayout
         android:name="com.example.lego.mydiablo.ActivityAndView.ItemListFragment"
-        android:id="@+id/item_list"
+        android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/item_list"

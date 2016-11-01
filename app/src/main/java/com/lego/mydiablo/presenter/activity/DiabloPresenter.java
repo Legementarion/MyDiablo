@@ -18,7 +18,9 @@ import com.lego.mydiablo.rest.AuthRequest;
 import com.lego.mydiablo.rest.RetrofitRequests;
 import com.lego.mydiablo.rest.callback.models.UserData.AccessToken;
 import com.lego.mydiablo.rest.callback.models.UserData.CheckedToken;
+import com.lego.mydiablo.utils.LastFragment;
 import com.lego.mydiablo.utils.Settings;
+import com.lego.mydiablo.view.fragments.HeroTabsFragment;
 import com.lego.mydiablo.view.fragments.ItemListFragment;
 import com.lego.mydiablo.view.fragments.MenuFragment;
 
@@ -26,12 +28,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.lego.mydiablo.utils.Settings.mDetailActive;
+import static com.lego.mydiablo.utils.LastFragment.DETAIL;
+import static com.lego.mydiablo.utils.LastFragment.LIST;
+import static com.lego.mydiablo.utils.LastFragment.MENU;
 import static com.lego.mydiablo.utils.Settings.mToken;
 import static com.lego.mydiablo.utils.Settings.mTwoPane;
 
@@ -40,17 +43,11 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
 
     private EventBus bus = EventBus.getDefault();
     private RetrofitRequests mRetrofitRequests;
-
-    private MenuFragment mMenuFragment;
-    private ItemListFragment mListFragment;
+    private LastFragment mLastFragment;
 
     DiabloPresenter() {
         bus.register(this);
         mRetrofitRequests = RetrofitRequests.getInstance();
-        Log.d("Track", "onCreate: presenter");
-        mMenuFragment = new MenuFragment();
-        mListFragment = new ItemListFragment();
-
     }
 
     public boolean hasConnection(final Context context) {
@@ -134,30 +131,49 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         }
     }
 
-    public void config(Activity activity, FragmentManager fragmentManager) {
-        fragmentManager.beginTransaction().replace(R.id.start_menu_fragment, mMenuFragment).commit();
+    public void startConfig(Activity activity) {
+        getViewState().showFragment(R.id.main_container, MenuFragment.newInstance(), MenuFragment.TAG);
+        mLastFragment = MENU;
         if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Settings.mTwoPane = true;
-            fragmentManager.beginTransaction().replace(R.id.start_menu_fragment, mMenuFragment).commit();
-            fragmentManager.beginTransaction().replace(R.id.item_list, mListFragment).commit();
+            setTwoScreen();
         }
     }
 
-    public void switchFragment(FragmentManager fragmentManager, Fragment fragment) {
+    public void setTwoScreen() {
+        switch (mLastFragment) {
+            case MENU:
+                getViewState().showFragment(R.id.additional_container, MenuFragment.newInstance(), MenuFragment.TAG);
+                getViewState().showFragment(R.id.main_container, ItemListFragment.newInstance(), ItemListFragment.TAG);
+                break;
+            case LIST:
+                getViewState().showFragment(R.id.additional_container, MenuFragment.newInstance(), MenuFragment.TAG);
+                break;
+            case DETAIL:
+                getViewState().showFragment(R.id.additional_container, ItemListFragment.newInstance(), ItemListFragment.TAG);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void switchFragment(Fragment fragment) {
+        switch (fragment.getTag()) {
+            case MenuFragment.TAG:
+                mLastFragment = MENU;
+                break;
+            case ItemListFragment.TAG:
+                mLastFragment = LIST;
+                break;
+            case HeroTabsFragment.TAG:
+                mLastFragment = DETAIL;
+                break;
+            default:
+                break;
+        }
+        getViewState().showFragment(R.id.main_container, fragment, fragment.getTag());
         if (mTwoPane) {
-            if (mDetailActive) {
-                fragmentManager.beginTransaction().replace(R.id.start_menu_fragment, mMenuFragment).commit();
-                fragmentManager.beginTransaction().replace(R.id.item_list, mListFragment).commit();
-            } else {
-                fragmentManager.beginTransaction().replace(R.id.start_menu_fragment, mListFragment).commit();
-                fragmentManager.beginTransaction().replace(R.id.item_list, fragment).commit();
-            }
-        } else {
-            if (fragment == null) {
-                fragmentManager.beginTransaction().replace(R.id.start_menu_fragment, mListFragment).commit();
-            } else {
-                fragmentManager.beginTransaction().replace(R.id.start_menu_fragment, fragment).commit();
-            }
+            setTwoScreen();
         }
     }
 
@@ -169,7 +185,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FragmentEvent event) {
-//        switchFragment(event.getData());
+        switchFragment(event.getData());
     }
 
 }

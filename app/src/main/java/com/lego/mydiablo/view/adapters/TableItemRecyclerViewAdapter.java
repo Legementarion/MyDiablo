@@ -53,7 +53,7 @@ public class TableItemRecyclerViewAdapter
         holder.mRankView.setText("Rift - " + hero.getRiftLevel());
         holder.mView.setTag(hero.getId());
         holder.mView.setOnClickListener(v ->
-            bus.post(new FragmentEvent(new HeroTabsFragment()))    //send to diablo activity
+            bus.post(new FragmentEvent(HeroTabsFragment.newInstance(hero.getId())))    //send to diablo activity
         );
     }
 

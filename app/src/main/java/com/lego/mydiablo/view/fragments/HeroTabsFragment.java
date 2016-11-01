@@ -10,7 +10,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
@@ -27,7 +26,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.PresenterType;
 import com.lego.mydiablo.events.FragmentEvent;
+import com.lego.mydiablo.presenter.fragment.HeroTabsPresenter;
+import com.lego.mydiablo.presenter.fragment.HeroTabsView;
 import com.lego.mydiablo.view.adapters.HeroTabsPagerAdapter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
@@ -42,10 +46,14 @@ import butterknife.Unbinder;
 
 import static com.lego.mydiablo.utils.Const.COLOR;
 import static com.lego.mydiablo.utils.Const.NO_VALUE;
-import static com.lego.mydiablo.utils.Settings.mDetailActive;
 
 
-public class HeroTabsFragment extends Fragment {
+public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsView {
+
+    @InjectPresenter(type = PresenterType.GLOBAL)
+    HeroTabsPresenter mHeroTabsPresenter;
+
+    public static final String TAG = "Detail";
 
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
@@ -93,11 +101,16 @@ public class HeroTabsFragment extends Fragment {
     private Unbinder mUnbinder;
     private Resources mResources;
 
+    public static HeroTabsFragment newInstance(int id) {
+        HeroTabsFragment fragment = new HeroTabsFragment();
+        fragment.mHeroTabsPresenter.getHeroFromDB(fragment, id);
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.fragment_hero_tabs, container, false);
+        View mView = inflater.inflate(R.layout.hero_tabs_fragment, container, false);
         mUnbinder = ButterKnife.bind(this, mView);
         setupViewPager();
         mResources = getResources();
@@ -127,7 +140,6 @@ public class HeroTabsFragment extends Fragment {
                 .show());
         mTabLayout.setViewPager(mViewPager);
         mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
-        mDetailActive = true;
         setColorCoordinatorLayout();
         animation();
         return mView;
@@ -136,7 +148,6 @@ public class HeroTabsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         mUnbinder.unbind();
-        mDetailActive = false;
         super.onDestroyView();
     }
 
@@ -150,12 +161,14 @@ public class HeroTabsFragment extends Fragment {
                 public void onAnimationStart(Animation animation) {
                     // Do nothing
                 }
+
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     animationShowImageNews();
                     setColorCoordinatorLayout();
                     animationFillingColor();
                 }
+
                 @Override
                 public void onAnimationRepeat(Animation animation) {
                     // Do nothing
@@ -195,10 +208,12 @@ public class HeroTabsFragment extends Fragment {
                     public void onAnimationStart(Animation animation) {
                         // Do nothing
                     }
+
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         mAnimatorIconRelativeLayout.setVisibility(View.INVISIBLE);
                     }
+
                     @Override
                     public void onAnimationRepeat(Animation animation) {
                         // Do nothing
@@ -213,10 +228,12 @@ public class HeroTabsFragment extends Fragment {
                     public void onAnimationStart(Animation animation) {
                         // Do nothing
                     }
+
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         mAnimatorIconRelativeLayout.setVisibility(View.VISIBLE);
                     }
+
                     @Override
                     public void onAnimationRepeat(Animation animation) {
                         // Do nothing
@@ -270,14 +287,17 @@ public class HeroTabsFragment extends Fragment {
                 public void onAnimationStart(Animator animation) {
                     mBackgroundLinearLayout2.setBackgroundColor(Color.parseColor(COLOR));
                 }
+
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mBackgroundLinearLayout2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
                 }
+
                 @Override
                 public void onAnimationCancel(Animator animation) {
                     // Do nothing
                 }
+
                 @Override
                 public void onAnimationRepeat(Animator animation) {
                     // Do nothing

@@ -1,9 +1,12 @@
 package com.lego.mydiablo.view.activity;
 
 import android.app.Dialog;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -17,6 +20,7 @@ import com.lego.mydiablo.R;
 
 import com.lego.mydiablo.presenter.activity.DiabloPresenter;
 import com.lego.mydiablo.presenter.activity.DiabloView;
+import com.lego.mydiablo.utils.Settings;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +38,7 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
     @InjectPresenter(type = PresenterType.WEAK)
     DiabloPresenter mDiabloPresenter;
 
-    @BindView(R.id.start_menu_fragment)
+    @BindView(R.id.main_container)
     FrameLayout mContainer;
 
     private Unbinder mUnbinder;
@@ -53,10 +57,10 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.start_menu_activity);
+        setContentView(R.layout.main_activity);
         mUnbinder = ButterKnife.bind(this);
         mFragmentManager = getSupportFragmentManager();
-        mDiabloPresenter.config(this, mFragmentManager);
+        mDiabloPresenter.startConfig(this);
     }
 
     public void prepareSignIn() {
@@ -90,10 +94,17 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
             super.onBackPressed();
             return;
         }
-//        mDiabloPresenter.switchFragment(mFragmentManager, null);
         this.doubleBackToExitPressedOnce = true;
         Snackbar.make(mContainer, R.string.doubleClick_backBtn, Snackbar.LENGTH_SHORT).show();
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        /**проверка на количество фрагментов на экране*/
+        Settings.mTwoPane = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        mDiabloPresenter.setTwoScreen();
     }
 
     @Override
@@ -109,4 +120,12 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
     public void closeAuthDialog() {
         mAuthDialog.dismiss();
     }
+
+    @Override
+    public void showFragment(@IdRes int containerViewID, Fragment fragment, String tag) {
+        mFragmentManager.beginTransaction()
+                .replace(containerViewID, fragment, tag)
+                .commit();
+    }
+
 }

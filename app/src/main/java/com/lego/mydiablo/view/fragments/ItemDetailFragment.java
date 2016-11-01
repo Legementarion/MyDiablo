@@ -1,6 +1,5 @@
 package com.lego.mydiablo.view.fragments;
 
-
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
@@ -25,7 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 
 public class ItemDetailFragment extends Fragment {
 
@@ -78,14 +76,8 @@ public class ItemDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_item_detail, container, false);
+        View rootView = inflater.inflate(R.layout.item_detail_fragment, container, false);
         ButterKnife.bind(this, rootView);
-
-        mRealmDataController = RealmDataController.with(this);
-
-        if (mHeroId != 0) {
-            mHero = mRealmDataController.getHero(mHeroId);
-        }
 
         fillData();
 

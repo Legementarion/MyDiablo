@@ -5,6 +5,8 @@ import android.view.View;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.lego.mydiablo.R;
+import com.lego.mydiablo.events.FragmentEvent;
+import com.lego.mydiablo.view.fragments.ItemListFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -47,9 +49,8 @@ public class MenuPresenter extends MvpPresenter<MenuView> {
                 sChecked = 0; //dummy
                 break;
         }
-//        bus.post(new FragmentEvent());
+        bus.post(new FragmentEvent(ItemListFragment.newInstance()));
         getViewState().updatePressButton(sChecked);
     }
-
 
 }

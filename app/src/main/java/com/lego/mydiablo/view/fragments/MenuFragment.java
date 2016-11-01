@@ -1,6 +1,7 @@
 package com.lego.mydiablo.view.fragments;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     @InjectPresenter(type = PresenterType.GLOBAL)
     MenuPresenter mMenuPresenter;
 
+    public static final String TAG = "Menu";
+
     /**Кнопки меню*/
     @BindView(R.id.bt_normal)
     ToggleButton mNormal;
@@ -44,12 +47,13 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
         //do nothing
     }
 
+    public static MenuFragment newInstance() {
+        return new MenuFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.menu_fragment, container, false);
-        /**проверка на количество фрагментов на экране*/
-        Settings.mTwoPane = getActivity().findViewById(R.id.item_list) != null;
-
         mUnbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }
@@ -58,6 +62,7 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+        unCheckButton();
     }
 
     @OnClick({ R.id.bt_normal, R.id.bt_harcore, R.id.bt_season, R.id.bt_season_hardcore})
@@ -99,4 +104,5 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
                 break;
         }
     }
+
 }

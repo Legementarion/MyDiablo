@@ -2,86 +2,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+              android:layout_height="wrap_content"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/spinner_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner_content"
         android:layout_margin="15dp"
-        >
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/back_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="←"
-            android:id="@+id/back_button"
-            android:visibility="visible" />
+            android:visibility="visible"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/region_spiner"
-            android:id="@+id/textView"
-            android:layout_marginLeft="4dp"
-            android:textColor="@color/btn_text"
-            android:visibility="gone"/>
-
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/idRegion"
-            android:entries="@array/region"
-            android:textColor="@color/btn_text"
-            android:visibility="gone"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/class_spiner"
             android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:textColor="@color/btn_text"
             android:gravity="end"
             android:paddingRight="5dp"
+            android:text="@string/class_spiner"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/btn_text"
             tools:ignore="RtlSymmetry"/>
 
         <Spinner
+            android:id="@+id/idClass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/idClass"
             android:entries="@array/hero_class"
             android:textColor="@color/btn_text"/>
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/season_spiner"
-            android:id="@+id/textView2"
             android:layout_marginLeft="4dp"
-            android:textColor="@color/btn_text" />
+            android:text="@string/season_spiner"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/btn_text"/>
 
         <Spinner
+            android:id="@+id/idSeason"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/idSeason"
             android:entries="@array/season"
             android:textColor="@color/btn_text"/>
 
     </LinearLayout>
 
     <ProgressBar
+        android:id="@+id/progressBar"
         style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
         android:background="@color/colorBar"
         android:indeterminate="true"
         android:max="100"
@@ -94,10 +75,10 @@
         android:layout_height="match_parent"
         android:paddingTop="8dp">
 
-        <include layout="@layout/item_list"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent" />
+        <include
+            layout="@layout/item_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </FrameLayout>
-
 
 </LinearLayout>
