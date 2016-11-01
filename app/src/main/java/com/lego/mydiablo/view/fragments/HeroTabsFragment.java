@@ -94,16 +94,19 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
     private HeroTabsPagerAdapter mAdapter;
     private FragmentEvent mEvent;
-
+    private int mHeroId = 0;
     private EventBus mEventBus = EventBus.getDefault();
     private Animation mAnimation;
     private Animator mCircleRevealAnim;
     private Unbinder mUnbinder;
     private Resources mResources;
 
+
     public static HeroTabsFragment newInstance(int id) {
+        Bundle args = new Bundle();
+        args.putInt("1", id);
         HeroTabsFragment fragment = new HeroTabsFragment();
-        fragment.mHeroTabsPresenter.getHeroFromDB(fragment, id);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -111,6 +114,9 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.hero_tabs_fragment, container, false);
+        if (getArguments() != null) {
+            mHeroTabsPresenter.getHeroFromDB(this, getArguments().getInt("1"));
+        }
         mUnbinder = ButterKnife.bind(this, mView);
         setupViewPager();
         mResources = getResources();
@@ -176,12 +182,6 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             });
         }
     };
-
-    @OnClick(R.id.image_back)
-    void onButtonPressed() {
-//        mEvent = new FragmentEvent(null);
-//        mEventBus.post(mEvent);    //send to diablo activity
-    }
 
     private void animation() {
         mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {

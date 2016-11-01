@@ -11,4 +11,6 @@ public interface DiabloView extends MvpView {
     void closeAuthDialog();
 
     void showFragment(@IdRes int containerViewID, Fragment fragment, String tag);
+
+    void checkOrientation();
 }

@@ -38,6 +38,7 @@ import static com.lego.mydiablo.utils.LastFragment.MENU;
 import static com.lego.mydiablo.utils.Settings.mToken;
 import static com.lego.mydiablo.utils.Settings.mTwoPane;
 
+
 @InjectViewState
 public class DiabloPresenter extends MvpPresenter<DiabloView> {
 
@@ -135,13 +136,13 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         getViewState().showFragment(R.id.main_container, MenuFragment.newInstance(), MenuFragment.TAG);
         mLastFragment = MENU;
         if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Settings.mTwoPane = true;
+            mTwoPane = true;
             mLastFragment = LIST;
             setTwoScreen();
         }
     }
 
-    public void setTwoScreen() {
+    private void setTwoScreen() {
         switch (mLastFragment) {
             case MENU:
 //                getViewState().showFragment(R.id.additional_container, MenuFragment.newInstance(), MenuFragment.TAG);
@@ -160,6 +161,8 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     }
 
     private void switchFragment(Fragment fragment, String tag) {
+        /**проверка на количество фрагментов на экране*/
+        getViewState().checkOrientation();
         switch (tag) {
             case MenuFragment.TAG:
                 mLastFragment = MENU;
@@ -173,16 +176,17 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
             default:
                 break;
         }
-        getViewState().showFragment(R.id.main_container, fragment, fragment.getTag());
         if (mTwoPane) {
             setTwoScreen();
+        } else {
+            getViewState().showFragment(R.id.main_container, fragment, fragment.getTag());
         }
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         bus.unregister(this);
+        super.onDestroy();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

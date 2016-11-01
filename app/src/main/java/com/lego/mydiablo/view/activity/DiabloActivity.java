@@ -8,6 +8,7 @@ import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -100,14 +101,6 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        /**проверка на количество фрагментов на экране*/
-        Settings.mTwoPane = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-        mDiabloPresenter.setTwoScreen();
-    }
-
-    @Override
     public void openAuthDialog() {
         if (mDiabloPresenter.hasConnection(this)) {
             prepareSignIn();
@@ -126,6 +119,11 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
         mFragmentManager.beginTransaction()
                 .replace(containerViewID, fragment, tag)
                 .commit();
+    }
+
+    @Override
+    public void checkOrientation() {
+        Settings.mTwoPane = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
 }

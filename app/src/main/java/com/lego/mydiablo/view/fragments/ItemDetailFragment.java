@@ -91,7 +91,7 @@ public class ItemDetailFragment extends Fragment {
     private void fillData() {
         expandablePlayerListDetail = new HashMap<>();
         List<String> general = new ArrayList<>();
-        Log.d("ItemDetailFragment", "fillData: " + mHero.getBattleTag());
+//        Log.d("ItemDetailFragment", "fillData: " + mHero.getBattleTag());
         general.add(getString(R.string.stat_Life) + " - ololo soon");
 //        general.add(getString(R.string.stat_Life) + " - " + mHero.getHeroStats().getLife());
 //        general.add(getString(R.string.stat_Damage) + " - " + mHero.getHeroStats().getDamage());
