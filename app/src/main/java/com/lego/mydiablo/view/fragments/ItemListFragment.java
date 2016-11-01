@@ -168,7 +168,9 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     }
 
     private void loadMore() {
-        mItemListPresenter.gimmeMore(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString());
+        if (mClassSpinner!=null && mSeasonSpinner !=null) {
+            mItemListPresenter.gimmeMore(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString());
+        }
         mLoading = false;
     }
 
