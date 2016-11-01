@@ -157,8 +157,8 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         }
     }
 
-    private void switchFragment(Fragment fragment) {
-        switch (fragment.getTag()) {
+    private void switchFragment(Fragment fragment, String tag) {
+        switch (tag) {
             case MenuFragment.TAG:
                 mLastFragment = MENU;
                 break;
@@ -185,7 +185,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FragmentEvent event) {
-        switchFragment(event.getData());
+        switchFragment(event.getData(), event.getTag());
     }
 
 }

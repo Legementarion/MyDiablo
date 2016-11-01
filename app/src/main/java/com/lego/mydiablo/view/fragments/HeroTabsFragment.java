@@ -179,8 +179,8 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
     @OnClick(R.id.image_back)
     void onButtonPressed() {
-        mEvent = new FragmentEvent(null);
-        mEventBus.post(mEvent);    //send to diablo activity
+//        mEvent = new FragmentEvent(null);
+//        mEventBus.post(mEvent);    //send to diablo activity
     }
 
     private void animation() {

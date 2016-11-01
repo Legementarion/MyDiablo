@@ -60,9 +60,9 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-        mUnbinder.unbind();
         unCheckButton();
+        mUnbinder.unbind();
+        super.onDestroyView();
     }
 
     @OnClick({ R.id.bt_normal, R.id.bt_harcore, R.id.bt_season, R.id.bt_season_hardcore})

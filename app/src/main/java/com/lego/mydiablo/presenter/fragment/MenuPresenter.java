@@ -49,8 +49,8 @@ public class MenuPresenter extends MvpPresenter<MenuView> {
                 sChecked = 0; //dummy
                 break;
         }
-        bus.post(new FragmentEvent(ItemListFragment.newInstance()));
         getViewState().updatePressButton(sChecked);
+        bus.post(new FragmentEvent(ItemListFragment.newInstance(), ItemListFragment.TAG));
     }
 
 }
