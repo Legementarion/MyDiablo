@@ -9,6 +9,8 @@ public class Settings {
     public static boolean mTwoPane; //portrait\landscape
 
     public static String mBattleTag;
+    public static int mHeroId;
+
     public static String mToken; //access token
     public static String mMode = null;
     public static String mHARDCODE = null;

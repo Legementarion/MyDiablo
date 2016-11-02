@@ -19,7 +19,6 @@ import com.lego.mydiablo.rest.RetrofitRequests;
 import com.lego.mydiablo.rest.callback.models.UserData.AccessToken;
 import com.lego.mydiablo.rest.callback.models.UserData.CheckedToken;
 import com.lego.mydiablo.utils.LastFragment;
-import com.lego.mydiablo.utils.Settings;
 import com.lego.mydiablo.view.fragments.HeroTabsFragment;
 import com.lego.mydiablo.view.fragments.ItemListFragment;
 import com.lego.mydiablo.view.fragments.MenuFragment;
@@ -35,6 +34,7 @@ import rx.schedulers.Schedulers;
 import static com.lego.mydiablo.utils.LastFragment.DETAIL;
 import static com.lego.mydiablo.utils.LastFragment.LIST;
 import static com.lego.mydiablo.utils.LastFragment.MENU;
+import static com.lego.mydiablo.utils.Settings.mHeroId;
 import static com.lego.mydiablo.utils.Settings.mToken;
 import static com.lego.mydiablo.utils.Settings.mTwoPane;
 
@@ -64,6 +64,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         if (mToken != null) {
             checkSession();
         }
+        restoreScreen();
     }
 
     @Override
@@ -142,12 +143,29 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         }
     }
 
+    private void restoreScreen() {
+        getViewState().checkOrientation();
+        if (mTwoPane){
+            setTwoScreen();
+        }else {
+            switch (mLastFragment) {
+                case MENU:
+                    getViewState().showFragment(R.id.main_container, MenuFragment.newInstance(), MenuFragment.TAG);
+                case LIST:
+                    getViewState().showFragment(R.id.main_container, ItemListFragment.newInstance(), ItemListFragment.TAG);
+                    break;
+                case DETAIL:
+                    getViewState().showFragment(R.id.main_container, HeroTabsFragment.newInstance(mHeroId), HeroTabsFragment.TAG);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     private void setTwoScreen() {
         switch (mLastFragment) {
             case MENU:
-//                getViewState().showFragment(R.id.additional_container, MenuFragment.newInstance(), MenuFragment.TAG);
-//                getViewState().showFragment(R.id.main_container, ItemListFragment.newInstance(), ItemListFragment.TAG);
-//                break;
             case LIST:
                 getViewState().showFragment(R.id.additional_container, MenuFragment.newInstance(), MenuFragment.TAG);
                 getViewState().showFragment(R.id.main_container, ItemListFragment.newInstance(), ItemListFragment.TAG);
@@ -163,6 +181,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     private void switchFragment(Fragment fragment, String tag) {
         /**проверка на количество фрагментов на экране*/
         getViewState().checkOrientation();
+        Log.d("Fragment Switch", "switchFragment: tag- " + tag);
         switch (tag) {
             case MenuFragment.TAG:
                 mLastFragment = MENU;
@@ -176,6 +195,8 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
             default:
                 break;
         }
+        Log.d("Fragment Switch", "switchFragment:last fragment " + mLastFragment);
+        Log.d("Fragment Switch", "switchFragment:two pane? - " + mTwoPane);
         if (mTwoPane) {
             setTwoScreen();
         } else {

@@ -94,6 +94,7 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         mItemListPresenter.configure(this);
     }
 
@@ -101,7 +102,6 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_list_fragment, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
-
         /**Видим кнопку назад, если нет второго фрагмента */
         if (Settings.mTwoPane) {
             mBackBtn.setVisibility(View.GONE);
@@ -142,6 +142,7 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     @Override
     public void updateList(List<Hero> heroList) {
         mTableItemRecyclerViewAdapter.add(heroList);
+        mLoading = false;
     }
 
     @OnItemSelected({R.id.idSeason, R.id.idClass})
@@ -164,14 +165,13 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     @Override
     public void onLoadMore() {
         mLoading = true;
-        new Handler().postDelayed(this::loadMore, 2000);
+        new Handler().postDelayed(this::loadMore, 200);
     }
 
     private void loadMore() {
         if (mClassSpinner!=null && mSeasonSpinner !=null) {
             mItemListPresenter.gimmeMore(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString());
         }
-        mLoading = false;
     }
 
     @Override

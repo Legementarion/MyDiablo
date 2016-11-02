@@ -33,7 +33,6 @@ import static com.lego.mydiablo.utils.Const.REDIRECTION_URI;
 import static com.lego.mydiablo.utils.Const.REDIRECT_URI;
 import static com.lego.mydiablo.utils.Const.RESPONSE_TYPE;
 
-
 public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
 
     @InjectPresenter(type = PresenterType.WEAK)
@@ -47,10 +46,6 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
 
     public static final String URL = AUTHORIZE_URI + RESPONSE_TYPE + CREDENTIALS + REDIRECTION_URI + REDIRECT_URI;
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
     private FragmentManager mFragmentManager;
 
     private boolean doubleBackToExitPressedOnce;
@@ -124,6 +119,12 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
     @Override
     public void checkOrientation() {
         Settings.mTwoPane = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        Log.d("Fragment s", "onConfigurationChanged: ");
+        super.onConfigurationChanged(newConfig);
     }
 
 }

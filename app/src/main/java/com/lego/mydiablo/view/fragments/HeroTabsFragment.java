@@ -192,13 +192,11 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 fab.setVisibility(View.GONE);
                 mHideToolBar = true;
                 mVisibleImageNews = false;
-            } else {
-                if (mHideToolBar) {
-                    mTitleTextView.setText(NO_VALUE);
-                    mImageTitle.setImageDrawable(null);
-                    mHideToolBar = false;
-                    fab.setVisibility(View.VISIBLE);
-                }
+            } else if (mHideToolBar) {
+                mTitleTextView.setText(NO_VALUE);
+                mImageTitle.setImageDrawable(null);
+                mHideToolBar = false;
+                fab.setVisibility(View.VISIBLE);
             }
             if (percentage >= PERCENTAGE_TO_ANIMATE_AVATAR && mVisibleImageNews) {
                 mVisibleImageNews = false;
@@ -297,7 +295,6 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 public void onAnimationCancel(Animator animation) {
                     // Do nothing
                 }
-
                 @Override
                 public void onAnimationRepeat(Animator animation) {
                     // Do nothing

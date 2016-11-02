@@ -21,6 +21,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.lego.mydiablo.utils.Settings.mHeroId;
 
 /**
  * @author Lego on 12.09.2016.
@@ -52,6 +53,7 @@ public class TableItemRecyclerViewAdapter
         holder.mClassView.setImageDrawable(pickImage(hero.getHeroClass()));
         holder.mRankView.setText("Rift - " + hero.getRiftLevel());
         holder.mView.setTag(hero.getId());
+        mHeroId = hero.getId();
         holder.mView.setOnClickListener(v ->
             bus.post(new FragmentEvent(HeroTabsFragment.newInstance(hero.getId()), HeroTabsFragment.TAG))    //send to diablo activity
         );
@@ -60,9 +62,7 @@ public class TableItemRecyclerViewAdapter
     public void add(List<Hero> items) {
         int previousDataSize = this.mHeroList.size();
         if (!items.isEmpty()) {
-            for (Hero hero: items) {
-                mHeroList.add(hero);
-            }
+            mHeroList.addAll(items);
             this.mHeroList.addAll(items);
             notifyItemRangeInserted(previousDataSize, items.size());
         }
