@@ -87,6 +87,7 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
      */
     @Override
     public void updatePressButton(int check) {
+        unCheckButton();
         switch (check) {
             case 1:
                 mNormal.setChecked(true);
