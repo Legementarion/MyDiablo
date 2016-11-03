@@ -13,4 +13,8 @@ public interface ItemListView extends MvpView {
     void setNewList(List<Hero> heroList);
 
     void updateList(List<Hero> heroList);
+
+    void blockUI();
+
+    void unBlockUI();
 }

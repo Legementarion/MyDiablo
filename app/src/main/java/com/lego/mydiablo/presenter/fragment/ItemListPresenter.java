@@ -70,8 +70,8 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
                 new Handler().postDelayed(() -> mDoubleQuery = true, 2000);
                 mCore.doRequest(heroClass, season)
                         .cache()
-                        .doOnSubscribe(() -> getViewState().updateProgressBar(true))
-                        .doAfterTerminate(() -> getViewState().updateProgressBar(false))
+                        .doOnSubscribe(() -> {getViewState().updateProgressBar(true); getViewState().blockUI();})
+                        .doAfterTerminate(() -> {getViewState().updateProgressBar(false); getViewState().unBlockUI();})
                         .subscribe(new Subscriber<List<Hero>>() {
                             @Override
                             public void onCompleted() {

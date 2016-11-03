@@ -129,6 +129,22 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
         mLoading = false;
     }
 
+    @Override
+    public void blockUI() {
+        mClassSpinner.setEnabled(false);
+        mBackBtn.setEnabled(false);
+        mSeasonSpinner.setEnabled(false);
+        mRecyclerView.setEnabled(false);
+    }
+
+    @Override
+    public void unBlockUI() {
+        mClassSpinner.setEnabled(true);
+        mBackBtn.setEnabled(true);
+        mSeasonSpinner.setEnabled(true);
+        mRecyclerView.setEnabled(true);
+    }
+
     @OnItemSelected({R.id.idSeason, R.id.idClass})
     void onItemSelected() {
         mItemListPresenter.loadDataHeroList(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString());
