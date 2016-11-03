@@ -73,8 +73,12 @@ public class HeroListParser {
                         currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber());
                     }
                 }
-                currentHero.setSeasonValue(heroList.getEra());
 
+                if (heroList.getEra() != 0) {
+                    currentHero.setSeasonValue(heroList.getEra());
+                } else {
+                    currentHero.setSeasonValue(heroList.getSeason());
+                }
                 currentHero.setRank(heroList.getRow().get(i).getData().get(0).getNumber());     //other data
                 currentHero.setRiftLevel(heroList.getRow().get(i).getData().get(1).getNumber());
                 currentHero.setRiftTime(heroList.getRow().get(i).getData().get(2).getTimestamp());

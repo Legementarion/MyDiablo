@@ -17,6 +17,9 @@ public class HeroList {
     @SerializedName("era")
     @Expose
     private int era;
+    @SerializedName("season")
+    @Expose
+    private int season;
 
     public List<Row> getRow() {
         return row;
@@ -34,4 +37,11 @@ public class HeroList {
         this.era = era;
     }
 
+    public int getSeason() {
+        return season;
+    }
+
+    public void setSeason(int season) {
+        this.season = season;
+    }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,10 +51,6 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     ItemListPresenter mItemListPresenter;
 
     public static final String TAG = "List";
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
 
     @BindView(R.id.idClass)
     Spinner mClassSpinner;
@@ -141,6 +138,7 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     @Override
     public void updateList(List<Hero> heroList) {
+        Log.d(TAG, "updateList: " + heroList.size());
         mTableItemRecyclerViewAdapter.add(heroList);
         mLoading = false;
     }
@@ -164,11 +162,13 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     @Override
     public void onLoadMore() {
+        Log.d(TAG, "onLoadMore: ");
         mLoading = true;
         new Handler().postDelayed(this::loadMore, 200);
     }
 
     private void loadMore() {
+        Log.d(TAG, "loadMore: ");
         if (mClassSpinner!=null && mSeasonSpinner !=null) {
             mItemListPresenter.gimmeMore(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString());
         }
@@ -176,6 +176,7 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     @Override
     public boolean isLoading() {
+        Log.d(TAG, "isLoading: ");
         return mLoading;
     }
 
@@ -183,4 +184,5 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     public boolean hasLoadedAllItems() {
         return mItemListPresenter.loadedAllItems();
     }
+
 }

@@ -180,7 +180,6 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     private void switchFragment(Fragment fragment, String tag) {
         /**проверка на количество фрагментов на экране*/
         getViewState().checkOrientation();
-        Log.d("Fragment Switch", "switchFragment: tag- " + tag);
         switch (tag) {
             case MenuFragment.TAG:
                 mLastFragment = MENU;
@@ -194,8 +193,6 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
             default:
                 break;
         }
-        Log.d("Fragment Switch", "switchFragment:last fragment " + mLastFragment);
-        Log.d("Fragment Switch", "switchFragment:two pane? - " + mTwoPane);
         if (mTwoPane) {
             setTwoScreen();
         } else {

@@ -3,6 +3,7 @@ package com.lego.mydiablo.data;
 import android.app.Activity;
 import android.app.Application;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.data.model.Item;
@@ -75,6 +76,9 @@ public class RealmDataController implements DataBaseController {
     public List<Hero> getNextHero(String heroClass, String season, int size) {
         RealmResults<Hero> results = mRealm.where(Hero.class).equalTo("mClass", heroClass).equalTo("mSeasonValue", Integer.valueOf(season))
                 .findAllSorted("mRank", Sort.ASCENDING);
+        Log.d("List", "getNextHero:c " + heroClass);
+        Log.d("List", "getNextHero:s " + season);
+        Log.d("List", "getNextHero:size " + results.size());
         if (results.isEmpty()) {
             return results;
         } else {
@@ -91,6 +95,7 @@ public class RealmDataController implements DataBaseController {
     public Observable<List<Hero>> saveToDatabase(List<Hero> itemList) {
         List<Hero> heroList = new ArrayList<>();
         mRealm.executeTransaction(realm -> {
+            Log.d("List", "saveToDatabase:size " + itemList.size());
             for (Hero hero : itemList) {
                 if (hero != null) {
                     heroList.add(realm.copyToRealmOrUpdate(hero));
@@ -110,9 +115,9 @@ public class RealmDataController implements DataBaseController {
         });
     }
 
-    private List<Hero> supportFillList(List<Hero> heroes, int from, int size) {
+    private List<Hero> supportFillList(List<Hero> heroes, int from, int toSize) {
         List<Hero> heroList = new ArrayList<>();
-        for (int i = from; i < size; i++) {
+        for (int i = from; i < toSize; i++) {
             heroList.add(heroes.get(i));
         }
         return heroList;
