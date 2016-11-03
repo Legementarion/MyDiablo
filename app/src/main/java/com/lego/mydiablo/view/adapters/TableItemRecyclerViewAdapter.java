@@ -16,6 +16,8 @@ import com.lego.mydiablo.view.fragments.HeroTabsFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,7 +37,7 @@ public class TableItemRecyclerViewAdapter
     private EventBus bus = EventBus.getDefault();
 
     public TableItemRecyclerViewAdapter(List<Hero> heroList, Context context) {
-        mHeroList = heroList;
+        mHeroList = new ArrayList<>(heroList);
         mContext = context;
     }
 

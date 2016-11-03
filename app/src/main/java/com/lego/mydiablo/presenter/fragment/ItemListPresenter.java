@@ -10,8 +10,12 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.data.RealmDataController;
 import com.lego.mydiablo.data.model.Hero;
+import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.logic.Core;
 import com.lego.mydiablo.view.adapters.SeasonAdapter;
+import com.lego.mydiablo.view.fragments.MenuFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -29,6 +33,7 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
 
     private Core mCore;
     private RealmDataController mRealmDataController;
+    private EventBus bus = EventBus.getDefault();
 
     private boolean mDoubleQuery = true;
     private boolean mEmptyData = true;
@@ -91,6 +96,10 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
                         });
             }
         }
+    }
+
+    public void backPress() {
+        bus.post(new FragmentEvent(MenuFragment.newInstance(), MenuFragment.TAG));
     }
 
     public boolean loadedAllItems() {

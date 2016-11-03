@@ -31,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemSelected;
 import butterknife.Unbinder;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
@@ -72,20 +73,6 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     public static ItemListFragment newInstance() {
         return new ItemListFragment();
-    }
-
-    @Override
-    public void onStop() {
-        if (mPaginate != null) {
-            mPaginate.unbind();
-        }
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        mUnbinder.unbind();
-        super.onDestroyView();
     }
 
     @Override
@@ -138,7 +125,6 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     @Override
     public void updateList(List<Hero> heroList) {
-        Log.d(TAG, "updateList: " + heroList.size());
         mTableItemRecyclerViewAdapter.add(heroList);
         mLoading = false;
     }
@@ -146,6 +132,11 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     @OnItemSelected({R.id.idSeason, R.id.idClass})
     void onItemSelected() {
         mItemListPresenter.loadDataHeroList(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString());
+    }
+
+    @OnClick(R.id.back_button)
+    void onBackButtonPress(){
+        mItemListPresenter.backPress();
     }
 
     @Override
@@ -162,13 +153,11 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     @Override
     public void onLoadMore() {
-        Log.d(TAG, "onLoadMore: ");
         mLoading = true;
         new Handler().postDelayed(this::loadMore, 200);
     }
 
     private void loadMore() {
-        Log.d(TAG, "loadMore: ");
         if (mClassSpinner!=null && mSeasonSpinner !=null) {
             mItemListPresenter.gimmeMore(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString());
         }
@@ -176,13 +165,26 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     @Override
     public boolean isLoading() {
-        Log.d(TAG, "isLoading: ");
         return mLoading;
     }
 
     @Override
     public boolean hasLoadedAllItems() {
         return mItemListPresenter.loadedAllItems();
+    }
+
+    @Override
+    public void onStop() {
+        if (mPaginate != null) {
+            mPaginate.unbind();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        mUnbinder.unbind();
+        super.onDestroyView();
     }
 
 }

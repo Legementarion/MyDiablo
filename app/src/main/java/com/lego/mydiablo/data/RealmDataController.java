@@ -76,9 +76,6 @@ public class RealmDataController implements DataBaseController {
     public List<Hero> getNextHero(String heroClass, String season, int size) {
         RealmResults<Hero> results = mRealm.where(Hero.class).equalTo("mClass", heroClass).equalTo("mSeasonValue", Integer.valueOf(season))
                 .findAllSorted("mRank", Sort.ASCENDING);
-        Log.d("List", "getNextHero:c " + heroClass);
-        Log.d("List", "getNextHero:s " + season);
-        Log.d("List", "getNextHero:size " + results.size());
         if (results.isEmpty()) {
             return results;
         } else {
@@ -95,7 +92,6 @@ public class RealmDataController implements DataBaseController {
     public Observable<List<Hero>> saveToDatabase(List<Hero> itemList) {
         List<Hero> heroList = new ArrayList<>();
         mRealm.executeTransaction(realm -> {
-            Log.d("List", "saveToDatabase:size " + itemList.size());
             for (Hero hero : itemList) {
                 if (hero != null) {
                     heroList.add(realm.copyToRealmOrUpdate(hero));
