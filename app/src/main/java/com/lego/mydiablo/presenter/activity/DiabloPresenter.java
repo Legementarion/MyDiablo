@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -64,7 +63,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         if (mToken != null) {
             checkSession();
         }
-        restoreScreen();
+//        restoreScreen();
     }
 
     @Override
@@ -143,7 +142,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         }
     }
 
-    private void restoreScreen() {
+    public void restoreScreen() {
         getViewState().checkOrientation();
         if (mTwoPane){
             setTwoScreen();
@@ -151,6 +150,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
             switch (mLastFragment) {
                 case MENU:
                     getViewState().showFragment(R.id.main_container, MenuFragment.newInstance(), MenuFragment.TAG);
+                    break;
                 case LIST:
                     getViewState().showFragment(R.id.main_container, ItemListFragment.newInstance(), ItemListFragment.TAG);
                     break;
@@ -198,7 +198,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         Log.d("Fragment Switch", "switchFragment:last fragment " + mLastFragment);
         Log.d("Fragment Switch", "switchFragment:two pane? - " + mTwoPane);
         if (mTwoPane) {
-            setTwoScreen();
+//            setTwoScreen();
         } else {
             getViewState().showFragment(R.id.main_container, fragment, fragment.getTag());
         }
@@ -212,7 +212,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FragmentEvent event) {
-        switchFragment(event.getData(), event.getTag());
+//        switchFragment(event.getData(), event.getTag());
     }
 
 }

@@ -125,6 +125,8 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
     public void onConfigurationChanged(Configuration newConfig) {
         Log.d("Fragment s", "onConfigurationChanged: ");
         super.onConfigurationChanged(newConfig);
+        setContentView(R.layout.main_activity);
+        mDiabloPresenter.restoreScreen();
     }
 
 }

@@ -3,6 +3,7 @@ package com.lego.mydiablo.utils;
 import android.app.Application;
 import android.content.Context;
 
+import com.arellomobile.mvp.MvpFacade;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -23,6 +24,7 @@ public class MyDiablo extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        MvpFacade.init();
         refWatcher = LeakCanary.install(this);
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
