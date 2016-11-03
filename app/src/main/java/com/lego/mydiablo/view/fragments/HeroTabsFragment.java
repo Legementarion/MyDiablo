@@ -93,14 +93,11 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     private boolean mHideToolBar = false, mVisibleImageNews = true, mVisibleTab = true;
 
     private HeroTabsPagerAdapter mAdapter;
-    private FragmentEvent mEvent;
-    private int mHeroId = 0;
-    private EventBus mEventBus = EventBus.getDefault();
+
     private Animation mAnimation;
     private Animator mCircleRevealAnim;
     private Unbinder mUnbinder;
     private Resources mResources;
-
 
     public static HeroTabsFragment newInstance(int id) {
         Bundle args = new Bundle();
@@ -149,12 +146,6 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         setColorCoordinatorLayout();
         animation();
         return mView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        mUnbinder.unbind();
-        super.onDestroyView();
     }
 
     private final SimpleOnPageChangeListener mOnPageChangeListener = new SimpleOnPageChangeListener() {
@@ -302,6 +293,12 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             });
             mCircleRevealAnim.start();
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        mUnbinder.unbind();
+        super.onDestroyView();
     }
 
 }
