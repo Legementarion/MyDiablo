@@ -63,7 +63,6 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         if (mToken != null) {
             checkSession();
         }
-//        restoreScreen();
     }
 
     @Override
@@ -198,7 +197,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         Log.d("Fragment Switch", "switchFragment:last fragment " + mLastFragment);
         Log.d("Fragment Switch", "switchFragment:two pane? - " + mTwoPane);
         if (mTwoPane) {
-//            setTwoScreen();
+            setTwoScreen();
         } else {
             getViewState().showFragment(R.id.main_container, fragment, fragment.getTag());
         }
@@ -210,9 +209,10 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
         super.onDestroy();
     }
 
+    @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FragmentEvent event) {
-//        switchFragment(event.getData(), event.getTag());
+        switchFragment(event.getData(), event.getTag());
     }
 
 }
