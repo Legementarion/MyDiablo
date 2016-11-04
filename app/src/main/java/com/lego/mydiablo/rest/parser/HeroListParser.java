@@ -91,55 +91,33 @@ public class HeroListParser {
         return currentHeroList;
     }
 
-    public void getTopHeroDetail(String battleTag, int heroId) {
-        if (battleTag != null && !battleTag.equals("")) {
-            mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU)
-                    .subscribeOn(Schedulers.io())       //request
-                    .observeOn(AndroidSchedulers.mainThread())      //parsing
-                    .subscribe(new Subscriber<HeroDetail>() {
-                        @Override
-                        public void onCompleted() {
-                            unsubscribe();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                            Log.d("Error", "onError: HERO DETAIL " + e);
-                        }
-
-                        @Override
-                        public void onNext(HeroDetail hero) {
-                            heroStatParse(hero, heroId);
-                        }
-                    });
-        }
+    public Observable<Hero> getTopHeroDetail(String battleTag, int heroId) {
+           return mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU)
+                   .flatMap(heroDetail -> heroStatParse(heroDetail, heroId));
     }
 
-    private void heroStatParse(HeroDetail hero, int heroId) {
+    private Observable<Hero> heroStatParse(HeroDetail hero, int heroId) {
         try {
-            Hero currentHero = mRealmDataController.getHero(heroId);
-
             Hero newHeroData = new Hero();
-
-            newHeroData.setId(currentHero.getId());
-            newHeroData.setBattleTag(currentHero.getBattleTag());
-            newHeroData.setHeroClass(currentHero.getHeroClass());
-            newHeroData.setGender(hero.getGender());
-            newHeroData.setLevel(currentHero.getLevel());
-            newHeroData.setParagonLevel(currentHero.getParagonLevel());
-
-            if (currentHero.getClanName() != null) {
-                newHeroData.setClanName(currentHero.getClanName());
-                newHeroData.setClanTag(currentHero.getClanTag());
-            }
+            newHeroData.setId(heroId);
+//            newHeroData.setBattleTag(currentHero.getBattleTag());
+//            newHeroData.setHeroClass(currentHero.getHeroClass());
+//            newHeroData.setGender(hero.getGender());
+//            newHeroData.setLevel(currentHero.getLevel());
+//            newHeroData.setParagonLevel(currentHero.getParagonLevel());
+//
+//            if (currentHero.getClanName() != null) {
+//                newHeroData.setClanName(currentHero.getClanName());
+//                newHeroData.setClanTag(currentHero.getClanTag());
+//            }
+            Log.d("Hero parse", "heroStatParse: " + hero.getId());
 
             newHeroData.setHardcore(hero.getHardcore());
             newHeroData.setSeasonal(hero.getSeasonal());
 
             Stats stats = new Stats();
             stats.setLife(hero.getStats().getLife());
-            stats.setDamage((hero.getStats().getDamage()));
+            stats.setDamage(hero.getStats().getDamage());
             stats.setToughness(hero.getStats().getToughness());
             stats.setHealing(hero.getStats().getLife());
             stats.setAttackSpeed(hero.getStats().getLife());
@@ -204,33 +182,45 @@ public class HeroListParser {
             newHeroData.setPassiveSkills(heroSkillsPassive);
 
             RealmList<Item> heroItems = new RealmList<>();
-            heroItems.add(setItem(hero.getItems().getHead()));
-            heroItems.add(setItem(hero.getItems().getNeck()));
-            heroItems.add(setItem(hero.getItems().getShoulders()));
-            heroItems.add(setItem(hero.getItems().getTorso()));
-            heroItems.add(setItem(hero.getItems().getBracers()));
-            heroItems.add(setItem(hero.getItems().getHands()));
-            heroItems.add(setItem(hero.getItems().getWaist()));
-            heroItems.add(setItem(hero.getItems().getLegs()));
-            heroItems.add(setItem(hero.getItems().getFeet()));
-            heroItems.add(setItem(hero.getItems().getLeftFinger()));
-            heroItems.add(setItem(hero.getItems().getRightFinger()));
-            heroItems.add(setItem(hero.getItems().getMainHand()));
+//            heroItems.add(setItem(hero.getItems().getHead()));
+//            heroItems.add(setItem(hero.getItems().getNeck()));
+//            heroItems.add(setItem(hero.getItems().getShoulders()));
+//            heroItems.add(setItem(hero.getItems().getTorso()));
+//            heroItems.add(setItem(hero.getItems().getBracers()));
+//            heroItems.add(setItem(hero.getItems().getHands()));
+//            heroItems.add(setItem(hero.getItems().getWaist()));
+//            heroItems.add(setItem(hero.getItems().getLegs()));
+//            heroItems.add(setItem(hero.getItems().getFeet()));
+//            heroItems.add(setItem(hero.getItems().getLeftFinger()));
+//            heroItems.add(setItem(hero.getItems().getRightFinger()));
+//            heroItems.add(setItem(hero.getItems().getMainHand()));
 
             if (hero.getItems().getOffHand() != null) {
-                heroItems.add(setItem(hero.getItems().getOffHand()));
+//                heroItems.add(setItem(hero.getItems().getOffHand()));
             }
+
             newHeroData.setHeroComplect(heroItems);
 
-            RealmDataController.getInstance().updateDatabase(newHeroData);
+//            mRealmDataController.getRealm().copyToRealmOrUpdate(newHeroData);
+
+            return Observable.just(newHeroData);
 
         } catch (NullPointerException ex) {
-            ex.printStackTrace();
             Log.d("Hero parse", "heroStatParse: " + hero.getId());
+            Log.d("Hero parse", "heroStatParse: " + ex.getMessage());
+            return null;
         }
     }
 
-    private Skill setSkill(HeroDetail hero, int i) {
+    private Observable<Hero> heroItemParse(HeroDetail hero, int heroId) {
+        try {
+            return null;
+        }catch (Throwable e){
+            return null;
+        }
+    }
+
+        private Skill setSkill(HeroDetail hero, int i) {
         Skill skill = new Skill();
         skill.setSlug(hero.getSkills().getActive().get(i).getSkill().getSlug());
         skill.setTitle(hero.getSkills().getActive().get(i).getSkill().getName());
@@ -251,7 +241,6 @@ public class HeroListParser {
                         public void onCompleted() {
                             unsubscribe();
                         }
-
                         @Override
                         public void onError(Throwable e) {
                             e.printStackTrace();

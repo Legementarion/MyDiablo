@@ -48,7 +48,7 @@ public class RealmDataController implements DataBaseController {
         return instance;
     }
 
-    public Realm getmRealm() {
+    public Realm getRealm() {
         return mRealm;
     }
 
@@ -58,8 +58,8 @@ public class RealmDataController implements DataBaseController {
                 .findFirst();
     }
 
-    public Hero getHero(int param) {
-        return mRealm.where(Hero.class).equalTo("id", param)
+    public Hero getHero(int id) {
+        return mRealm.where(Hero.class).equalTo("id", id)
                 .findFirst();
     }
 
@@ -102,13 +102,19 @@ public class RealmDataController implements DataBaseController {
     }
 
     @Override
-    public void updateDatabase(Hero item) {
+    public Observable<Hero> updateDatabase(Hero item) {
         mRealm.executeTransaction(realm -> {
             Hero hero = getHero(item.getId());
             if (hero != null) {
-                realm.copyToRealmOrUpdate(hero);
+                realm.copyToRealmOrUpdate(item);
             }
         });
+            //test
+            Log.d("Core", "heroStatParse:id- " +getHero(item.getId()).getId());
+            Log.d("Core", "heroStatParse:clan name- " +getHero(item.getId()).getClanName());
+            Log.d("Core", "heroStatParse:armor- " +item.getHeroStats().getArmor());
+            Log.d("Core", "heroStatParse:armor- " +getHero(item.getId()).getHeroStats().getArmor());
+        return Observable.just(item);
     }
 
     private List<Hero> supportFillList(List<Hero> heroes, int from, int toSize) {

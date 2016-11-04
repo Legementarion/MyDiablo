@@ -7,8 +7,7 @@ import java.util.List;
 import rx.Observable;
 
 public interface DataBaseController {
-
     Observable<List<Hero>> saveToDatabase(List<Hero> itemList);
 
-    void updateDatabase(Hero item);
+    Observable<Hero> updateDatabase(Hero item);
 }
