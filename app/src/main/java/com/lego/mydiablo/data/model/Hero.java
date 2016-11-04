@@ -33,6 +33,12 @@ public class Hero extends RealmObject {
     private Stats mHeroStats;
     private RealmList<LegendaryPower> mHeroPower = new RealmList<>();
 
+    /** for system check, all data for hero laded or not
+     *  false - not loaded (loaded only hero name & Battle tag)
+     *  true - loaded all hero data including items/skills
+     */
+    private boolean mLoadingProgress;
+
     public Hero(){
         // Do nothing
     }
@@ -197,4 +203,13 @@ public class Hero extends RealmObject {
     public void setSeasonValue(int seasonValue) {
         mSeasonValue = seasonValue;
     }
+
+    public boolean isLoadingProgress() {
+        return mLoadingProgress;
+    }
+
+    public void setLoadingProgress(boolean loadingProgress) {
+        mLoadingProgress = loadingProgress;
+    }
+
 }

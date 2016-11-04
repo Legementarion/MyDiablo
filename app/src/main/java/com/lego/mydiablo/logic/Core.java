@@ -1,5 +1,7 @@
 package com.lego.mydiablo.logic;
 
+import android.util.Log;
+
 import com.lego.mydiablo.data.DataBaseController;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.rest.RetrofitRequests;
@@ -38,10 +40,13 @@ public class Core {
                 .flatMap(heroList -> mParser.parseData(heroList))
                 .flatMap(heroes -> mDataBaseController.saveToDatabase(heroes))
                 .doOnNext(heroList -> {
-                    for (int i = 0; i < mItemsPerPage / 4; i++) {
+                    for (int i = 0; i < (mItemsPerPage / 4); i++) {
+                        Log.d("Core", "doRequest: " + i);
                         mParser.getTopHeroDetail(heroList.get(i).getBattleTag(), heroList.get(i).getId());
                     }
-                }).flatMap(heroList -> mDataBaseController.saveToDatabase(heroList));
+                    Log.d("Core", "doRequest: do next step - save to database");
+                });
+//        .flatMap(heroList -> mDataBaseController.saveToDatabase(heroList));
     }
 
 }

@@ -260,6 +260,7 @@ public class HeroListParser {
 
                         @Override
                         public void onNext(com.lego.mydiablo.rest.callback.models.Item.Item item) {
+                            Log.d("Core", "setItem: parse item");
                             result_item.setTitle(item.getName());
                             result_item.setImageUrl(item.getIcon());
                             result_item.setAttribute1(item.getDamageRange());
