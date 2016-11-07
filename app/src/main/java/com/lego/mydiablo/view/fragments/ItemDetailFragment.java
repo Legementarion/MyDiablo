@@ -1,9 +1,7 @@
 package com.lego.mydiablo.view.fragments;
 
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,7 +52,7 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
     private RealmDataController mRealmDataController;
 
     private Hero mHero;
-    private int mHeroId = 0;
+    private int mHeroRank = 0;
 
     private ImageView mImageViewIcon;
 
@@ -78,8 +76,9 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mHeroId = getArguments().getInt(ARG_ITEM_ID);
+            mHeroRank = getArguments().getInt(ARG_ITEM_ID);
         }
+        mHeroRank = 2;
     }
 
     @Override
@@ -88,7 +87,7 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
         View rootView = inflater.inflate(R.layout.item_detail_fragment, container, false);
         ButterKnife.bind(this, rootView);
         mRealmDataController = RealmDataController.with(this);
-        mHero = mRealmDataController.getHero(mHeroId);
+        mHero = mRealmDataController.getHero(mHeroRank);
         fillData();
 
         expandablePlayerListTitle = new ArrayList<>(expandablePlayerListDetail.keySet());
@@ -102,7 +101,7 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
         expandablePlayerListDetail = new HashMap<>();
         List<String> general = new ArrayList<>();
         Log.d(TAG, "fillData: " + mHero.getBattleTag());
-        general.add(getString(R.string.stat_Life) + " - ololo soon");
+//        general.add(getString(R.string.stat_Life) + " - ololo soon");
         general.add(getString(R.string.stat_Life) + " - " + mHero.getHeroStats().getLife());
         general.add(getString(R.string.stat_Damage) + " - " + mHero.getHeroStats().getDamage());
         general.add(getString(R.string.stat_Toughness) + " - " + mHero.getHeroStats().getToughness());

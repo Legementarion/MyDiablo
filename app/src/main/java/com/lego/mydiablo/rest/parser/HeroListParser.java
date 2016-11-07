@@ -1,5 +1,6 @@
 package com.lego.mydiablo.rest.parser;
 
+import android.os.Handler;
 import android.util.Log;
 
 import com.lego.mydiablo.data.RealmDataController;
@@ -17,6 +18,7 @@ import com.lego.mydiablo.rest.callback.models.HeroList.HeroList;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 import rx.Observable;
 import rx.Subscriber;
@@ -91,31 +93,16 @@ public class HeroListParser {
         return currentHeroList;
     }
 
-    public Observable<Hero> getTopHeroDetail(String battleTag, int heroId) {
-           return mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU)
-                   .flatMap(heroDetail -> heroStatParse(heroDetail, heroId));
+    public Observable<HeroDetail> getTopHeroDetail(String battleTag, int heroId) {
+           return mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU);
     }
 
-    private Observable<Hero> heroStatParse(HeroDetail hero, int heroId) {
+    public Hero heroStatParse(Hero newHeroData, HeroDetail hero) {
         try {
-            Hero newHeroData = new Hero();
-            newHeroData.setId(heroId);
-//            newHeroData.setBattleTag(currentHero.getBattleTag());
-//            newHeroData.setHeroClass(currentHero.getHeroClass());
-//            newHeroData.setGender(hero.getGender());
-//            newHeroData.setLevel(currentHero.getLevel());
-//            newHeroData.setParagonLevel(currentHero.getParagonLevel());
-//
-//            if (currentHero.getClanName() != null) {
-//                newHeroData.setClanName(currentHero.getClanName());
-//                newHeroData.setClanTag(currentHero.getClanTag());
-//            }
-            Log.d("Hero parse", "heroStatParse: " + hero.getId());
-
             newHeroData.setHardcore(hero.getHardcore());
             newHeroData.setSeasonal(hero.getSeasonal());
 
-            Stats stats = new Stats();
+            Stats stats = mRealmDataController.getRealm().createObject(Stats.class);
             stats.setLife(hero.getStats().getLife());
             stats.setDamage(hero.getStats().getDamage());
             stats.setToughness(hero.getStats().getToughness());
@@ -151,7 +138,7 @@ public class HeroListParser {
 
             RealmList<LegendaryPower> heroLegendaryPowers = new RealmList<>();
             for (int i = 0; i < hero.getLegendaryPowers().size(); i++) {
-                LegendaryPower legendaryPower = new LegendaryPower();
+                LegendaryPower legendaryPower = mRealmDataController.getRealm().createObject(LegendaryPower.class);
                 legendaryPower.setId(hero.getLegendaryPowers().get(i).getId());
                 legendaryPower.setName(hero.getLegendaryPowers().get(i).getName());
                 legendaryPower.setIcon(hero.getLegendaryPowers().get(i).getIcon());
@@ -163,7 +150,7 @@ public class HeroListParser {
             RealmList<Skill> heroSkillsActive = new RealmList<>();
             for (int i = 0; i < hero.getSkills().getActive().size(); i++) {
                 if (hero.getSkills().getActive().get(i).getRune() != null) {
-                    Rune rune = new Rune();
+                    Rune rune = mRealmDataController.getRealm().createObject(Rune.class);
                     rune.setSlug(hero.getSkills().getActive().get(i).getRune().getSlug());
                     rune.setTitle(hero.getSkills().getActive().get(i).getRune().getName());
                     rune.setDescription(hero.getSkills().getActive().get(i).getRune().getDescription());
@@ -199,11 +186,12 @@ public class HeroListParser {
 //                heroItems.add(setItem(hero.getItems().getOffHand()));
             }
 
-            newHeroData.setHeroComplect(heroItems);
+
+//            newHeroData.setHeroComplect(heroItems);
 
 //            mRealmDataController.getRealm().copyToRealmOrUpdate(newHeroData);
 
-            return Observable.just(newHeroData);
+            return newHeroData;
 
         } catch (NullPointerException ex) {
             Log.d("Hero parse", "heroStatParse: " + hero.getId());
@@ -221,7 +209,7 @@ public class HeroListParser {
     }
 
         private Skill setSkill(HeroDetail hero, int i) {
-        Skill skill = new Skill();
+        Skill skill = mRealmDataController.getRealm().createObject(Skill.class);
         skill.setSlug(hero.getSkills().getActive().get(i).getSkill().getSlug());
         skill.setTitle(hero.getSkills().getActive().get(i).getSkill().getName());
         skill.setDescription(hero.getSkills().getActive().get(i).getSkill().getDescription());

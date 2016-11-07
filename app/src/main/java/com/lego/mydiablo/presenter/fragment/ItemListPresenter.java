@@ -96,7 +96,6 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
                             } else {
                                 getViewState().setNewList(heroList);
                             }
-                            Log.d("Core", "onNext: lets the fun begin ");
                             loadDetailData(heroList);
                         }
                     });
@@ -104,7 +103,6 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
     }
 
     private void loadDetailData(List<Hero> heroList) {
-        Log.d("Core", "onNext: lets the fun begin2 ");
         for (int i = 0; i < (mItemsPerPage / 4); i++) {
             if (heroList.get(i).getBattleTag() != null && !heroList.get(i).getBattleTag().equals(NO_VALUE)) {
                 mCore.loadDetailHeroData(heroList.get(i).getBattleTag(), heroList.get(i).getId())

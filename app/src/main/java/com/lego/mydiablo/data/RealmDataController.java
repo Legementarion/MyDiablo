@@ -3,11 +3,12 @@ package com.lego.mydiablo.data;
 import android.app.Activity;
 import android.app.Application;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.data.model.Item;
 import com.lego.mydiablo.data.model.Skill;
+import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
+import com.lego.mydiablo.rest.parser.HeroListParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +59,8 @@ public class RealmDataController implements DataBaseController {
                 .findFirst();
     }
 
-    public Hero getHero(int id) {
-        return mRealm.where(Hero.class).equalTo("id", id)
+    public Hero getHero(int rank) {
+        return mRealm.where(Hero.class).equalTo("mRank", rank)
                 .findFirst();
     }
 
@@ -104,18 +105,28 @@ public class RealmDataController implements DataBaseController {
     @Override
     public Observable<Hero> updateDatabase(Hero item) {
         mRealm.executeTransaction(realm -> {
-            Hero hero = getHero(item.getId());
+            Hero hero = getHero(item.getRank());
             if (hero != null) {
-                realm.copyToRealmOrUpdate(item);
+                realm.copyToRealmOrUpdate(item).getHeroStats().getArmor();
             }
         });
-            //test
-            Log.d("Core", "heroStatParse:id- " +getHero(item.getId()).getId());
-            Log.d("Core", "heroStatParse:clan name- " +getHero(item.getId()).getClanName());
-            Log.d("Core", "heroStatParse:armor- " +item.getHeroStats().getArmor());
-            Log.d("Core", "heroStatParse:armor- " +getHero(item.getId()).getHeroStats().getArmor());
         return Observable.just(item);
     }
+
+    @Override
+    public Observable<Hero> updateHero(HeroDetail heroDetail){
+        HeroListParser heroListParser =  new HeroListParser();
+        List<Hero> heroList = new ArrayList<>();
+        mRealm.executeTransaction(realm -> {
+            Hero hero = realm.where(Hero.class).equalTo("id",heroDetail.getId()).findFirst();
+            if (hero != null) {
+                heroList.add(realm.copyToRealmOrUpdate(heroListParser.heroStatParse(hero, heroDetail)));
+            }
+        });
+
+        return Observable.just(heroList.get(0));
+    }
+
 
     private List<Hero> supportFillList(List<Hero> heroes, int from, int toSize) {
         List<Hero> heroList = new ArrayList<>();

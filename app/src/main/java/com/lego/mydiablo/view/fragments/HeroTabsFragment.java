@@ -99,9 +99,9 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     private Unbinder mUnbinder;
     private Resources mResources;
 
-    public static HeroTabsFragment newInstance(int id) {
+    public static HeroTabsFragment newInstance(int rank) {
         Bundle args = new Bundle();
-        args.putInt("1", id);
+        args.putInt("rank", rank);
         HeroTabsFragment fragment = new HeroTabsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -112,7 +112,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.hero_tabs_fragment, container, false);
         if (getArguments() != null) {
-            mHeroTabsPresenter.getHeroFromDB(this, getArguments().getInt("1"));
+            mHeroTabsPresenter.getHeroFromDB(this, getArguments().getInt("rank"));
         }
         mUnbinder = ButterKnife.bind(this, mView);
         setupViewPager();

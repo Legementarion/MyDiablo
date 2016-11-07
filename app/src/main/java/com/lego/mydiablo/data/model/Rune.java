@@ -1,8 +1,6 @@
 package com.lego.mydiablo.data.model;
 
-
 import io.realm.RealmObject;
-
 
 public class Rune extends RealmObject {
 
@@ -12,7 +10,9 @@ public class Rune extends RealmObject {
     private String mSimpleDescription;
     private String mImageUrl;
 
-    public Rune(){}
+    public Rune(){
+        //do nothing
+    }
 
     public String getSlug() {
         return mSlug;

@@ -28,7 +28,7 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
     }
 
     private void addFragment(String title) {
-        mFragmentList.add(ItemDetailFragment.newInstance(84123926));
+        mFragmentList.add(ItemDetailFragment.newInstance(1));
         mFragmentTitleList.add(title);
     }
 

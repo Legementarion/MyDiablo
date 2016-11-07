@@ -14,7 +14,9 @@ public class Skill extends RealmObject {
     private String mSimpleDescription;
     private String mImageUrl;
 
-    public Skill(){}
+    public Skill(){
+        //do nothing
+    }
 
     public Rune getRune() {
         return mRune;

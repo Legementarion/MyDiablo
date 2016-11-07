@@ -14,8 +14,8 @@ import io.realm.exceptions.RealmMigrationNeededException;
 public class MyDiablo extends Application {
 
     private RefWatcher refWatcher;
-    private Realm mRealm;
 
+    @SuppressWarnings("unused")
     public static RefWatcher getRefWatcher(Context context) {
         MyDiablo application = (MyDiablo) context.getApplicationContext();
         return application.refWatcher;
@@ -26,24 +26,7 @@ public class MyDiablo extends Application {
         super.onCreate();
         MvpFacade.init();
         refWatcher = LeakCanary.install(this);
-
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
-                .name(Realm.DEFAULT_REALM_NAME)
-                .schemaVersion(0)
-                .build();
-        Realm.setDefaultConfiguration(realmConfiguration);
-
-        try {
-            mRealm = Realm.getInstance(realmConfiguration);
-        } catch (RealmMigrationNeededException e) {
-            try {
-                Realm.deleteRealm(realmConfiguration);
-                mRealm = Realm.getInstance(realmConfiguration);
-            } catch (Exception ex) {
-                throw ex;
-                //No Realm file to remove.
-            }
-        }
+        Realm.init(this);
     }
 
 }

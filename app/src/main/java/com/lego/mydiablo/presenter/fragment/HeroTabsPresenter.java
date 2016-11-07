@@ -19,14 +19,14 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
 
     private Hero mHero;
 
-    private int mHeroId = 0;
+    private int mHeroRank = 0;
 
-    public void getHeroFromDB(Fragment fragment, int id) {
-        mHeroId = id;
+    public void getHeroFromDB(Fragment fragment, int rank) {
+        mHeroRank = rank;
         mRealmDataController = RealmDataController.with(fragment);
 
-        if (mHeroId != 0) {
-            mHero = mRealmDataController.getHero(mHeroId);
+        if (mHeroRank != 0) {
+            mHero = mRealmDataController.getHero(mHeroRank);
         }
     }
 }

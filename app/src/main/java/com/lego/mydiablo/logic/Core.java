@@ -44,12 +44,11 @@ public class Core {
         return mParser.getTopHeroDetail(battleTag, id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-//                .flatMap(hero -> )
-                .flatMap(hero -> mDataBaseController.updateDatabase(hero));
+                .flatMap(hero -> mDataBaseController.updateHero(hero));
     }
 
-    public boolean checkHeroData(int id){
-        return mRealmDataController.getHero(id).isLoadingProgress();
+    public boolean checkHeroData(int rank){
+        return mRealmDataController.getHero(rank).isLoadingProgress();
     }
 
 }

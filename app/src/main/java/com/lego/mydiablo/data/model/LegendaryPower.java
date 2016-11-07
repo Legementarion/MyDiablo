@@ -1,11 +1,9 @@
 package com.lego.mydiablo.data.model;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 public class LegendaryPower extends RealmObject{
 
-    @PrimaryKey
     private String mId;
     private String mName;
     private String mIcon;
