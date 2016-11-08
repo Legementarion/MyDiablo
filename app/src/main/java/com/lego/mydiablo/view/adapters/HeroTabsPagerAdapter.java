@@ -18,17 +18,25 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public HeroTabsPagerAdapter(FragmentManager manager) {
+    public HeroTabsPagerAdapter(FragmentManager manager, int rank) {
         super(manager);
         Bundle bundle = new Bundle();
         bundle.putInt(POSITION_PAGE, 0);
-        addFragment("1");
-        addFragment("2");
-        addFragment("3");
+        addFragment("1", rank);
     }
 
-    private void addFragment(String title) {
-        mFragmentList.add(ItemDetailFragment.newInstance(1));
+    public void compare(){
+        addFragment("2",2); //hardcoded
+        addSummaryFragment("3");
+    }
+
+    private void addFragment(String title, int rank) {
+        mFragmentList.add(ItemDetailFragment.newInstance(rank));
+        mFragmentTitleList.add(title);
+    }
+
+    private void addSummaryFragment(String title){
+        mFragmentList.add(ItemDetailFragment.newInstance(2));  //hardcoded
         mFragmentTitleList.add(title);
     }
 

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.lego.mydiablo.data.RealmDataController;
 import com.lego.mydiablo.data.model.Hero;
+import com.lego.mydiablo.data.model.Item;
 import com.lego.mydiablo.data.model.LegendaryPower;
 import com.lego.mydiablo.data.model.Rune;
 import com.lego.mydiablo.data.model.Skill;
@@ -83,6 +84,8 @@ public class HeroListParser {
                 currentHero.setRank(heroList.getRow().get(i).getData().get(0).getNumber());     //other data
                 currentHero.setRiftLevel(heroList.getRow().get(i).getData().get(1).getNumber());
                 currentHero.setRiftTime(heroList.getRow().get(i).getData().get(2).getTimestamp());
+
+                currentHero.setLoadingProgress(false);
 
             } catch (IndexOutOfBoundsException ex) {
                 Log.d("Error", "parseFromJson: array out of range cell " + i);
@@ -168,12 +171,12 @@ public class HeroListParser {
             }
             newHeroData.setPassiveSkills(heroSkillsPassive);
 
+            RealmList<Item> heroItems = new RealmList<>();
             for (ResponseItem item: items) {
-                Log.d("OLOLO TEST", "heroStatParse: " + item.toString());
+                heroItems.add(parseItem(item));
             }
-            ////                            //FIXME item parse
-//            newHeroData.setHeroComplect(items);
-
+            newHeroData.setHeroComplect(heroItems);
+            newHeroData.setLoadingProgress(true);
             return newHeroData;
 
         } catch (NullPointerException ex) {
@@ -181,6 +184,14 @@ public class HeroListParser {
             Log.d("Hero parse", "heroStatParse: " + ex.getMessage());
             return null;
         }
+    }
+
+    private Item parseItem(ResponseItem responseItem) {
+        Item item = mRealmDataController.getRealm().createObject(Item.class);
+        item.setTitle(responseItem.getName());
+//        item.setType(); TODO PARSE PARAM
+        item.setImageUrl(responseItem.getIcon());
+        return item;
     }
 
     private Skill setSkill(HeroDetail hero, int i) {
@@ -196,7 +207,7 @@ public class HeroListParser {
     public Observable<Hero> getItemsList(final HeroDetail hero){
         return getItem(hero)
                 .flatMap(this::getBody)
-                .doOnNext(item -> Log.e("TEST ITEM",item.toString()))
+//                .doOnNext(item -> Log.e("TEST ITEM",item.toString()))
                 .toList()
                 .compose(applySchedulers())
                 .map(items -> transform(items, hero));

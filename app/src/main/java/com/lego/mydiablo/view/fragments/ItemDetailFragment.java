@@ -34,7 +34,7 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
     ItemDetailPresenter mItemDetailPresenter;
 
     public static final String TAG = "ItemDetail";
-    public static final String ARG_ITEM_ID = "hero_id";
+    public static final String ARG_ITEM_ID = "rank";
 
     @BindView(R.id.playerParam)
     ExpandableListView mPlayerExpandableListView;
@@ -49,21 +49,16 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
     @BindView(R.id.detail_conteiner)
     CoordinatorLayout mFrameLayout;
 
-    private RealmDataController mRealmDataController;
-
-    private Hero mHero;
-    private int mHeroRank = 0;
-
     private ImageView mImageViewIcon;
 
     private ExpandableListAdapter expandablePlayerListAdapter;
     private List<String> expandablePlayerListTitle;
     private HashMap<String, List<String>> expandablePlayerListDetail;
 
-    public static ItemDetailFragment newInstance(int param) {
+    public static ItemDetailFragment newInstance(int rank) {
         ItemDetailFragment fragment = new ItemDetailFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_ITEM_ID, param);
+        args.putInt(ARG_ITEM_ID, rank);
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,9 +71,8 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mHeroRank = getArguments().getInt(ARG_ITEM_ID);
+            mItemDetailPresenter.getHeroFromDB(this, getArguments().getInt("rank"));
         }
-        mHeroRank = 2;
     }
 
     @Override
@@ -86,18 +80,14 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_detail_fragment, container, false);
         ButterKnife.bind(this, rootView);
-        mRealmDataController = RealmDataController.with(this);
-        mHero = mRealmDataController.getHero(mHeroRank);
-        fillData();
 
-        expandablePlayerListTitle = new ArrayList<>(expandablePlayerListDetail.keySet());
-        expandablePlayerListAdapter = new ProfileExpandableListAdapter(getContext(), expandablePlayerListTitle, expandablePlayerListDetail);
-        mPlayerExpandableListView.setAdapter(expandablePlayerListAdapter);
+
         return rootView;
     }
 
 
-    private void fillData() {
+    @Override
+    public void fillData(Hero mHero) {
         expandablePlayerListDetail = new HashMap<>();
         List<String> general = new ArrayList<>();
         Log.d(TAG, "fillData: " + mHero.getBattleTag());
@@ -134,6 +124,9 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
         general.add(getString(R.string.stat_SecondaryResource) + " - " + mHero.getHeroStats().getSecondaryResource());
 
         expandablePlayerListDetail.put(getString(R.string.stats), general);
+        expandablePlayerListTitle = new ArrayList<>(expandablePlayerListDetail.keySet());
+        expandablePlayerListAdapter = new ProfileExpandableListAdapter(getContext(), expandablePlayerListTitle, expandablePlayerListDetail);
+        mPlayerExpandableListView.setAdapter(expandablePlayerListAdapter);
     }
 
 }

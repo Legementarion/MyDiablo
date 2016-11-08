@@ -12,16 +12,17 @@ import android.widget.TextView;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.events.FragmentEvent;
+import com.lego.mydiablo.logic.Core;
 import com.lego.mydiablo.view.fragments.HeroTabsFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscriber;
 
 import static com.lego.mydiablo.utils.Settings.mHeroId;
 
@@ -34,11 +35,13 @@ public class TableItemRecyclerViewAdapter
 
     private List<Hero> mHeroList;
     private Context mContext;
+    private Core mCore;
     private EventBus bus = EventBus.getDefault();
 
     public TableItemRecyclerViewAdapter(List<Hero> heroList, Context context) {
         mHeroList = new ArrayList<>(heroList);
         mContext = context;
+        mCore = Core.getInstance();
     }
 
     @Override
@@ -55,9 +58,29 @@ public class TableItemRecyclerViewAdapter
         holder.mClassView.setImageDrawable(pickImage(hero.getHeroClass()));
         holder.mRankView.setText("Rift - " + hero.getRiftLevel());
         holder.mView.setTag(hero.getId());
-        mHeroId = hero.getId();
-        holder.mView.setOnClickListener(v ->
-            bus.post(new FragmentEvent(HeroTabsFragment.newInstance(hero.getId()), HeroTabsFragment.TAG))    //send to diablo activity
+        mHeroId = hero.getRank();
+        holder.mView.setOnClickListener(v -> {
+                    if (mCore.checkHeroData(hero.getRank())) {
+                        bus.post(new FragmentEvent(HeroTabsFragment.newInstance(hero.getRank()), HeroTabsFragment.TAG)); //send to diablo activity
+                    } else {
+                        mCore.loadDetailHeroData(hero.getBattleTag(), hero.getId()).subscribe(new Subscriber<Hero>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(Hero hero) {
+                                bus.post(new FragmentEvent(HeroTabsFragment.newInstance(hero.getRank()), HeroTabsFragment.TAG)); //send to diablo activity
+                            }
+                        });
+                    }
+                }
         );
     }
 

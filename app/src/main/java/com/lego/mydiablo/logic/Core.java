@@ -32,6 +32,10 @@ public class Core {
         return mCore == null ? (mCore = new Core()) : mCore;
     }
 
+    public static Core getInstance() {
+        return mCore == null ? (mCore = new Core()) : mCore;
+    }
+
     public Observable<List<Hero>> loadHeroList(String heroClass, String heroSeason) {
         return mServerRequest.getEraLeaderTop(heroSeason, heroClass)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -40,8 +44,8 @@ public class Core {
                 .flatMap(heroes -> mDataBaseController.saveToDatabase(heroes));
     }
 
-    public Observable<Hero> loadDetailHeroData(String battleTag, int id){
-        return mParser.getTopHeroDetail(battleTag, id)
+    public Observable<Hero> loadDetailHeroData(String battleTag, int heroId){
+        return mParser.getTopHeroDetail(battleTag, heroId)
                 .flatMap(heroDetail -> mParser.getItemsList(heroDetail));
     }
 

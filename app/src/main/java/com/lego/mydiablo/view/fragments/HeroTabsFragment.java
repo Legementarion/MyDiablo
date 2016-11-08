@@ -111,11 +111,11 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.hero_tabs_fragment, container, false);
-        if (getArguments() != null) {
-            mHeroTabsPresenter.getHeroFromDB(this, getArguments().getInt("rank"));
-        }
         mUnbinder = ButterKnife.bind(this, mView);
-        setupViewPager();
+        if (getArguments() != null) {
+            setupViewPager(getArguments().getInt("rank"));
+        }
+
         mResources = getResources();
         mImageLogo.setImageDrawable(mResources.getDrawable(R.drawable.diablo_logo));
         mTabLayout.setCustomTabView((container1, position, adapter) -> {
@@ -138,6 +138,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             }
             return itemView;
         });
+
         fab.setOnClickListener(view -> Snackbar.make(view, "Compare", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show());
@@ -255,8 +256,8 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         mAnimatorIconRelativeLayout.startAnimation(mAnimation);
     }
 
-    private void setupViewPager() {
-        mAdapter = new HeroTabsPagerAdapter(getChildFragmentManager());
+    private void setupViewPager(int rank) {
+        mAdapter = new HeroTabsPagerAdapter(getChildFragmentManager(), rank);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(0);
