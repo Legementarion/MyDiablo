@@ -67,7 +67,7 @@ dependencies {
 
     //reactive
     compile 'io.reactivex:rxandroid:1.2.0'
-    compile 'io.reactivex:rxjava:1.1.4'
+    compile 'io.reactivex:rxjava:1.2.0'
 
     //for Rest request
     compile 'com.google.code.gson:gson:2.6.2'

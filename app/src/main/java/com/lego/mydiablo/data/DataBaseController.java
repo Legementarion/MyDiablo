@@ -2,6 +2,7 @@ package com.lego.mydiablo.data;
 
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
+import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ public interface DataBaseController {
 
     Observable<Hero> updateDatabase(Hero item);
 
-    Observable<Hero> updateHero(HeroDetail heroDetail);
+    Hero updateHero(HeroDetail heroDetail, List<ResponseItem> items);
 }

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Item {
+public class ResponseItem {
 
     @SerializedName("id")
     @Expose
@@ -201,4 +201,12 @@ public class Item {
         mAttributesRaw = attributesRaw;
     }
 
+
+    @Override
+    public String toString() {
+        return "ResponseItem{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

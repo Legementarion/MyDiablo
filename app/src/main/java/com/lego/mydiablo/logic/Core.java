@@ -42,9 +42,7 @@ public class Core {
 
     public Observable<Hero> loadDetailHeroData(String battleTag, int id){
         return mParser.getTopHeroDetail(battleTag, id)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .flatMap(hero -> mDataBaseController.updateHero(hero));
+                .flatMap(heroDetail -> mParser.getItemsList(heroDetail));
     }
 
     public boolean checkHeroData(int rank){

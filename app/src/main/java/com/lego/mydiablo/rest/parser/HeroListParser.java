@@ -1,25 +1,24 @@
 package com.lego.mydiablo.rest.parser;
 
-import android.os.Handler;
 import android.util.Log;
 
 import com.lego.mydiablo.data.RealmDataController;
 import com.lego.mydiablo.data.model.Hero;
-import com.lego.mydiablo.data.model.Item;
 import com.lego.mydiablo.data.model.LegendaryPower;
 import com.lego.mydiablo.data.model.Rune;
 import com.lego.mydiablo.data.model.Skill;
 import com.lego.mydiablo.data.model.Stats;
 import com.lego.mydiablo.rest.RetrofitRequests;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
-import com.lego.mydiablo.rest.callback.models.HeroDetail.Items.ItemDetail;
 import com.lego.mydiablo.rest.callback.models.HeroList.HeroList;
+import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
 import io.realm.RealmList;
+import retrofit2.Call;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -94,10 +93,10 @@ public class HeroListParser {
     }
 
     public Observable<HeroDetail> getTopHeroDetail(String battleTag, int heroId) {
-           return mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU);
+        return mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU);
     }
 
-    public Hero heroStatParse(Hero newHeroData, HeroDetail hero) {
+    public Hero heroStatParse(Hero newHeroData, HeroDetail hero, List<ResponseItem> items) {
         try {
             newHeroData.setHardcore(hero.getHardcore());
             newHeroData.setSeasonal(hero.getSeasonal());
@@ -160,6 +159,7 @@ public class HeroListParser {
                     heroSkillsActive.add(skill);
                 }
             }
+
             newHeroData.setActiveSkills(heroSkillsActive);
 
             RealmList<Skill> heroSkillsPassive = new RealmList<>();
@@ -168,28 +168,11 @@ public class HeroListParser {
             }
             newHeroData.setPassiveSkills(heroSkillsPassive);
 
-            RealmList<Item> heroItems = new RealmList<>();
-//            heroItems.add(setItem(hero.getItems().getHead()));
-//            heroItems.add(setItem(hero.getItems().getNeck()));
-//            heroItems.add(setItem(hero.getItems().getShoulders()));
-//            heroItems.add(setItem(hero.getItems().getTorso()));
-//            heroItems.add(setItem(hero.getItems().getBracers()));
-//            heroItems.add(setItem(hero.getItems().getHands()));
-//            heroItems.add(setItem(hero.getItems().getWaist()));
-//            heroItems.add(setItem(hero.getItems().getLegs()));
-//            heroItems.add(setItem(hero.getItems().getFeet()));
-//            heroItems.add(setItem(hero.getItems().getLeftFinger()));
-//            heroItems.add(setItem(hero.getItems().getRightFinger()));
-//            heroItems.add(setItem(hero.getItems().getMainHand()));
-
-            if (hero.getItems().getOffHand() != null) {
-//                heroItems.add(setItem(hero.getItems().getOffHand()));
+            for (ResponseItem item: items) {
+                Log.d("OLOLO TEST", "heroStatParse: " + item.toString());
             }
-
-
-//            newHeroData.setHeroComplect(heroItems);
-
-//            mRealmDataController.getRealm().copyToRealmOrUpdate(newHeroData);
+            ////                            //FIXME item parse
+//            newHeroData.setHeroComplect(items);
 
             return newHeroData;
 
@@ -200,15 +183,7 @@ public class HeroListParser {
         }
     }
 
-    private Observable<Hero> heroItemParse(HeroDetail hero, int heroId) {
-        try {
-            return null;
-        }catch (Throwable e){
-            return null;
-        }
-    }
-
-        private Skill setSkill(HeroDetail hero, int i) {
+    private Skill setSkill(HeroDetail hero, int i) {
         Skill skill = mRealmDataController.getRealm().createObject(Skill.class);
         skill.setSlug(hero.getSkills().getActive().get(i).getSkill().getSlug());
         skill.setTitle(hero.getSkills().getActive().get(i).getSkill().getName());
@@ -218,34 +193,68 @@ public class HeroListParser {
         return skill;
     }
 
-    private Item setItem(ItemDetail itemDetail) {
-        Item result_item = new Item();
-        if (itemDetail != null) {
-            mRetrofitRequests.getItem(itemDetail.getTooltipParams(), LOCALE_RU)
-                    .subscribeOn(Schedulers.io())       //request
-                    .observeOn(AndroidSchedulers.mainThread())      //parsing
-                    .subscribe(new Subscriber<com.lego.mydiablo.rest.callback.models.Item.Item>() {
-                        @Override
-                        public void onCompleted() {
-                            unsubscribe();
-                        }
-                        @Override
-                        public void onError(Throwable e) {
-                            e.printStackTrace();
-                            Log.d("Error", "onError: Item DETAIL " + e);
-                        }
-
-                        @Override
-                        public void onNext(com.lego.mydiablo.rest.callback.models.Item.Item item) {
-                            Log.d("Core", "setItem: parse item");
-                            result_item.setTitle(item.getName());
-                            result_item.setImageUrl(item.getIcon());
-                            result_item.setAttribute1(item.getDamageRange());
-                            //FIXME item parse
-                        }
-                    });
-        }
-        Log.d("Result Item", "onNext: " + result_item.getAttribute1());
-        return result_item;
+    public Observable<Hero> getItemsList(final HeroDetail hero){
+        return getItem(hero)
+                .flatMap(this::getBody)
+                .doOnNext(item -> Log.e("TEST ITEM",item.toString()))
+                .toList()
+                .compose(applySchedulers())
+                .map(items -> transform(items, hero));
     }
+
+    <T> Observable.Transformer<T, T> applySchedulers() {
+        return observable -> observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    private Hero transform(List<ResponseItem> items, HeroDetail detail){
+        return mRealmDataController.updateHero(detail, items);
+    }
+
+    private Observable<ResponseItem> getBody(Call<ResponseItem> itemCall){
+        return Observable.create(new Observable.OnSubscribe<ResponseItem>() {
+            @Override
+            public void call(Subscriber<? super ResponseItem> subscriber) {
+                if(!subscriber.isUnsubscribed()){
+                    try {
+                        subscriber.onNext(itemCall.execute().body());
+                        subscriber.onCompleted();
+                    } catch (IOException e) {
+                        subscriber.onError(e);
+                    }
+                }
+            }
+        });
+    }
+
+    private Observable<Call<ResponseItem>> getItem(HeroDetail hero){
+        return Observable.create(new Observable.OnSubscribe<Call<ResponseItem>>() {
+            @Override
+            public void call(Subscriber<? super Call<ResponseItem>> subscriber) {
+                if(!subscriber.isUnsubscribed()){
+                    try {
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getHead().getTooltipParams(), LOCALE_RU));
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getTorso().getTooltipParams(), LOCALE_RU));
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getFeet().getTooltipParams(), LOCALE_RU));
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getHands().getTooltipParams(), LOCALE_RU));
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getShoulders().getTooltipParams(), LOCALE_RU));
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getLegs().getTooltipParams(), LOCALE_RU));
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getBracers().getTooltipParams(), LOCALE_RU));
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getMainHand().getTooltipParams(), LOCALE_RU));
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getWaist().getTooltipParams(), LOCALE_RU));
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getRightFinger().getTooltipParams(), LOCALE_RU));
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getLeftFinger().getTooltipParams(), LOCALE_RU));
+                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getNeck().getTooltipParams(), LOCALE_RU));
+                        if (hero.getItems().getOffHand() != null){
+                            subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getOffHand().getTooltipParams(), LOCALE_RU));
+                        }
+                        subscriber.onCompleted();
+                    }catch (Exception e){
+                        subscriber.onError(e);
+                    }
+                }
+            }
+        });
+    }
+
 }

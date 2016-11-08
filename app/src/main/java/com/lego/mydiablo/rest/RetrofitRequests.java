@@ -9,7 +9,7 @@ import com.lego.mydiablo.rest.callback.models.GameData.Era;
 import com.lego.mydiablo.rest.callback.models.GameData.Season;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
 import com.lego.mydiablo.rest.callback.models.HeroList.HeroList;
-import com.lego.mydiablo.rest.callback.models.Item.Item;
+import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -40,6 +40,7 @@ public class RetrofitRequests {
 
     private static RetrofitRequests instance;
     private BlizzardApi api;
+    private BlizzardApiSync apiSync;
 
     private RetrofitRequests() {
         create();
@@ -75,6 +76,11 @@ public class RetrofitRequests {
                 .addCallAdapterFactory(rxAdapter)
                 .build();
         api = retrofit.create(BlizzardApi.class);
+        apiSync =new Retrofit.Builder()
+                .baseUrl(BASE_URL_API)
+                .client(httpClient.build())
+                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
+                .build().create(BlizzardApiSync.class);
     }
 
     public void getSeasonCount() {
@@ -126,8 +132,8 @@ public class RetrofitRequests {
         return api.getHero(BASE_URL_API + D3 + D3_PROFILE + battleTag + HERO + heroId, locale, CLIENT_ID);
     }
 
-    public Observable<Item> getItem(final String data, final String locale) {
-        return api.getItem(BASE_URL_API + D3 + DATA_PATH + data, locale, CLIENT_ID);
+    public Call<ResponseItem> getItem(final String data, final String locale) {
+        return apiSync.getItem(BASE_URL_API + D3 + DATA_PATH + data, locale, CLIENT_ID);
     }
 
 }

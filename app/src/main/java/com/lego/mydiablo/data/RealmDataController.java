@@ -8,6 +8,7 @@ import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.data.model.Item;
 import com.lego.mydiablo.data.model.Skill;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
+import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
 import com.lego.mydiablo.rest.parser.HeroListParser;
 
 import java.util.ArrayList;
@@ -114,17 +115,17 @@ public class RealmDataController implements DataBaseController {
     }
 
     @Override
-    public Observable<Hero> updateHero(HeroDetail heroDetail){
+    public Hero updateHero(HeroDetail heroDetail, List<ResponseItem> items){
         HeroListParser heroListParser =  new HeroListParser();
         List<Hero> heroList = new ArrayList<>();
         mRealm.executeTransaction(realm -> {
             Hero hero = realm.where(Hero.class).equalTo("id",heroDetail.getId()).findFirst();
             if (hero != null) {
-                heroList.add(realm.copyToRealmOrUpdate(heroListParser.heroStatParse(hero, heroDetail)));
+                heroList.add(realm.copyToRealmOrUpdate(heroListParser.heroStatParse(hero, heroDetail, items)));
             }
         });
 
-        return Observable.just(heroList.get(0));
+        return heroList.get(0);
     }
 
 
