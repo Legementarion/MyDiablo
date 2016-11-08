@@ -1,12 +1,9 @@
 package com.lego.mydiablo.presenter.fragment;
 
-import android.support.v4.app.Fragment;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.lego.mydiablo.data.RealmDataController;
-import com.lego.mydiablo.data.model.Hero;
-import com.lego.mydiablo.logic.Core;
+import com.lego.mydiablo.events.FragmentEvent;
+import com.lego.mydiablo.view.fragments.ItemListFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -15,6 +12,12 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
 
     private EventBus mEventBus = EventBus.getDefault();
 
+    public void compare(){
+        getViewState().addCompareFragments();
+    }
 
+    public void backPress() {
+        mEventBus.post(new FragmentEvent(ItemListFragment.newInstance(), ItemListFragment.TAG));
+    }
 
 }

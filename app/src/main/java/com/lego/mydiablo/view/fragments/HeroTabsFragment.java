@@ -118,8 +118,39 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
         mResources = getResources();
         mImageLogo.setImageDrawable(mResources.getDrawable(R.drawable.diablo_logo));
+        setTabs(inflater);
+
+
+        mTabLayout.setViewPager(mViewPager);
+        mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
+        setColorCoordinatorLayout();
+        animation();
+        return mView;
+    }
+
+    @OnClick(R.id.fab)
+    public void compareButton(View view){
+        Snackbar.make(view, "Compare", Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show();
+        mHeroTabsPresenter.compare();
+    }
+
+    @Override
+    public void addCompareFragments() {
+        mAdapter.compare();
+        mTabLayout.setViewPager(mViewPager);
+        fab.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.image_back)
+    public void backButton(){
+        mHeroTabsPresenter.backPress();
+    }
+
+    private void setTabs(LayoutInflater layoutInflater){
         mTabLayout.setCustomTabView((container1, position, adapter) -> {
-            View itemView = inflater.inflate(R.layout.custom_tab_provider, container1, false);
+            View itemView = layoutInflater.inflate(R.layout.custom_tab_provider, container1, false);
             TextView text = (TextView) itemView.findViewById(R.id.custom_tab_text);
             text.setText(adapter.getPageTitle(position));
             ImageView icon = (ImageView) itemView.findViewById(R.id.custom_tab_icon);
@@ -138,17 +169,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             }
             return itemView;
         });
-
-        fab.setOnClickListener(view -> Snackbar.make(view, "Compare", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show());
-        mTabLayout.setViewPager(mViewPager);
-        mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
-        setColorCoordinatorLayout();
-        animation();
-        return mView;
     }
-
     private final SimpleOnPageChangeListener mOnPageChangeListener = new SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {

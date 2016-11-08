@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.lego.mydiablo.view.fragments.ItemDetailFragment;
 
@@ -25,9 +26,12 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
         addFragment("1", rank);
     }
 
-    public void compare(){
-        addFragment("2",2); //hardcoded
-        addSummaryFragment("3");
+    public void compare() {
+        Log.d("Check", "compare: size- " + mFragmentList.size());
+        addFragment("2", 2);
+        addSummaryFragment("3");  //hardcoded
+        notifyDataSetChanged();
+        Log.d("Check", "compare: size- " + mFragmentList.size());
     }
 
     private void addFragment(String title, int rank) {
@@ -35,7 +39,7 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
         mFragmentTitleList.add(title);
     }
 
-    private void addSummaryFragment(String title){
+    private void addSummaryFragment(String title) {
         mFragmentList.add(ItemDetailFragment.newInstance(2));  //hardcoded
         mFragmentTitleList.add(title);
     }
