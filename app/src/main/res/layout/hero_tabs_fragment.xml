@@ -79,13 +79,15 @@
                 app:stl_defaultTabTextColor="@color/icons"
                 app:stl_dividerColor="@color/transparent"
                 app:stl_dividerThickness="0dp"
-                app:stl_indicatorAlwaysInCenter="true"
+                app:stl_indicatorAlwaysInCenter="false"
                 app:stl_indicatorColor="@color/icons"
                 app:stl_indicatorCornerRadius="1.5dp"
                 app:stl_indicatorInterpolation="smart"
                 app:stl_indicatorThickness="3dp"
                 app:stl_underlineColor="@color/transparent"
                 app:tabGravity="center"
+                app:stl_distributeEvenly="true"
+                app:stl_titleOffset="auto_center"
                 app:tabMode="scrollable"/>
 
             <android.support.v7.widget.Toolbar

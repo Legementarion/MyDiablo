@@ -91,7 +91,6 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
         expandablePlayerListDetail = new HashMap<>();
         List<String> general = new ArrayList<>();
         Log.d(TAG, "fillData: " + mHero.getBattleTag());
-//        general.add(getString(R.string.stat_Life) + " - ololo soon");
         general.add(getString(R.string.stat_Life) + " - " + mHero.getHeroStats().getLife());
         general.add(getString(R.string.stat_Damage) + " - " + mHero.getHeroStats().getDamage());
         general.add(getString(R.string.stat_Toughness) + " - " + mHero.getHeroStats().getToughness());
