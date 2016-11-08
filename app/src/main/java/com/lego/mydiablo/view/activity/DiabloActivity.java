@@ -70,7 +70,7 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 mDiabloPresenter.signIn(url);
-//                view.loadUrl(url);
+                view.loadUrl(url);
                 return true;
             }
         });
