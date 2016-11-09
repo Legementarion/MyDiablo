@@ -53,7 +53,7 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_diablo);
         mUnbinder = ButterKnife.bind(this);
         mFragmentManager = getSupportFragmentManager();
         mDiabloPresenter.startConfig(this);
@@ -61,7 +61,7 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
 
     public void prepareSignIn() {
         mAuthDialog = new Dialog(DiabloActivity.this);
-        mAuthDialog.setContentView(R.layout.auth_dialog);
+        mAuthDialog.setContentView(R.layout.dialog_auth);
         mAuthDialog.setTitle(R.string.Authorization_title);
         WebView webView = (WebView) mAuthDialog.findViewById(R.id.wvOauth);
         webView.getSettings().setJavaScriptEnabled(true);
@@ -125,7 +125,7 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
     public void onConfigurationChanged(Configuration newConfig) {
         Log.d("Fragment s", "onConfigurationChanged: ");
         super.onConfigurationChanged(newConfig);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_diablo);
         mDiabloPresenter.restoreScreen();
     }
 

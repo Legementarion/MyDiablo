@@ -65,7 +65,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
 
-    //RX reactive
+    //RX (react)
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.2.0'
 

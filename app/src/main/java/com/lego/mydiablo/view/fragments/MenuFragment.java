@@ -1,7 +1,6 @@
 package com.lego.mydiablo.view.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.arellomobile.mvp.presenter.PresenterType;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.presenter.fragment.MenuPresenter;
 import com.lego.mydiablo.presenter.fragment.MenuView;
-import com.lego.mydiablo.utils.Settings;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +51,7 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.menu_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }

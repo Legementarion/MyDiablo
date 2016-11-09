@@ -29,15 +29,12 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
-import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.presenter.fragment.HeroTabsPresenter;
 import com.lego.mydiablo.presenter.fragment.HeroTabsView;
 import com.lego.mydiablo.view.adapters.HeroTabsPagerAdapter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import com.lego.mydiablo.R;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -110,7 +107,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View mView = inflater.inflate(R.layout.hero_tabs_fragment, container, false);
+        View mView = inflater.inflate(R.layout.fragment_hero_tabs, container, false);
         mUnbinder = ButterKnife.bind(this, mView);
         if (getArguments() != null) {
             setupViewPager(getArguments().getInt("rank"));

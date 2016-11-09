@@ -1,12 +1,11 @@
 package com.lego.mydiablo.view.fragments;
 
 
+import android.app.ProgressDialog;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +64,7 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     RecyclerView mRecyclerView;
 
     private TableItemRecyclerViewAdapter mTableItemRecyclerViewAdapter;
-
+    private static ProgressDialog sProgressDialog;
     private boolean mLoading = false;
 
     private Unbinder mUnbinder;
@@ -84,7 +83,7 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.item_list_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_item_list, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
         /**Видим кнопку назад, если нет второго фрагмента */
         if (Settings.mTwoPane) {
@@ -107,7 +106,7 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     @Override
     public void setupRecyclerView(List<Hero> heroList) {
         mRecyclerView.setItemAnimator(new SlideInUpAnimator());
-        mTableItemRecyclerViewAdapter = new TableItemRecyclerViewAdapter(heroList, getContext());
+        mTableItemRecyclerViewAdapter = new TableItemRecyclerViewAdapter(heroList, getContext(), mItemListPresenter);
         mRecyclerView.setAdapter(mTableItemRecyclerViewAdapter);
 
         mPaginate = Paginate.with(mRecyclerView, this)
@@ -151,7 +150,7 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     }
 
     @OnClick(R.id.back_button)
-    void onBackButtonPress(){
+    void onBackButtonPress() {
         mItemListPresenter.backPress();
     }
 
@@ -168,13 +167,30 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     }
 
     @Override
+    public void showProgress(String message) {
+        sProgressDialog = new ProgressDialog(getContext());
+        sProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        sProgressDialog.setMessage(message);
+        sProgressDialog.setCancelable(false);
+        sProgressDialog.setCanceledOnTouchOutside(false);
+        sProgressDialog.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        if (sProgressDialog != null) {
+            sProgressDialog.dismiss();
+        }
+    }
+
+    @Override
     public void onLoadMore() {
         mLoading = true;
         new Handler().postDelayed(this::loadMore, 200);
     }
 
     private void loadMore() {
-        if (mClassSpinner!=null && mSeasonSpinner !=null) {
+        if (mClassSpinner != null && mSeasonSpinner != null) {
             mItemListPresenter.gimmeMore(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString());
         }
     }

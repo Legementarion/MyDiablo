@@ -17,4 +17,8 @@ public interface ItemListView extends MvpView {
     void blockUI();
 
     void unBlockUI();
+
+    void showProgress(String message);
+
+    void hideProgress();
 }

@@ -143,4 +143,12 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
         getViewState().updateList(mRealmDataController.getNextHero(heroClass, season, mPage));
     }
 
+    public void showProgressDialog(){
+        getViewState().showProgress("please wait...");
+    }
+
+    public void hideProgressDialog(){
+        getViewState().hideProgress();
+    }
+
 }

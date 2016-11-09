@@ -3,6 +3,7 @@ package com.lego.mydiablo.view.adapters;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import com.lego.mydiablo.R;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.logic.Core;
+import com.lego.mydiablo.presenter.fragment.ItemDetailPresenter;
+import com.lego.mydiablo.presenter.fragment.ItemListPresenter;
 import com.lego.mydiablo.view.fragments.HeroTabsFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,10 +38,12 @@ public class TableItemRecyclerViewAdapter
 
     private List<Hero> mHeroList;
     private Context mContext;
+    private ItemListPresenter mItemListPresenter;
     private Core mCore;
     private EventBus bus = EventBus.getDefault();
 
-    public TableItemRecyclerViewAdapter(List<Hero> heroList, Context context) {
+    public TableItemRecyclerViewAdapter(List<Hero> heroList, Context context, ItemListPresenter itemListPresenter) {
+        mItemListPresenter = itemListPresenter;
         mHeroList = new ArrayList<>(heroList);
         mContext = context;
         mCore = Core.getInstance();
@@ -63,17 +68,18 @@ public class TableItemRecyclerViewAdapter
                     if (mCore.checkHeroData(hero.getRank())) {
                         bus.post(new FragmentEvent(HeroTabsFragment.newInstance(hero.getRank()), HeroTabsFragment.TAG)); //send to diablo activity
                     } else {
-                        mCore.loadDetailHeroData(hero.getBattleTag(), hero.getId()).subscribe(new Subscriber<Hero>() {
+                        mCore.loadDetailHeroData(hero.getBattleTag(), hero.getId())
+                                .doOnSubscribe(()->mItemListPresenter.showProgressDialog())
+                                .doAfterTerminate(()->mItemListPresenter.hideProgressDialog())
+                                .subscribe(new Subscriber<Hero>() {
                             @Override
                             public void onCompleted() {
-
+                                unsubscribe();
                             }
-
                             @Override
                             public void onError(Throwable e) {
-
+                                Log.d("Table adapter", "onError: " + e);
                             }
-
                             @Override
                             public void onNext(Hero hero) {
                                 bus.post(new FragmentEvent(HeroTabsFragment.newInstance(hero.getRank()), HeroTabsFragment.TAG)); //send to diablo activity

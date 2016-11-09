@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.lego.mydiablo.R;
-import com.lego.mydiablo.data.RealmDataController;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.presenter.fragment.ItemDetailPresenter;
 import com.lego.mydiablo.presenter.fragment.ItemDetailView;
@@ -78,7 +77,7 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.item_detail_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_item_detail, container, false);
         ButterKnife.bind(this, rootView);
 
 
