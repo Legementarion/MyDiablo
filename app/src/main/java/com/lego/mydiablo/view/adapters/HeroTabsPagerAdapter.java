@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
+import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.view.fragments.ItemDetailFragment;
 
 
@@ -26,7 +27,7 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
         addFragment("1", rank);
     }
 
-    public void compare(int id) {
+    public void compare(Hero hero) {
         Log.d("Check", "compare: size- " + mFragmentList.size());
         addFragment("2", 2);
         addSummaryFragment("3");  //hardcoded

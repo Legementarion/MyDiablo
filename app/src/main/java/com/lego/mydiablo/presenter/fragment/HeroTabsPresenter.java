@@ -18,8 +18,10 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
 
     public void compare() {
         getViewState().openPicker();
+    }
 
-//        getViewState().addCompareFragments();
+    public void addTab(int userHeroId){
+        getViewState().addCompareFragments();
     }
 
     public void backPress() {

@@ -8,6 +8,8 @@ public final class Const {
 
     private Const(){}
 
+    public static final int DEFAULT_RANK = 1001;
+
     public static String CLIENT_ID = "qbsqcqpj8dwcyqs4bc5rsxgwyjx5tkue";
     public static String CLIENT_SECRET = "JcgAFKPQBxrPZGwsx3NfKrnAK2DkS9Ug";
 

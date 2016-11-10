@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
+import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.dialog.PickDialog;
 import com.lego.mydiablo.presenter.fragment.HeroTabsPresenter;
 import com.lego.mydiablo.presenter.fragment.HeroTabsView;
@@ -98,7 +99,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     private boolean mHideToolBar = false, mVisibleImageNews = true, mVisibleTab = true;
 
     private HeroTabsPagerAdapter mAdapter;
-
+    private boolean doublePressed;
     private Animation mAnimation;
     private Animator mCircleRevealAnim;
     private Unbinder mUnbinder;
@@ -138,7 +139,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_PICK:
-                    addCompareFragments(data.getIntExtra(PickDialog.TAG_PICK_SELECTED, 1));
+                    mHeroTabsPresenter.addTab(data.getIntExtra(PickDialog.TAG_PICK_SELECTED, 1));
                     break;
                 case REQUEST_ANOTHER_ONE:
                     break;
@@ -150,10 +151,20 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
     @OnClick(R.id.fab)
     public void compareButton(View view) {
-        Snackbar.make(view, "Compare", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show();
-        mHeroTabsPresenter.compare();
+        if (doublePressed) {
+            Snackbar snackbar = Snackbar.make(view, "Compare another one?", Snackbar.LENGTH_LONG)
+                    .setAction("YES", view1 ->
+                        mHeroTabsPresenter.compare()
+                    );
+
+            // Changing message text color
+            snackbar.setActionTextColor(Color.RED);
+            snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
+            snackbar.show();
+        } else {
+            mHeroTabsPresenter.compare();
+            doublePressed = true;
+        }
     }
 
     @Override
@@ -163,8 +174,9 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         fragment.show(getFragmentManager(), fragment.getClass().getName());
     }
 
-    public void addCompareFragments(int userHero) {
-        mAdapter.compare(userHero);
+    @Override
+    public void addCompareFragments() {
+        mAdapter.compare(null);
         mTabLayout.setViewPager(mViewPager);
     }
 

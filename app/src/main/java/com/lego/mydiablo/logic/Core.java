@@ -57,6 +57,11 @@ public class Core {
         return mServerRequest.getUserHeroList(mBattleTag, LOCALE_RU);
     }
 
+    public Observable<Hero> loadUserDetailHeroData(String battleTag, int heroId){
+        return mParser.getTopHeroDetail(battleTag, heroId)
+                .flatMap(heroDetail -> mParser.getItemsList(heroDetail));
+    }
+
     public boolean checkHeroData(int rank){
         return mRealmDataController.getHero(rank).isLoadingProgress();
     }
