@@ -10,6 +10,7 @@ import com.lego.mydiablo.rest.callback.models.GameData.Season;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
 import com.lego.mydiablo.rest.callback.models.HeroList.HeroList;
 import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
+import com.lego.mydiablo.rest.callback.models.UserData.UserHeroList;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -76,6 +77,7 @@ public class RetrofitRequests {
                 .addCallAdapterFactory(rxAdapter)
                 .build();
         api = retrofit.create(BlizzardApi.class);
+
         apiSync =new Retrofit.Builder()
                 .baseUrl(BASE_URL_API)
                 .client(httpClient.build())
@@ -127,13 +129,16 @@ public class RetrofitRequests {
         return api.getHeroBoard(BASE_URL_API + DATA_PATH + D3 + mMode + season + LEADERBOARD_RIFT + HARDCORE + heroClass, mToken);
     }
 
-
     public Observable<HeroDetail> getHero(final String battleTag, final int heroId, final String locale) {
         return api.getHero(BASE_URL_API + D3 + D3_PROFILE + battleTag + HERO + heroId, locale, CLIENT_ID);
     }
 
     public Call<ResponseItem> getItem(final String data, final String locale) {
         return apiSync.getItem(BASE_URL_API + D3 + DATA_PATH + data, locale, CLIENT_ID);
+    }
+
+    public Observable<UserHeroList> getUserHeroList(final String battleTag, final String locale) {
+        return api.getUserHeroList(BASE_URL_API + D3 + D3_PROFILE + battleTag + "/", locale, CLIENT_ID);
     }
 
 }

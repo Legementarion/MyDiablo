@@ -94,8 +94,7 @@ public class TableItemRecyclerViewAdapter
         int previousDataSize = this.mHeroList.size();
         if (!items.isEmpty()) {
             mHeroList.addAll(items);
-            this.mHeroList.addAll(items);
-            notifyItemRangeInserted(previousDataSize, items.size());
+            notifyItemRangeInserted(previousDataSize, mHeroList.size());
         }
     }
 

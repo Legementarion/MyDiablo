@@ -1,6 +1,5 @@
 package com.lego.mydiablo.rest.callback.models.HeroDetail;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.Items.Items;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.LegendaryPowers.Legendary;

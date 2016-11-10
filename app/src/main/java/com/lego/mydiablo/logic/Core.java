@@ -4,6 +4,7 @@ import com.lego.mydiablo.data.DataBaseController;
 import com.lego.mydiablo.data.RealmDataController;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.rest.RetrofitRequests;
+import com.lego.mydiablo.rest.callback.models.UserData.UserHeroList;
 import com.lego.mydiablo.rest.parser.HeroListParser;
 
 import java.util.List;
@@ -11,6 +12,9 @@ import java.util.List;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.lego.mydiablo.utils.Const.LOCALE_RU;
+import static com.lego.mydiablo.utils.Settings.mBattleTag;
 
 /**
  * Created by Lego on 08.03.2016.
@@ -47,6 +51,10 @@ public class Core {
     public Observable<Hero> loadDetailHeroData(String battleTag, int heroId){
         return mParser.getTopHeroDetail(battleTag, heroId)
                 .flatMap(heroDetail -> mParser.getItemsList(heroDetail));
+    }
+
+    public Observable<UserHeroList> loadUserHeroList(){
+        return mServerRequest.getUserHeroList(mBattleTag, LOCALE_RU);
     }
 
     public boolean checkHeroData(int rank){

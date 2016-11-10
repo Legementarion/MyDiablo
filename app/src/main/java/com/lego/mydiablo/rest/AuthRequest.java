@@ -42,7 +42,7 @@ public class AuthRequest {
                 .addInterceptor(
                         chain -> {
                             Request original = chain.request();
-                            // Request customization: add request headers
+                            // Request customization: setItems request headers
                             Request.Builder requestBuilder = original.newBuilder()
                                     .header("Authorization", "Basic "
                                             + Base64.encodeToString((Const.CLIENT_ID + ":" + Const.CLIENT_SECRET).getBytes(), Base64.NO_WRAP))

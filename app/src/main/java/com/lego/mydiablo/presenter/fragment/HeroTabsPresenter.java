@@ -7,13 +7,19 @@ import com.lego.mydiablo.view.fragments.ItemListFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
+
 @InjectViewState
 public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
 
     private EventBus mEventBus = EventBus.getDefault();
 
-    public void compare(){
-        getViewState().addCompareFragments();
+    HeroTabsPresenter() {
+    }
+
+    public void compare() {
+        getViewState().openPicker();
+
+//        getViewState().addCompareFragments();
     }
 
     public void backPress() {

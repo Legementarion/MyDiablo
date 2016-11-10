@@ -4,7 +4,7 @@ import com.lego.mydiablo.rest.callback.models.GameData.Era;
 import com.lego.mydiablo.rest.callback.models.GameData.Season;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
 import com.lego.mydiablo.rest.callback.models.HeroList.HeroList;
-import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
+import com.lego.mydiablo.rest.callback.models.UserData.UserHeroList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -37,12 +37,10 @@ interface BlizzardApi {
             @Query("apikey") String apikey
     );
 
-
     @GET
-    Observable<ResponseItem> getItem(
+    Observable<UserHeroList> getUserHeroList(
             @Url String url,
             @Query("locale") String locale,
             @Query("apikey") String apikey
     );
-
 }

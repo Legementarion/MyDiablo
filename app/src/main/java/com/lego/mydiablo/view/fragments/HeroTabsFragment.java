@@ -1,6 +1,8 @@
 package com.lego.mydiablo.view.fragments;
 
 import android.animation.Animator;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
@@ -10,10 +12,12 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -29,8 +33,10 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
+import com.lego.mydiablo.dialog.PickDialog;
 import com.lego.mydiablo.presenter.fragment.HeroTabsPresenter;
 import com.lego.mydiablo.presenter.fragment.HeroTabsView;
+import com.lego.mydiablo.rest.callback.models.UserData.UserHeroList;
 import com.lego.mydiablo.view.adapters.HeroTabsPagerAdapter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
@@ -51,6 +57,8 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     HeroTabsPresenter mHeroTabsPresenter;
 
     public static final String TAG = "Detail";
+    private static final int REQUEST_PICK = 1;
+    private static final int REQUEST_ANOTHER_ONE = 2;
 
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
@@ -117,7 +125,6 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         mImageLogo.setImageDrawable(mResources.getDrawable(R.drawable.diablo_logo));
         setTabs(inflater);
 
-
         mTabLayout.setViewPager(mViewPager);
         mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
         setColorCoordinatorLayout();
@@ -125,8 +132,24 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         return mView;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_PICK:
+                    addCompareFragments(data.getIntExtra(PickDialog.TAG_PICK_SELECTED, 1));
+                    break;
+                case REQUEST_ANOTHER_ONE:
+                    break;
+                //обработка других requestCode
+            }
+
+        }
+    }
+
     @OnClick(R.id.fab)
-    public void compareButton(View view){
+    public void compareButton(View view) {
         Snackbar.make(view, "Compare", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show();
@@ -134,18 +157,23 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     }
 
     @Override
-    public void addCompareFragments() {
+    public void openPicker() {
+        DialogFragment fragment = new PickDialog();
+        fragment.setTargetFragment(this, REQUEST_PICK);
+        fragment.show(getFragmentManager(), fragment.getClass().getName());
+    }
+
+    public void addCompareFragments(int userHero) {
         mAdapter.compare();
         mTabLayout.setViewPager(mViewPager);
-        fab.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.image_back)
-    public void backButton(){
+    public void backButton() {
         mHeroTabsPresenter.backPress();
     }
 
-    private void setTabs(LayoutInflater layoutInflater){
+    private void setTabs(LayoutInflater layoutInflater) {
         mTabLayout.setCustomTabView((container1, position, adapter) -> {
             View itemView = layoutInflater.inflate(R.layout.custom_tab_provider, container1, false);
             TextView text = (TextView) itemView.findViewById(R.id.custom_tab_text);
@@ -167,6 +195,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             return itemView;
         });
     }
+
     private final SimpleOnPageChangeListener mOnPageChangeListener = new SimpleOnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
@@ -305,6 +334,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 public void onAnimationCancel(Animator animation) {
                     // Do nothing
                 }
+
                 @Override
                 public void onAnimationRepeat(Animator animation) {
                     // Do nothing
