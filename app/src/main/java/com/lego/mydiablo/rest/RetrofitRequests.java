@@ -20,6 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import rx.Observable;
 import rx.schedulers.Schedulers;
@@ -74,6 +75,7 @@ public class RetrofitRequests {
                 .baseUrl(BASE_URL_API)
                 .client(httpClient.build())
                 .addConverterFactory(JacksonConverterFactory.create(objectMapper))
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(rxAdapter)
                 .build();
         api = retrofit.create(BlizzardApi.class);

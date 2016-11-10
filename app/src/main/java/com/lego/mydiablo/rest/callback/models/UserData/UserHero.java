@@ -1,28 +1,22 @@
 package com.lego.mydiablo.rest.callback.models.UserData;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.gson.annotations.Expose;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserHero {
     @SerializedName("id")
-    @Expose
     private int id;
     @SerializedName("name")
-    @Expose
     private String name;
-    @SerializedName("class")
-    @Expose
-    private String heroClass;
+    @JsonProperty("class")
+    private String hClass;
     @SerializedName("gender")
-    @Expose
     private int gender;
     @SerializedName("hardcore")
-    @Expose
     private boolean hardcore;
     @SerializedName("seasonal")
-    @Expose
     private boolean seasonal;
 
     public int getId() {
@@ -41,12 +35,12 @@ public class UserHero {
         this.name = name;
     }
 
-    public String getHeroClass() {
-        return heroClass;
+    public String gethClass() {
+        return hClass;
     }
 
-    public void setHeroClass(String heroClass) {
-        this.heroClass = heroClass;
+    public void sethClass(String hClass) {
+        this.hClass = hClass;
     }
 
     public int getGender() {

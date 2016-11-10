@@ -4,7 +4,6 @@ package com.lego.mydiablo.view.adapters;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,13 +42,11 @@ public class UserHeroListRecyclerAdapter
     public void onBindViewHolder(HeroViewHolder holder, int position) {
         if (!mHeroList.isEmpty()) {
             UserHero hero = mHeroList.get(position);
-            holder.mIdView.setText("id " + hero.getId());
-            holder.mContentView.setText("class " + hero.getHeroClass());
-//            holder.mClassView.setImageDrawable(pickImage(hero.getHeroClass()));
+            holder.mIdView.setText(" " + hero.getName());
+            holder.mContentView.setText(" " + hero.gethClass());
+            holder.mClassView.setImageDrawable(pickImage(hero.gethClass()));
             holder.mRankView.setText("gender " + hero.getGender());
-            holder.mView.setTag(hero.getId());
             holder.mView.setOnClickListener(v -> {
-                        Log.d("AAAAAAAAAA", "onBindViewHolder: " + hero.getId());
                         mUserHeroPick.pickHero(hero.getId());
                     }
             );
@@ -58,9 +55,9 @@ public class UserHeroListRecyclerAdapter
 
     private Drawable pickImage(String s) {
         switch (s) {
-            case "demon hunter":
+            case "demon-hunter":
                 return mContext.getResources().getDrawable(mContext.getResources().getIdentifier("dh", "drawable", mContext.getPackageName()));
-            case "witch doctor":
+            case "witch-doctor":
                 return mContext.getResources().getDrawable(mContext.getResources().getIdentifier("wd", "drawable", mContext.getPackageName()));
             default:
                 return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(s, "drawable", mContext.getPackageName()));

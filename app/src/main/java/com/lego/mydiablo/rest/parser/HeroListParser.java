@@ -207,13 +207,12 @@ public class HeroListParser {
     public Observable<Hero> getItemsList(final HeroDetail hero){
         return getItem(hero)
                 .flatMap(this::getBody)
-//                .doOnNext(item -> Log.e("TEST ITEM",item.toString()))
                 .toList()
                 .compose(applySchedulers())
                 .map(items -> transform(items, hero));
     }
 
-    <T> Observable.Transformer<T, T> applySchedulers() {
+    private <T> Observable.Transformer<T, T> applySchedulers() {
         return observable -> observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

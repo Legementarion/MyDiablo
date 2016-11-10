@@ -59,9 +59,7 @@ public class PickDialog extends DialogFragment implements UserHeroPick {
     private void init() {
         mUserHeroListRecyclerAdapter = new UserHeroListRecyclerAdapter(getContext(), Collections.EMPTY_LIST, this);
         mRecyclerView.setAdapter(mUserHeroListRecyclerAdapter);
-        mRecyclerView.setOnClickListener(view -> {
-            Log.d("Pick Hero", "onBindViewHolder: " + view.getTag().toString());
-        });
+        getDialog().setTitle("With whom to compare?");
         mCore.loadUserHeroList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -99,7 +97,7 @@ public class PickDialog extends DialogFragment implements UserHeroPick {
     public void pickHero(int userHeroId) {
         //отправляем результат обратно
         Intent intent = new Intent();
-        intent.putExtra(TAG_PICK_SELECTED,userHeroId);
+        intent.putExtra(TAG_PICK_SELECTED, userHeroId);
         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
         dismiss();
     }

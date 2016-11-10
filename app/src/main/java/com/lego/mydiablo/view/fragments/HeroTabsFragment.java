@@ -164,7 +164,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     }
 
     public void addCompareFragments(int userHero) {
-        mAdapter.compare();
+        mAdapter.compare(userHero);
         mTabLayout.setViewPager(mViewPager);
     }
 

@@ -26,7 +26,7 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
         addFragment("1", rank);
     }
 
-    public void compare() {
+    public void compare(int id) {
         Log.d("Check", "compare: size- " + mFragmentList.size());
         addFragment("2", 2);
         addSummaryFragment("3");  //hardcoded
