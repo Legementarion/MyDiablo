@@ -16,9 +16,6 @@ import rx.schedulers.Schedulers;
 import static com.lego.mydiablo.utils.Const.LOCALE_RU;
 import static com.lego.mydiablo.utils.Settings.mBattleTag;
 
-/**
- * Created by Lego on 08.03.2016.
- */
 public class Core {
     private static Core mCore;
     private RetrofitRequests mServerRequest = RetrofitRequests.getInstance();
@@ -50,6 +47,8 @@ public class Core {
 
     public Observable<Hero> loadDetailHeroData(String battleTag, int heroId){
         return mParser.getTopHeroDetail(battleTag, heroId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .flatMap(heroDetail -> mParser.getItemsList(heroDetail));
     }
 
@@ -59,6 +58,9 @@ public class Core {
 
     public Observable<Hero> loadUserDetailHeroData(String battleTag, int heroId){
         return mParser.getTopHeroDetail(battleTag, heroId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .flatMap(heroDetail -> mParser.setUserHeroToDB(heroDetail))
                 .flatMap(heroDetail -> mParser.getItemsList(heroDetail));
     }
 

@@ -3,6 +3,7 @@ package com.lego.mydiablo.data;
 import android.app.Activity;
 import android.app.Application;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.data.model.Item;
@@ -115,17 +116,25 @@ public class RealmDataController implements DataBaseController {
     }
 
     @Override
-    public Hero updateHero(HeroDetail heroDetail, List<ResponseItem> items){
-        HeroListParser heroListParser =  new HeroListParser();
+    public Hero updateHero(HeroDetail heroDetail, List<ResponseItem> items) {
+        Log.d("HeroTabsPresenter", "updateHero:begin " );
+        HeroListParser heroListParser = new HeroListParser();
         List<Hero> heroList = new ArrayList<>();
         mRealm.executeTransaction(realm -> {
-            Hero hero = realm.where(Hero.class).equalTo("id",heroDetail.getId()).findFirst();
+            Hero hero = realm.where(Hero.class).equalTo("id", heroDetail.getId()).findFirst();
+            Log.d("HeroTabsPresenter", "updateHero: " + hero.getId());
             if (hero != null) {
                 heroList.add(realm.copyToRealmOrUpdate(heroListParser.heroStatParse(hero, heroDetail, items)));
             }
         });
-
         return heroList.get(0);
+    }
+
+    @Override
+    public void createOrUpdateUserHero(Hero userHero) {
+        mRealm.executeTransaction(realm ->
+                realm.copyToRealmOrUpdate(userHero)
+        );
     }
 
 
@@ -136,5 +145,6 @@ public class RealmDataController implements DataBaseController {
         }
         return heroList;
     }
+
 
 }

@@ -1,6 +1,7 @@
 package com.lego.mydiablo.rest.callback.models.HeroDetail;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.Items.Items;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.LegendaryPowers.Legendary;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.Skills.Skills;
@@ -18,6 +19,10 @@ public class HeroDetail {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("class")
+    @Expose
+    @JsonProperty("class")
+    private String heroClass;
     @SerializedName("gender")
     @Expose
     private int gender;
@@ -98,6 +103,14 @@ public class HeroDetail {
 //    public void setFollowers(Followers followers) {
 //        this.followers = followers;
 //    }
+
+    public String getHeroClass() {
+        return heroClass;
+    }
+
+    public void setHeroClass(String heroClass) {
+        this.heroClass = heroClass;
+    }
 
     public List<Legendary> getLegendaryPowers() {
         return legendaryPowers;

@@ -40,6 +40,19 @@
     </string-array>
 
     <string name="stats">Hero Stats</string>
+    <string name="head">head</string>
+    <string name="torso">torso</string>
+    <string name="feet">feet</string>
+    <string name="hands">hands</string>
+    <string name="shoulders">shoulders</string>
+    <string name="legs">legs</string>
+    <string name="bracers">bracers</string>
+    <string name="mainHand">mainHand</string>
+    <string name="waist">waist</string>
+    <string name="rightFinger">rightFinger</string>
+    <string name="leftFinger">leftFinger</string>
+    <string name="neck">neck</string>
+    <string name="offhand">offhand</string>
 
     <string name="stat_Life">Life</string>
     <string name="stat_Damage">Damage</string>

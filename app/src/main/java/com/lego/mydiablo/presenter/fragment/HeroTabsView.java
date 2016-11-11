@@ -1,10 +1,12 @@
 package com.lego.mydiablo.presenter.fragment;
 
 import com.arellomobile.mvp.MvpView;
-import com.lego.mydiablo.rest.callback.models.UserData.UserHeroList;
+import com.lego.mydiablo.data.model.Hero;
 
 public interface HeroTabsView extends MvpView {
-    void addCompareFragments();
+    void addCompareFragments(Hero hero, Hero userHero);
 
     void openPicker();
+
+    void setHeroAdapter(Hero hero);
 }

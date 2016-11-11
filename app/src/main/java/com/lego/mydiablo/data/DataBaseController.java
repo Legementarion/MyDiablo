@@ -14,4 +14,6 @@ public interface DataBaseController {
     Observable<Hero> updateDatabase(Hero item);
 
     Hero updateHero(HeroDetail heroDetail, List<ResponseItem> items);
+
+    void createOrUpdateUserHero(Hero hero);
 }

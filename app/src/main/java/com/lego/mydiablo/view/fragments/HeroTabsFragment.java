@@ -120,11 +120,11 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         mUnbinder = ButterKnife.bind(this, mView);
         if (getArguments() != null) {
             setupViewPager(getArguments().getInt("rank"));
+            setTabs(inflater);
         }
 
         mResources = getResources();
         mImageLogo.setImageDrawable(mResources.getDrawable(R.drawable.diablo_logo));
-        setTabs(inflater);
 
         mTabLayout.setViewPager(mViewPager);
         mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
@@ -154,7 +154,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         if (doublePressed) {
             Snackbar snackbar = Snackbar.make(view, "Compare another one?", Snackbar.LENGTH_LONG)
                     .setAction("YES", view1 ->
-                        mHeroTabsPresenter.compare()
+                            mHeroTabsPresenter.compare()
                     );
 
             // Changing message text color
@@ -175,8 +175,14 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     }
 
     @Override
-    public void addCompareFragments() {
-        mAdapter.compare(null);
+    public void setHeroAdapter(Hero hero) {
+        mAdapter.setupAdapter(hero);
+        mTabLayout.setViewPager(mViewPager);
+    }
+
+    @Override
+    public void addCompareFragments(Hero hero, Hero userHero) {
+        mAdapter.compare(hero, userHero);
         mTabLayout.setViewPager(mViewPager);
     }
 
@@ -316,11 +322,12 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     }
 
     private void setupViewPager(int rank) {
-        mAdapter = new HeroTabsPagerAdapter(getChildFragmentManager(), rank);
+        mAdapter = new HeroTabsPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(0);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
+        mHeroTabsPresenter.getHeroFromDB(this, rank);
     }
 
     private void animationFillingColor() {

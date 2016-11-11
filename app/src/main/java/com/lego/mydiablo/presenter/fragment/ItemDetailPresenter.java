@@ -10,18 +10,11 @@ import com.lego.mydiablo.data.model.Hero;
 @InjectViewState
 public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
 
-    private RealmDataController mRealmDataController;
-
     private Hero mHero;
-    private int mHeroRank = 0;
 
-    public void getHeroFromDB(Fragment fragment, int rank) {
-        mHeroRank = rank;
-        mRealmDataController = RealmDataController.with(fragment);
-
-        if (mHeroRank != 0) {
-            mHero = mRealmDataController.getHero(mHeroRank);
-            getViewState().fillData(mHero);
-        }
+    public void setHero(Hero hero){
+        mHero = hero;
+        getViewState().fillData(mHero);
     }
+
 }

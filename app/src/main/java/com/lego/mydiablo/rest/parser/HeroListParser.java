@@ -25,8 +25,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.lego.mydiablo.utils.Const.DEFAULT_RANK;
 import static com.lego.mydiablo.utils.Const.LOCALE_RU;
-
 
 public class HeroListParser {
 
@@ -99,6 +99,21 @@ public class HeroListParser {
         return mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU);
     }
 
+    public Observable<HeroDetail> setUserHeroToDB(HeroDetail heroDetail) {
+        Hero currentUserHero = new Hero();
+        currentUserHero.setId(heroDetail.getId());
+        currentUserHero.setName(heroDetail.getName());
+        currentUserHero.setHeroClass(heroDetail.getHeroClass());
+        currentUserHero.setGender(heroDetail.getGender());
+        currentUserHero.setHardcore(heroDetail.getHardcore());
+        currentUserHero.setSeasonal(heroDetail.getSeasonal());
+        currentUserHero.setRank(DEFAULT_RANK);
+        currentUserHero.setLoadingProgress(false);
+        Log.d("HeroTabsPresenter", "setUserHeroToDB:hero id " + heroDetail.getId());
+        mRealmDataController.createOrUpdateUserHero(currentUserHero);
+        return Observable.just(heroDetail);
+    }
+
     public Hero heroStatParse(Hero newHeroData, HeroDetail hero, List<ResponseItem> items) {
         try {
             newHeroData.setHardcore(hero.getHardcore());
@@ -140,12 +155,14 @@ public class HeroListParser {
 
             RealmList<LegendaryPower> heroLegendaryPowers = new RealmList<>();
             for (int i = 0; i < hero.getLegendaryPowers().size(); i++) {
-                LegendaryPower legendaryPower = mRealmDataController.getRealm().createObject(LegendaryPower.class);
-                legendaryPower.setId(hero.getLegendaryPowers().get(i).getId());
-                legendaryPower.setName(hero.getLegendaryPowers().get(i).getName());
-                legendaryPower.setIcon(hero.getLegendaryPowers().get(i).getIcon());
-                legendaryPower.setColor(hero.getLegendaryPowers().get(i).getDisplayColor());
-                heroLegendaryPowers.add(legendaryPower);
+                if (hero.getLegendaryPowers().get(i) != null) {
+                    LegendaryPower legendaryPower = mRealmDataController.getRealm().createObject(LegendaryPower.class);
+                    legendaryPower.setId(hero.getLegendaryPowers().get(i).getId());
+                    legendaryPower.setName(hero.getLegendaryPowers().get(i).getName());
+                    legendaryPower.setIcon(hero.getLegendaryPowers().get(i).getIcon());
+                    legendaryPower.setColor(hero.getLegendaryPowers().get(i).getDisplayColor());
+                    heroLegendaryPowers.add(legendaryPower);
+                }
             }
             newHeroData.setHeroPower(heroLegendaryPowers);
 
@@ -167,16 +184,20 @@ public class HeroListParser {
 
             RealmList<Skill> heroSkillsPassive = new RealmList<>();
             for (int i = 0; i < hero.getSkills().getPassive().size(); i++) {
-                heroSkillsPassive.add(setSkill(hero, i));
+                if (hero.getSkills().getPassive().get(i) != null) {
+                    heroSkillsPassive.add(setSkill(hero, i));
+                }
             }
             newHeroData.setPassiveSkills(heroSkillsPassive);
 
             RealmList<Item> heroItems = new RealmList<>();
-            for (ResponseItem item: items) {
+            for (ResponseItem item : items) {
                 heroItems.add(parseItem(item));
             }
             newHeroData.setHeroComplect(heroItems);
+
             newHeroData.setLoadingProgress(true);
+
             return newHeroData;
 
         } catch (NullPointerException ex) {
@@ -204,7 +225,7 @@ public class HeroListParser {
         return skill;
     }
 
-    public Observable<Hero> getItemsList(final HeroDetail hero){
+    public Observable<Hero> getItemsList(final HeroDetail hero) {
         return getItem(hero)
                 .flatMap(this::getBody)
                 .toList()
@@ -213,21 +234,23 @@ public class HeroListParser {
     }
 
     private <T> Observable.Transformer<T, T> applySchedulers() {
+        Log.d("HeroTabsPresenter", "applySchedulers: ");
         return observable -> observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private Hero transform(List<ResponseItem> items, HeroDetail detail){
+    private Hero transform(List<ResponseItem> items, HeroDetail detail) {
         return mRealmDataController.updateHero(detail, items);
     }
 
-    private Observable<ResponseItem> getBody(Call<ResponseItem> itemCall){
+    private Observable<ResponseItem> getBody(Call<ResponseItem> itemCall) {
         return Observable.create(new Observable.OnSubscribe<ResponseItem>() {
             @Override
             public void call(Subscriber<? super ResponseItem> subscriber) {
-                if(!subscriber.isUnsubscribed()){
+                if (!subscriber.isUnsubscribed()) {
                     try {
                         subscriber.onNext(itemCall.execute().body());
+                        Log.d("HeroTabsPresenter", "getBody: ");
                         subscriber.onCompleted();
                     } catch (IOException e) {
                         subscriber.onError(e);
@@ -237,11 +260,11 @@ public class HeroListParser {
         });
     }
 
-    private Observable<Call<ResponseItem>> getItem(HeroDetail hero){
+    private Observable<Call<ResponseItem>> getItem(HeroDetail hero) {
         return Observable.create(new Observable.OnSubscribe<Call<ResponseItem>>() {
             @Override
             public void call(Subscriber<? super Call<ResponseItem>> subscriber) {
-                if(!subscriber.isUnsubscribed()){
+                if (!subscriber.isUnsubscribed()) {
                     try {
                         subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getHead().getTooltipParams(), LOCALE_RU));
                         subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getTorso().getTooltipParams(), LOCALE_RU));
@@ -255,11 +278,12 @@ public class HeroListParser {
                         subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getRightFinger().getTooltipParams(), LOCALE_RU));
                         subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getLeftFinger().getTooltipParams(), LOCALE_RU));
                         subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getNeck().getTooltipParams(), LOCALE_RU));
-                        if (hero.getItems().getOffHand() != null){
+                        if (hero.getItems().getOffHand() != null) {
                             subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getOffHand().getTooltipParams(), LOCALE_RU));
                         }
+                        Log.d("HeroTabsPresenter", "getItem: hero id " + hero.getId());
                         subscriber.onCompleted();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         subscriber.onError(e);
                     }
                 }

@@ -76,7 +76,7 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
         ImageView listTitleIcon = (ImageView) convertView.findViewById(R.id.IconTitle);
         listTitleTextView.setText(listTitle);
-        listTitleIcon.setImageResource(icon[listPosition]);
+//        listTitleIcon.setImageResource(icon[listPosition]);
         return convertView;
     }
     @Override

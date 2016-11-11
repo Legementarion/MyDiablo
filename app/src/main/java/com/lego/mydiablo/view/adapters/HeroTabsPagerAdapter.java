@@ -1,6 +1,5 @@
 package com.lego.mydiablo.view.adapters;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,41 +7,46 @@ import android.util.Log;
 
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.view.fragments.ItemDetailFragment;
-
+import com.lego.mydiablo.view.fragments.SumFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
 
-    public static final String POSITION_PAGE = "position_page";
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public HeroTabsPagerAdapter(FragmentManager manager, int rank) {
+    public HeroTabsPagerAdapter(FragmentManager manager) {
         super(manager);
-        Bundle bundle = new Bundle();
-        bundle.putInt(POSITION_PAGE, 0);
-        addFragment("1", rank);
     }
 
-    public void compare(Hero hero) {
-        Log.d("Check", "compare: size- " + mFragmentList.size());
-        addFragment("2", 2);
-        addSummaryFragment("3");  //hardcoded
+    public void setupAdapter(Hero hero) {
+        addFragment(hero.getName(), hero);
+    }
+
+    public void compare(Hero hero, Hero userHero) {
+        addFragment(userHero.getName(), userHero);
+        addSummaryFragment(hero, userHero);
         notifyDataSetChanged();
-        Log.d("Check", "compare: size- " + mFragmentList.size());
     }
 
-    private void addFragment(String title, int rank) {
-        mFragmentList.add(ItemDetailFragment.newInstance(rank));
+    private void addFragment(String title, Hero hero) {
+        ItemDetailFragment itemDetailFragment = ItemDetailFragment.newInstance();
+        itemDetailFragment.setHeroInfo(hero);
+        mFragmentList.add(itemDetailFragment);
+//        mFragmentTitleList.add("");
+//        ItemDetailFragment itemDetailFragment = (ItemDetailFragment) mFragmentList.get(0);
+//        mFragmentTitleList.remove(0);
         mFragmentTitleList.add(title);
+        notifyDataSetChanged();
     }
 
-    private void addSummaryFragment(String title) {
-        mFragmentList.add(ItemDetailFragment.newInstance(2));  //hardcoded
-        mFragmentTitleList.add(title);
+    private void addSummaryFragment(Hero hero, Hero userHero) {
+        SumFragment sumFragment = new SumFragment();
+        sumFragment.compare(hero, userHero);
+        mFragmentList.add(sumFragment);
+        mFragmentTitleList.add("Difference");
     }
 
     @Override
