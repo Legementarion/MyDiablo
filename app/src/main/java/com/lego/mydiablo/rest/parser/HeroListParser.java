@@ -109,7 +109,6 @@ public class HeroListParser {
         currentUserHero.setSeasonal(heroDetail.getSeasonal());
         currentUserHero.setRank(DEFAULT_RANK);
         currentUserHero.setLoadingProgress(false);
-        Log.d("HeroTabsPresenter", "setUserHeroToDB:hero id " + heroDetail.getId());
         mRealmDataController.createOrUpdateUserHero(currentUserHero);
         return Observable.just(heroDetail);
     }
@@ -234,7 +233,6 @@ public class HeroListParser {
     }
 
     private <T> Observable.Transformer<T, T> applySchedulers() {
-        Log.d("HeroTabsPresenter", "applySchedulers: ");
         return observable -> observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -250,7 +248,6 @@ public class HeroListParser {
                 if (!subscriber.isUnsubscribed()) {
                     try {
                         subscriber.onNext(itemCall.execute().body());
-                        Log.d("HeroTabsPresenter", "getBody: ");
                         subscriber.onCompleted();
                     } catch (IOException e) {
                         subscriber.onError(e);
@@ -281,7 +278,6 @@ public class HeroListParser {
                         if (hero.getItems().getOffHand() != null) {
                             subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getOffHand().getTooltipParams(), LOCALE_RU));
                         }
-                        Log.d("HeroTabsPresenter", "getItem: hero id " + hero.getId());
                         subscriber.onCompleted();
                     } catch (Exception e) {
                         subscriber.onError(e);

@@ -117,12 +117,10 @@ public class RealmDataController implements DataBaseController {
 
     @Override
     public Hero updateHero(HeroDetail heroDetail, List<ResponseItem> items) {
-        Log.d("HeroTabsPresenter", "updateHero:begin " );
         HeroListParser heroListParser = new HeroListParser();
         List<Hero> heroList = new ArrayList<>();
         mRealm.executeTransaction(realm -> {
             Hero hero = realm.where(Hero.class).equalTo("id", heroDetail.getId()).findFirst();
-            Log.d("HeroTabsPresenter", "updateHero: " + hero.getId());
             if (hero != null) {
                 heroList.add(realm.copyToRealmOrUpdate(heroListParser.heroStatParse(hero, heroDetail, items)));
             }

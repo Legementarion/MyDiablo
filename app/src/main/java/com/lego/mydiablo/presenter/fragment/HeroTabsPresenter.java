@@ -59,7 +59,6 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
             @Override
             public void onNext(Hero hero) {
                 mUserHero = hero;
-                Log.d("HeroTabsPresenter", "onNext:  ok");
                 getViewState().addCompareFragments(mRatingHero, mUserHero);
             }
         });

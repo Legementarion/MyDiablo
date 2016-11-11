@@ -22,7 +22,7 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
     }
 
     public void setupAdapter(Hero hero) {
-        addFragment(hero.getName(), hero);
+        addFragment(hero.getBattleTag(), hero);
     }
 
     public void compare(Hero hero, Hero userHero) {
@@ -34,19 +34,20 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
     private void addFragment(String title, Hero hero) {
         ItemDetailFragment itemDetailFragment = ItemDetailFragment.newInstance();
         itemDetailFragment.setHeroInfo(hero);
+        mFragmentTitleList.add(title);
         mFragmentList.add(itemDetailFragment);
 //        mFragmentTitleList.add("");
 //        ItemDetailFragment itemDetailFragment = (ItemDetailFragment) mFragmentList.get(0);
 //        mFragmentTitleList.remove(0);
-        mFragmentTitleList.add(title);
         notifyDataSetChanged();
     }
 
     private void addSummaryFragment(Hero hero, Hero userHero) {
         SumFragment sumFragment = new SumFragment();
         sumFragment.compare(hero, userHero);
-        mFragmentList.add(sumFragment);
         mFragmentTitleList.add("Difference");
+        mFragmentList.add(sumFragment);
+        notifyDataSetChanged();
     }
 
     @Override
