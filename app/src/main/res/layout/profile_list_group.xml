@@ -29,9 +29,9 @@
             android:id="@+id/IconTitle"
             app:srcCompat="@android:color/transparent"
             tools:ignore="ContentDescription"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"/>
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            />
 
     </RelativeLayout>
 

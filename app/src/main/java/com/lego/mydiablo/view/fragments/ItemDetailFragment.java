@@ -1,15 +1,13 @@
 package com.lego.mydiablo.view.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -28,24 +26,16 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
     ItemDetailPresenter mItemDetailPresenter;
 
     public static final String TAG = "ItemDetail";
-    Hero mHero;
+    private Hero mHero;
 
     @BindView(R.id.playerParam)
     ExpandableListView mPlayerExpandableListView;
-    @BindView(R.id.userParam)
-    ExpandableListView mUserExpandableListView;
     @BindView(R.id.statsCompare)
     RecyclerView mRecyclerView;
-    @BindView(R.id.playerName)
-    TextView mPlayerName;
-    @BindView(R.id.userName)
-    TextView mUserName;
-    @BindView(R.id.detail_conteiner)
-    CoordinatorLayout mFrameLayout;
+    @BindView(R.id.item_detail_container)
+    LinearLayout mFrameLayout;
 
     private Unbinder mUnbinder;
-
-    private ImageView mImageViewIcon;
 
     public static ItemDetailFragment newInstance() {
         return new ItemDetailFragment();
