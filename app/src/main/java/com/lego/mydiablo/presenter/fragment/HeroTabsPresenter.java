@@ -45,7 +45,9 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
     }
 
     public void addTab(int userHeroId) {
-        mCore.loadUserDetailHeroData(mBattleTag, userHeroId).subscribe(new Subscriber<Hero>() {
+        mCore.loadUserDetailHeroData(mBattleTag, userHeroId)
+                .cache()
+                .subscribe(new Subscriber<Hero>() {
             @Override
             public void onCompleted() {
                 unsubscribe();

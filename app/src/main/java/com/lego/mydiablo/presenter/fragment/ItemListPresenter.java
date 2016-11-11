@@ -65,7 +65,6 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
                 mEmptyData = true;
             }
             mCore.loadHeroList(heroClass, season)
-                    .cache()
                     .doOnSubscribe(() -> {
                         getViewState().updateProgressBar(true);
                         getViewState().blockUI();
