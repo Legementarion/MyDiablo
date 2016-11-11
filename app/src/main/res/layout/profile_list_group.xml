@@ -7,13 +7,33 @@
     android:layout_height="wrap_content"
     android:gravity="center">
 
-    <ImageView
+    <RelativeLayout
+        android:id="@+id/details_myContainer"
+        android:layout_weight="3"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        app:srcCompat="@android:color/transparent"
-        android:id="@+id/IconTitle"
-        tools:ignore="ContentDescription"
-        android:layout_weight="3" />
+        android:layout_height="64dp">
+
+        <ProgressBar
+            android:id="@+id/details_progressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <ImageView
+            android:id="@+id/IconTitle"
+            app:srcCompat="@android:color/transparent"
+            tools:ignore="ContentDescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"/>
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/listTitle"

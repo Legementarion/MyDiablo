@@ -34,7 +34,9 @@ public final class Const {
     public static final String LEADERBOARD_RIFT = "/leaderboard/rift-";
     public static final String NO_VALUE = "";
     public static final String HARDCORE = "hardcore-";
-
+    public static final String ICONS = "icons/";
+    public static final String ITEMS = "items/";
+    public static final String LARGE = "large/";
     public static final String LOCALE_RU = "ru_RU";
     public static final String LOCALE_EN = "en_GB";
 
@@ -47,4 +49,5 @@ public final class Const {
     public static final int START_PROGRESS_VALUE = 50;
 
     public static final String COLOR = "#0B0B0B";
+    public static final String PNG = ".png";
 }
