@@ -1,18 +1,18 @@
 package com.lego.mydiablo.presenter.fragment;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.widget.ExpandableListAdapter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.lego.mydiablo.R;
-import com.lego.mydiablo.data.RealmDataController;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.view.adapters.ProfileExpandableListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static com.lego.mydiablo.utils.Const.D3;
@@ -27,7 +27,7 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
 
     private ExpandableListAdapter expandablePlayerListAdapter;
     private List<String> expandablePlayerListTitle;
-    private HashMap<String, List<String>> expandablePlayerListDetail;
+    private LinkedHashMap<String, List<String>> expandablePlayerListDetail;
     private List<String> mIcons = new ArrayList<>();
 
     private Hero mHero;
@@ -35,11 +35,10 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
     public void setHero(Hero hero, Context context) {
         mHero = hero;
         fillData(context);
-
     }
 
     private void fillData(Context context) {
-        expandablePlayerListDetail = new HashMap<>();
+        expandablePlayerListDetail = new LinkedHashMap <>();
         List<String> head = new ArrayList<>();
         head.add("" + mHero.getHeroComplect().get(0).getTitle());
         mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(0).getImageUrl() + PNG);

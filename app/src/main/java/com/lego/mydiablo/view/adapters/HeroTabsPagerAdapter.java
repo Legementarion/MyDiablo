@@ -21,6 +21,10 @@ public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
     }
 
     public void setupAdapter(Hero hero) {
+        if (!mFragmentList.isEmpty()){
+            mFragmentList.clear();
+            mFragmentTitleList.clear();
+        }
         addFragment(hero.getBattleTag(), hero);
     }
 

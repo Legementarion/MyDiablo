@@ -14,16 +14,17 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
     private List<String> mExpandableListTitle;
-    private HashMap<String, List<String>> mExpandableListDetail;
+    private LinkedHashMap<String, List<String>> mExpandableListDetail;
     private List<String> mIcons = new ArrayList<>();
 
-    public ProfileExpandableListAdapter(Context context, List<String> expandableListTitle, HashMap<String, List<String>> expandableListDetail, List<String> icons) {
+    public ProfileExpandableListAdapter(Context context, List<String> expandableListTitle, LinkedHashMap<String, List<String>> expandableListDetail, List<String> icons) {
         this.mContext = context;
         this.mIcons = icons;
         this.mExpandableListTitle = expandableListTitle;
@@ -74,23 +75,17 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int listPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
+    public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         String listTitle = (String) getGroup(listPosition);
         if (convertView == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) this.mContext.
-                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.profile_list_group, null);
         }
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
         ImageView listTitleIcon = (ImageView) convertView.findViewById(R.id.IconTitle);
-        ProgressBar progressBar = null;
-        if (convertView != null) {
-            progressBar = (ProgressBar) convertView.findViewById(R.id.details_progressBar);
-            progressBar.setVisibility(View.VISIBLE);
-        }
+        ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.details_progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         listTitleTextView.setText(listTitle);
-        ProgressBar finalProgressBar = progressBar;
         Picasso.with(mContext)
                 .load(mIcons.get(listPosition))
 //               .resize(128, 128)
@@ -98,9 +93,7 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
                 .into(listTitleIcon, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
-                        if (finalProgressBar != null) {
-                            finalProgressBar.setVisibility(View.GONE);
-                        }
+                        progressBar.setVisibility(View.GONE);
                     }
                     @Override
                     public void onError() {
