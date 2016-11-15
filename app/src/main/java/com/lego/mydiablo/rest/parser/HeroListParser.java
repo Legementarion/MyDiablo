@@ -1,5 +1,6 @@
 package com.lego.mydiablo.rest.parser;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.lego.mydiablo.data.RealmDataController;
@@ -11,12 +12,14 @@ import com.lego.mydiablo.data.model.Skill;
 import com.lego.mydiablo.data.model.Stats;
 import com.lego.mydiablo.rest.RetrofitRequests;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
+import com.lego.mydiablo.rest.callback.models.HeroDetail.Items.ItemDetail;
 import com.lego.mydiablo.rest.callback.models.HeroList.HeroList;
 import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import io.realm.RealmList;
 import retrofit2.Call;
@@ -117,6 +120,7 @@ public class HeroListParser {
         try {
             newHeroData.setHardcore(hero.getHardcore());
             newHeroData.setSeasonal(hero.getSeasonal());
+            newHeroData.setGender(hero.getGender());
 
             Stats stats = mRealmDataController.getRealm().createObject(Stats.class);
             stats.setLife(hero.getStats().getLife());
@@ -167,14 +171,16 @@ public class HeroListParser {
 
             RealmList<Skill> heroSkillsActive = new RealmList<>();
             for (int i = 0; i < hero.getSkills().getActive().size(); i++) {
-                if (hero.getSkills().getActive().get(i).getRune() != null) {
-                    Rune rune = mRealmDataController.getRealm().createObject(Rune.class);
-                    rune.setSlug(hero.getSkills().getActive().get(i).getRune().getSlug());
-                    rune.setTitle(hero.getSkills().getActive().get(i).getRune().getName());
-                    rune.setDescription(hero.getSkills().getActive().get(i).getRune().getDescription());
-                    rune.setSimpleDescription(hero.getSkills().getActive().get(i).getRune().getSimpleDescription());
+                if (hero.getSkills().getActive().get(i).getSkill() != null) {
                     Skill skill = setSkill(hero, i);
-                    skill.setRune(rune);
+                    if (hero.getSkills().getActive().get(i).getRune() != null) {
+                        Rune rune = mRealmDataController.getRealm().createObject(Rune.class);
+                        rune.setSlug(hero.getSkills().getActive().get(i).getRune().getSlug());
+                        rune.setTitle(hero.getSkills().getActive().get(i).getRune().getName());
+                        rune.setDescription(hero.getSkills().getActive().get(i).getRune().getDescription());
+                        rune.setSimpleDescription(hero.getSkills().getActive().get(i).getRune().getSimpleDescription());
+                        skill.setRune(rune);
+                    }
                     heroSkillsActive.add(skill);
                 }
             }
@@ -183,7 +189,7 @@ public class HeroListParser {
 
             RealmList<Skill> heroSkillsPassive = new RealmList<>();
             for (int i = 0; i < hero.getSkills().getPassive().size(); i++) {
-                if (hero.getSkills().getPassive().get(i) != null) {
+                if (hero.getSkills().getPassive().get(i).getSkill() != null) {
                     heroSkillsPassive.add(setSkill(hero, i));
                 }
             }
@@ -263,20 +269,12 @@ public class HeroListParser {
             public void call(Subscriber<? super Call<ResponseItem>> subscriber) {
                 if (!subscriber.isUnsubscribed()) {
                     try {
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getHead().getTooltipParams(), LOCALE_RU));
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getTorso().getTooltipParams(), LOCALE_RU));
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getFeet().getTooltipParams(), LOCALE_RU));
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getHands().getTooltipParams(), LOCALE_RU));
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getShoulders().getTooltipParams(), LOCALE_RU));
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getLegs().getTooltipParams(), LOCALE_RU));
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getBracers().getTooltipParams(), LOCALE_RU));
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getMainHand().getTooltipParams(), LOCALE_RU));
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getWaist().getTooltipParams(), LOCALE_RU));
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getRightFinger().getTooltipParams(), LOCALE_RU));
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getLeftFinger().getTooltipParams(), LOCALE_RU));
-                        subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getNeck().getTooltipParams(), LOCALE_RU));
-                        if (hero.getItems().getOffHand() != null) {
-                            subscriber.onNext(mRetrofitRequests.getItem(hero.getItems().getOffHand().getTooltipParams(), LOCALE_RU));
+                        if (hero.getItems() != null) {
+                            for (Map.Entry<String, ItemDetail> entry : hero.getItems().entrySet()) {
+                                String key = entry.getKey();    //bla bla bla fot future
+                                ItemDetail value = entry.getValue();
+                                checkItem(subscriber, value);
+                            }
                         }
                         subscriber.onCompleted();
                     } catch (Exception e) {
@@ -285,6 +283,10 @@ public class HeroListParser {
                 }
             }
         });
+    }
+
+    private void checkItem(Subscriber<? super Call<ResponseItem>> subscriber, ItemDetail itemSup) {
+        subscriber.onNext(mRetrofitRequests.getItem(itemSup.getTooltipParams(), LOCALE_RU));
     }
 
 }

@@ -48,26 +48,54 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
         mCore.loadUserDetailHeroData(mBattleTag, userHeroId)
                 .cache()
                 .subscribe(new Subscriber<Hero>() {
-            @Override
-            public void onCompleted() {
-                unsubscribe();
-            }
+                    @Override
+                    public void onCompleted() {
+                        unsubscribe();
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.d("addTab", "onError: " + e);
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("addTab", "onError: " + e);
+                    }
 
-            @Override
-            public void onNext(Hero hero) {
-                mUserHero = hero;
-                getViewState().addCompareFragments(mRatingHero, mUserHero);
-            }
-        });
+                    @Override
+                    public void onNext(Hero hero) {
+                        mUserHero = hero;
+                        getViewState().addCompareFragments(mRatingHero, mUserHero);
+                    }
+                });
     }
 
     public void backPress() {
         mEventBus.post(new FragmentEvent(ItemListFragment.newInstance(), ItemListFragment.TAG));
+    }
+
+    public String getHeroIcon() {
+        if (mRatingHero != null){
+            return mRatingHero.getHeroClass()+"_"+castGender(mRatingHero.getGender());
+        }else{
+            return "avatar";
+        }
+    }
+
+    public String getUserHeroIcon() {
+        if (mUserHero != null){
+            return mUserHero.getHeroClass()+"_"+castGender(mRatingHero.getGender());
+        }else{
+            return "avatar";
+        }
+    }
+
+    public String getResultIcon() {
+        return "avatar";
+    }
+
+    private String castGender(int i){
+        if (i == 0){
+            return "m";
+        }else {
+            return "f";
+        }
     }
 
 }

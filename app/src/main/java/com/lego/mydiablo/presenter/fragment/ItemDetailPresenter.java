@@ -7,6 +7,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.data.model.Hero;
+import com.lego.mydiablo.data.model.Item;
 import com.lego.mydiablo.view.adapters.ProfileExpandableListAdapter;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
     private List<String> expandablePlayerListTitle;
     private LinkedHashMap<String, List<String>> expandablePlayerListDetail;
     private List<String> mIcons = new ArrayList<>();
+    private List<List<String>> heroItems = new ArrayList<>();
 
     private Hero mHero;
 
@@ -36,46 +38,8 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
     }
 
     private void fillData(Context context) {
-        expandablePlayerListDetail = new LinkedHashMap <>();
-        List<String> head = new ArrayList<>();
-        head.add("" + mHero.getHeroComplect().get(0).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(0).getImageUrl() + PNG);
-        List<String> torso = new ArrayList<>();
-        torso.add("" + mHero.getHeroComplect().get(1).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(1).getImageUrl() + PNG);
-        List<String> feet = new ArrayList<>();
-        feet.add("" + mHero.getHeroComplect().get(2).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(2).getImageUrl() + PNG);
-        List<String> hands = new ArrayList<>();
-        hands.add("" + mHero.getHeroComplect().get(3).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(3).getImageUrl() + PNG);
-        List<String> shoulders = new ArrayList<>();
-        shoulders.add("" + mHero.getHeroComplect().get(4).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(4).getImageUrl() + PNG);
-        List<String> legs = new ArrayList<>();
-        legs.add("" + mHero.getHeroComplect().get(5).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(5).getImageUrl() + PNG);
-        List<String> bracers = new ArrayList<>();
-        bracers.add("" + mHero.getHeroComplect().get(6).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(6).getImageUrl() + PNG);
-        List<String> mainHand = new ArrayList<>();
-        mainHand.add("" + mHero.getHeroComplect().get(7).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(7).getImageUrl() + PNG);
-        List<String> waist = new ArrayList<>();
-        waist.add("" + mHero.getHeroComplect().get(8).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(8).getImageUrl() + PNG);
-        List<String> rightFinger = new ArrayList<>();
-        rightFinger.add("" + mHero.getHeroComplect().get(9).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(9).getImageUrl() + PNG);
-        List<String> leftFinger = new ArrayList<>();
-        leftFinger.add("" + mHero.getHeroComplect().get(10).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(10).getImageUrl() + PNG);
-        List<String> neck = new ArrayList<>();
-        neck.add("" + mHero.getHeroComplect().get(11).getTitle());
-        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + mHero.getHeroComplect().get(11).getImageUrl() + PNG);
-//        if (mHero.getHeroComplect().)
-        List<String> offHand = new ArrayList<>();
-//        offHand.add("" + mHero.getHeroComplect().get(12).getTitle());
+        expandablePlayerListDetail = new LinkedHashMap<>();
+        fillExpandedList();
 
         List<String> general = new ArrayList<>();
         general.add(context.getString(R.string.stat_Life) + " - " + mHero.getHeroStats().getLife());
@@ -109,25 +73,25 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
         general.add(context.getString(R.string.stat_PrimaryResource) + " - " + mHero.getHeroStats().getPrimaryResource());
         general.add(context.getString(R.string.stat_SecondaryResource) + " - " + mHero.getHeroStats().getSecondaryResource());
 
-//        expandablePlayerListDetail.put(context.getString(R.string.stats), general);
-        expandablePlayerListDetail.put(context.getString(R.string.head), head);
-        expandablePlayerListDetail.put(context.getString(R.string.torso), torso);
-        expandablePlayerListDetail.put(context.getString(R.string.feet), feet);
-        expandablePlayerListDetail.put(context.getString(R.string.hands), hands);
-        expandablePlayerListDetail.put(context.getString(R.string.shoulders), shoulders);
-        expandablePlayerListDetail.put(context.getString(R.string.legs), legs);
-        expandablePlayerListDetail.put(context.getString(R.string.bracers), bracers);
-        expandablePlayerListDetail.put(context.getString(R.string.mainHand), mainHand);
-        expandablePlayerListDetail.put(context.getString(R.string.waist), waist);
-        expandablePlayerListDetail.put(context.getString(R.string.rightFinger), rightFinger);
-        expandablePlayerListDetail.put(context.getString(R.string.leftFinger), leftFinger);
-        expandablePlayerListDetail.put(context.getString(R.string.neck), neck);
-//        expandablePlayerListDetail.put(context.getString(R.string.offhand), offHand);
-
+//        expandablePlayerListDetail.put(context.getResources().getString(R.string.stats), general);
+        mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + null + PNG);
         expandablePlayerListTitle = new ArrayList<>(expandablePlayerListDetail.keySet());
         expandablePlayerListAdapter = new ProfileExpandableListAdapter(context, expandablePlayerListTitle, expandablePlayerListDetail, mIcons);
 
         getViewState().fillData(expandablePlayerListAdapter);
+    }
+
+    private void fillExpandedList() {
+        for (Item Item : mHero.getHeroComplect()) {
+            List<String> itemStats = new ArrayList<>();
+            itemStats.add("" + Item.getTitle());
+            heroItems.add(itemStats);
+            mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + Item.getImageUrl() + PNG);
+        }
+
+        for (int i = 0; i< mHero.getHeroComplect().size(); i++) {
+            expandablePlayerListDetail.put(mHero.getHeroComplect().get(i).getTitle(), heroItems.get(i));
+        }
     }
 
 }

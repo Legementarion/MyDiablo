@@ -2,14 +2,16 @@ package com.lego.mydiablo.rest.callback.models.HeroDetail;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lego.mydiablo.rest.callback.models.HeroDetail.Items.Items;
+import com.lego.mydiablo.rest.callback.models.HeroDetail.Items.ItemDetail;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.LegendaryPowers.Legendary;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.Skills.Skills;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class HeroDetail {
@@ -37,10 +39,7 @@ public class HeroDetail {
     private Skills skills;
     @SerializedName("items")
     @Expose
-    private Items items;
-//    @SerializedName("followers")
-//    @Expose
-//    private Followers followers;
+    private Map<String, ItemDetail> items = new LinkedHashMap<>();
     @SerializedName("legendaryPowers")
     @Expose
     private List<Legendary> legendaryPowers = new ArrayList<>();
@@ -48,6 +47,13 @@ public class HeroDetail {
     @Expose
     private HeroStats stats;
 
+    public Map<String, ItemDetail> getItems() {
+        return items;
+    }
+
+    public void setItems(Map<String, ItemDetail> items) {
+        this.items = items;
+    }
     public int getId() {
         return id;
     }
@@ -86,14 +92,6 @@ public class HeroDetail {
 
     public void setSkills(Skills skills) {
         this.skills = skills;
-    }
-
-    public Items getItems() {
-        return items;
-    }
-
-    public void setItems(Items items) {
-        this.items = items;
     }
 
 //    public Followers getFollowers() {
@@ -135,4 +133,5 @@ public class HeroDetail {
     public void setGender(int gender) {
         this.gender = gender;
     }
+
 }

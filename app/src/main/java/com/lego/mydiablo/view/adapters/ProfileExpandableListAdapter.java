@@ -24,7 +24,8 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
     private LinkedHashMap<String, List<String>> mExpandableListDetail;
     private List<String> mIcons = new ArrayList<>();
 
-    public ProfileExpandableListAdapter(Context context, List<String> expandableListTitle, LinkedHashMap<String, List<String>> expandableListDetail, List<String> icons) {
+    public ProfileExpandableListAdapter(Context context, List<String> expandableListTitle,
+                                        LinkedHashMap<String, List<String>> expandableListDetail, List<String> icons) {
         this.mContext = context;
         this.mIcons = icons;
         this.mExpandableListTitle = expandableListTitle;
@@ -88,8 +89,6 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
         listTitleTextView.setText(listTitle);
         Picasso.with(mContext)
                 .load(mIcons.get(listPosition))
-//               .resize(128, 128)
-//                .error(mContext.getResources().getDrawable(R.drawable.dh))
                 .into(listTitleIcon, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {

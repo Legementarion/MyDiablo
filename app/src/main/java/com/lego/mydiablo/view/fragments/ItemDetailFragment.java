@@ -1,10 +1,12 @@
 package com.lego.mydiablo.view.fragments;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
@@ -30,8 +32,6 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
 
     @BindView(R.id.playerParam)
     ExpandableListView mPlayerExpandableListView;
-    @BindView(R.id.statsCompare)
-    RecyclerView mRecyclerView;
     @BindView(R.id.item_detail_container)
     LinearLayout mFrameLayout;
 

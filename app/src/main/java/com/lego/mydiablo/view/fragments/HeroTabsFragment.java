@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -199,19 +200,34 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             ImageView icon = (ImageView) itemView.findViewById(R.id.custom_tab_icon);
             switch (position) {
                 case 0:
-                    icon.setImageDrawable(mResources.getDrawable(R.mipmap.ic_launcher));
+                    icon.setImageDrawable(pickImage(mHeroTabsPresenter.getHeroIcon()));
                     break;
                 case 1:
-                    icon.setImageDrawable(mResources.getDrawable(R.mipmap.ic_launcher));
+                    icon.setImageDrawable(pickImage(mHeroTabsPresenter.getUserHeroIcon()));
                     break;
                 case 2:
-                    icon.setImageDrawable(mResources.getDrawable(R.mipmap.ic_launcher));
+                    icon.setImageDrawable(pickImage(mHeroTabsPresenter.getResultIcon()));
                     break;
                 default:
                     throw new IllegalStateException("Invalid position: " + position);
             }
             return itemView;
         });
+    }
+
+    private Drawable pickImage(String s) {
+        switch (s) {
+            case "demon hunter_m":
+                return getContext().getResources().getDrawable(getContext().getResources().getIdentifier("dh_m", "drawable", getContext().getPackageName()));
+            case "demon hunter_f":
+                return getContext().getResources().getDrawable(getContext().getResources().getIdentifier("dh_f", "drawable", getContext().getPackageName()));
+            case "witch doctor_m":
+                return getContext().getResources().getDrawable(getContext().getResources().getIdentifier("wd_m", "drawable", getContext().getPackageName()));
+            case "witch doctor_f":
+                return getContext().getResources().getDrawable(getContext().getResources().getIdentifier("wd_f", "drawable", getContext().getPackageName()));
+            default:
+                return getContext().getResources().getDrawable(getContext().getResources().getIdentifier(s, "drawable", getContext().getPackageName()));
+        }
     }
 
     private final SimpleOnPageChangeListener mOnPageChangeListener = new SimpleOnPageChangeListener() {
