@@ -1,6 +1,5 @@
 package com.lego.mydiablo.rest;
 
-
 import android.util.Log;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -30,11 +29,11 @@ import static com.lego.mydiablo.utils.Const.CLIENT_ID;
 import static com.lego.mydiablo.utils.Const.D3;
 import static com.lego.mydiablo.utils.Const.D3_PROFILE;
 import static com.lego.mydiablo.utils.Const.DATA_PATH;
-import static com.lego.mydiablo.utils.Const.HARDCORE;
 import static com.lego.mydiablo.utils.Const.HERO;
 import static com.lego.mydiablo.utils.Const.LEADERBOARD_RIFT;
 import static com.lego.mydiablo.utils.Settings.mCurrentEraList;
 import static com.lego.mydiablo.utils.Settings.mCurrentSeasonList;
+import static com.lego.mydiablo.utils.Settings.mHARDCODE;
 import static com.lego.mydiablo.utils.Settings.mMode;
 import static com.lego.mydiablo.utils.Settings.mToken;
 
@@ -57,7 +56,7 @@ public class RetrofitRequests {
         objectMapper.enable(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY);
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
         RxJavaCallAdapterFactory rxAdapter = RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io());
 
@@ -128,7 +127,7 @@ public class RetrofitRequests {
     }
 
     public Observable<HeroList> getEraLeaderTop(final String season, final String heroClass) {
-        return api.getHeroBoard(BASE_URL_API + DATA_PATH + D3 + mMode + season + LEADERBOARD_RIFT + HARDCORE + heroClass, mToken);
+        return api.getHeroBoard(BASE_URL_API + DATA_PATH + D3 + mMode + season + LEADERBOARD_RIFT + mHARDCODE + heroClass, mToken);
     }
 
     public Observable<HeroDetail> getHero(final String battleTag, final int heroId, final String locale) {
