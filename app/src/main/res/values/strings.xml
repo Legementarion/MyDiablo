@@ -88,5 +88,6 @@
     <string name="stat_LifeOnHit">Life On Hit</string>
     <string name="stat_PrimaryResource">Primary Resource</string>
     <string name="stat_SecondaryResource">Secondary Resource</string>
+    <string name="drawable">drawable</string>
 
 </resources>

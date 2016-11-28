@@ -27,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
 
+import static com.lego.mydiablo.utils.ImgUtils.pickImage;
 import static com.lego.mydiablo.utils.Settings.mHeroId;
 import static com.lego.mydiablo.view.fragments.ItemListFragment.TAG;
 
@@ -62,7 +63,7 @@ public class TableItemRecyclerViewAdapter
         Hero hero = mHeroList.get(position);
         holder.mIdView.setText("#" + hero.getRank());
         holder.mContentView.setText(hero.getBattleTag());
-        holder.mClassView.setImageDrawable(pickImage(hero.getHeroClass()));
+        holder.mClassView.setImageDrawable(pickImage(mContext, hero.getHeroClass()));
         holder.mRankView.setText("Rift - " + hero.getRiftLevel());
         holder.mView.setTag(hero.getId());
         mHeroId = hero.getRank();
@@ -100,17 +101,6 @@ public class TableItemRecyclerViewAdapter
         if (!items.isEmpty()) {
             mHeroList.addAll(items);
             notifyItemRangeInserted(previousDataSize, mHeroList.size());
-        }
-    }
-
-    private Drawable pickImage(String s) {
-        switch (s) {
-            case "demon hunter":
-                return mContext.getResources().getDrawable(mContext.getResources().getIdentifier("dh", "drawable", mContext.getPackageName()));
-            case "witch doctor":
-                return mContext.getResources().getDrawable(mContext.getResources().getIdentifier("wd", "drawable", mContext.getPackageName()));
-            default:
-                return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(s, "drawable", mContext.getPackageName()));
         }
     }
 

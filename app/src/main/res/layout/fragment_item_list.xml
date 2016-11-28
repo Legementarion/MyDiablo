@@ -23,25 +23,13 @@
             app:srcCompat="@drawable/ic_arrow_back"
             android:background="@color/transparent"/>
 
-        <TextView
-            android:id="@+id/classTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:gravity="end"
-            android:paddingRight="5dp"
-            android:text="@string/class_spinner"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/btn_text"
-            tools:ignore="RtlSymmetry"/>
-
         <Spinner
             android:id="@+id/idClass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/hero_class"
-            android:textColor="@color/btn_text"
-            android:spinnerMode="dialog"/>
+            android:spinnerMode="dialog"
+            android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/seasonTV"
@@ -50,14 +38,16 @@
             android:layout_marginLeft="4dp"
             android:text="@string/season_spinner"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/btn_text"/>
+            android:textColor="@color/btn_text"
+            android:layout_gravity="center"/>
 
         <Spinner
             android:id="@+id/idSeason"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:entries="@array/season"
-            android:textColor="@color/btn_text"/>
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"/>
 
     </LinearLayout>
 

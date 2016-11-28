@@ -46,8 +46,6 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     public static final String TAG = "List";
 
-    @BindView(R.id.classTV)
-    TextView mClassTextView;
     @BindView(R.id.idClass)
     Spinner mClassSpinner;
     @BindView(R.id.seasonTV)
@@ -100,7 +98,6 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
                 "fonts/blizzard.ttf");
         mSeasonTextView.setTypeface(face);
-        mClassTextView.setTypeface(face);
 
         setupRecyclerView(Collections.emptyList());
         return rootView;

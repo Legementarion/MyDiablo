@@ -47,9 +47,9 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
 
     private Unbinder mUnbinder;
     private Dialog mAuthDialog;
-
     private FragmentManager mFragmentManager;
 
+    private String authUrl;
     private boolean doubleBackToExitPressedOnce;
 
     @Override
@@ -63,7 +63,7 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
     }
 
     public void prepareSignIn() {
-        String ulr = HTTP + mCurrentZone + AUTHORIZE_URI + RESPONSE_TYPE + CREDENTIALS + REDIRECTION_URI + REDIRECT_URI;
+        authUrl = HTTP + mCurrentZone + AUTHORIZE_URI + RESPONSE_TYPE + CREDENTIALS + REDIRECTION_URI + REDIRECT_URI;
         if (mAuthDialog == null) {
             mAuthDialog = new Dialog(DiabloActivity.this);
         }
@@ -71,13 +71,16 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
         mAuthDialog.setTitle(R.string.Authorization_title);
         WebView webView = (WebView) mAuthDialog.findViewById(R.id.wvOauth);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(ulr);
+        webView.loadUrl(authUrl);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                mDiabloPresenter.signIn(url);
-                view.loadUrl(url);
-                return true;
+                if (url.contains(authUrl)) {
+                    view.loadUrl(url);
+                }else {
+                    mDiabloPresenter.signIn(url);
+                }
+                return false;
             }
         });
         mAuthDialog.show();
