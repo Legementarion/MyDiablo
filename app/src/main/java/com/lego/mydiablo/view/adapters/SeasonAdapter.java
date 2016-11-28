@@ -42,6 +42,7 @@ public class SeasonAdapter  extends ArrayAdapter<String>{
         mLabel.setTextSize(20);
         mLabel.setGravity(Gravity.CENTER);
         mLabel.setTextColor(Color.BLACK);
+        mLabel.setBackgroundColor(Color.WHITE);
         return rootView;
     }
 

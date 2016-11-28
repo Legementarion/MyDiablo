@@ -2,6 +2,7 @@ package com.lego.mydiablo.view.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
@@ -35,10 +36,15 @@ public class RegionAdapter extends ArrayAdapter<String> {
     public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
         View rootView = super.getView(position, convertView, parent);
         ButterKnife.bind(this,rootView);
+        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
+                "fonts/blizzard.ttf");
+        mLabel.setTypeface(face);
         mLabel.setTextSize(20);
         mLabel.setGravity(Gravity.CENTER);
         mLabel.setTextColor(Color.BLACK);
-        return rootView;    }
+        mLabel.setBackgroundColor(Color.WHITE);
+        return rootView;
+    }
 
     @NonNull
     @Override
@@ -48,6 +54,9 @@ public class RegionAdapter extends ArrayAdapter<String> {
             rootView = View.inflate(mContext, R.layout.spinner, null);
         }
         ButterKnife.bind(this,rootView);
+        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
+                "fonts/blizzard.ttf");
+        mLabel.setTypeface(face);
         mLabel.setText(regionList[position]);
         mLabel.setTextSize(20);
         mLabel.setTextColor(Color.WHITE);

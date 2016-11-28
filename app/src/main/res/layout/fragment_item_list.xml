@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -13,13 +14,14 @@
         android:layout_margin="15dp"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/back_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="←"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_arrow_back"
+            android:background="@color/transparent"/>
 
         <TextView
             android:id="@+id/classTV"
@@ -28,7 +30,7 @@
             android:layout_marginLeft="4dp"
             android:gravity="end"
             android:paddingRight="5dp"
-            android:text="@string/class_spiner"
+            android:text="@string/class_spinner"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/btn_text"
             tools:ignore="RtlSymmetry"/>
@@ -45,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:text="@string/season_spiner"
+            android:text="@string/season_spinner"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/btn_text"/>
 

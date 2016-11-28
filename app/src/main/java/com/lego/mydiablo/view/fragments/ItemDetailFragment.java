@@ -1,6 +1,8 @@
 package com.lego.mydiablo.view.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +32,8 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
 
     @BindView(R.id.playerParam)
     ExpandableListView mPlayerExpandableListView;
-    @BindView(R.id.item_detail_container)
-    LinearLayout mFrameLayout;
+    @BindView(R.id.coordinator_content)
+    CoordinatorLayout mCoordinatorLayout;
 
     private Unbinder mUnbinder;
 
@@ -47,6 +49,15 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_item_detail, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mPlayerExpandableListView.setNestedScrollingEnabled(true);
+        }else {
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mCoordinatorLayout.getLayoutParams();
+            params.bottomMargin = 48;
+            mCoordinatorLayout.setLayoutParams(params);
+        }
+
         mItemDetailPresenter.setHero(mHero, getContext());
         return rootView;
     }

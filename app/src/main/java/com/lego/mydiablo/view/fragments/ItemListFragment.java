@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -45,20 +46,20 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     public static final String TAG = "List";
 
+    @BindView(R.id.classTV)
+    TextView mClassTextView;
     @BindView(R.id.idClass)
     Spinner mClassSpinner;
+    @BindView(R.id.seasonTV)
+    TextView mSeasonTextView;
     @BindView(R.id.idSeason)
     Spinner mSeasonSpinner;
     @BindView(R.id.progressBar)
     android.widget.ProgressBar mProgressBar;
     @BindView(R.id.back_button)
-    Button mBackBtn;
+    ImageButton mBackBtn;
     @BindView(R.id.item_list)
     RecyclerView mRecyclerView;
-    @BindView(R.id.classTV)
-    TextView mClassTextView;
-    @BindView(R.id.seasonTV)
-    TextView mSeasonTextView;
 
     private TableItemRecyclerViewAdapter mTableItemRecyclerViewAdapter;
     private static ProgressDialog sProgressDialog;

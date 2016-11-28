@@ -77,6 +77,7 @@
                 android:layout_gravity="bottom"
                 android:fitsSystemWindows="true"
                 app:stl_defaultTabTextColor="@color/icons"
+                app:stl_distributeEvenly="true"
                 app:stl_dividerColor="@color/transparent"
                 app:stl_dividerThickness="0dp"
                 app:stl_indicatorAlwaysInCenter="false"
@@ -84,10 +85,9 @@
                 app:stl_indicatorCornerRadius="1.5dp"
                 app:stl_indicatorInterpolation="smart"
                 app:stl_indicatorThickness="3dp"
+                app:stl_titleOffset="auto_center"
                 app:stl_underlineColor="@color/transparent"
                 app:tabGravity="center"
-                app:stl_distributeEvenly="true"
-                app:stl_titleOffset="auto_center"
                 app:tabMode="scrollable"/>
 
             <android.support.v7.widget.Toolbar
@@ -109,14 +109,15 @@
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@null"
                         android:gravity="end"
-                        android:src="@drawable/common_google_signin_btn_icon_light"/>
+                        android:background="@color/transparent"
+                        app:srcCompat="@drawable/ic_arrow_back"/>
 
                     <ImageView
                         android:id="@+id/image_title_toolbar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:contentDescription="@null"
                         android:layout_gravity="center_horizontal"
+                        android:contentDescription="@null"
                         android:scaleType="fitXY"/>
 
                     <TextView
@@ -133,11 +134,11 @@
                         android:id="@+id/fab"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@android:drawable/stat_notify_chat"
-                        app:layout_anchor="@+id/app_bar"
-                        app:fabSize="normal"
                         android:layout_gravity="center"
-                        android:layout_marginRight="@dimen/_10dp"/>
+                        android:layout_marginRight="@dimen/_10dp"
+                        android:src="@android:drawable/stat_notify_chat"
+                        app:fabSize="mini"
+                        app:layout_anchor="@+id/app_bar"/>
 
                 </LinearLayout>
             </android.support.v7.widget.Toolbar>

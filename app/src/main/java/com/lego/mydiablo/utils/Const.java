@@ -1,18 +1,18 @@
 package com.lego.mydiablo.utils;
 
-public final class Const {
+import static com.lego.mydiablo.utils.Settings.mCurrentZone;
 
-    private Const(){}
+public final class Const {
 
     public static final int DEFAULT_RANK = 1001;
 
-    public static String CLIENT_ID = "qbsqcqpj8dwcyqs4bc5rsxgwyjx5tkue";
-    public static String CLIENT_SECRET = "JcgAFKPQBxrPZGwsx3NfKrnAK2DkS9Ug";
+    public static final String CLIENT_ID = "qbsqcqpj8dwcyqs4bc5rsxgwyjx5tkue";
+    public static final String CLIENT_SECRET = "JcgAFKPQBxrPZGwsx3NfKrnAK2DkS9Ug";
 
-    public static final String BASE_URL = "https://"+Const.ZONE_EU+".battle.net/";
+    public static final String BASE_URL = "https://"+mCurrentZone+".battle.net/";
+    public static final String BASE_URL_API = "https://"+mCurrentZone+".api.battle.net/";
+    public static final String AUTHORIZE_URI = "https://"+mCurrentZone+".battle.net/oauth/authorize";
     public static final String MEDIA_URL = "http://media.blizzard.com/";
-    public static final String BASE_URL_API = "https://eu.api.battle.net/";
-    public static final String AUTHORIZE_URI = "https://eu.battle.net/oauth/authorize";
     public static final String REDIRECT_URI = "https://localhost/";
 
     public static final String GRANT_TYPE_REFRESH = "refresh_token";
@@ -37,13 +37,9 @@ public final class Const {
     public static final String ICONS = "icons/";
     public static final String ITEMS = "items/";
     public static final String LARGE = "large/";
+
     public static final String LOCALE_RU = "ru_RU";
     public static final String LOCALE_EN = "en_GB";
-
-    public static final String ZONE_EU = "eu";
-    public static final String ZONE_US = "us";
-    public static final String ZONE_TW = "tw";
-    public static final String ZONE_KR = "kr";
 
     public static final int SIZE = 1000;
     public static final int START_PROGRESS_VALUE = 50;

@@ -6,7 +6,9 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -33,6 +35,7 @@ import rx.schedulers.Schedulers;
 import static com.lego.mydiablo.utils.LastFragment.DETAIL;
 import static com.lego.mydiablo.utils.LastFragment.LIST;
 import static com.lego.mydiablo.utils.LastFragment.MENU;
+import static com.lego.mydiablo.utils.Settings.mCurrentZone;
 import static com.lego.mydiablo.utils.Settings.mHeroId;
 import static com.lego.mydiablo.utils.Settings.mToken;
 import static com.lego.mydiablo.utils.Settings.mTwoPane;
@@ -59,18 +62,24 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     @Override
     public void attachView(DiabloView view) {
         super.attachView(view);
-        if (mToken != null) {
-            checkSession();
-        }
+//        networkConfig();
     }
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        if (mToken == null) {
-            getViewState().openAuthDialog();
-        } else {
-            checkSession();
+//        networkConfig();
+    }
+
+    private void networkConfig(){
+        if (!TextUtils.isEmpty(mCurrentZone)) {
+            if (mToken == null) {
+                getViewState().openAuthDialog();
+            } else {
+                checkSession();
+            }
+        } else{
+            new Handler().postDelayed(this::networkConfig, 1000);
         }
     }
 
@@ -141,9 +150,9 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
 
     public void restoreScreen() {
         getViewState().checkOrientation();
-        if (mTwoPane){
+        if (mTwoPane) {
             setTwoScreen();
-        }else {
+        } else {
             switch (mLastFragment) {
                 case MENU:
                     getViewState().showFragment(R.id.main_container, MenuFragment.newInstance(), MenuFragment.TAG);

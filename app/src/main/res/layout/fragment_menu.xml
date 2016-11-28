@@ -1,90 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:animateLayoutChanges="true"
               android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="3">
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:gravity="bottom">
+        android:orientation="vertical">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/arrow_down_float"
+            android:id="@+id/region_tab_btn"
+            android:background="@color/common_google_signin_btn_text_dark_disabled"/>
+
+        <include
+            android:id="@+id/region_tab"
+            layout="@layout/region_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#06f4f4f4"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:gravity="bottom"
+        android:orientation="vertical">
 
         <ToggleButton
+            android:id="@+id/bt_normal"
             android:layout_width="@dimen/btn_w"
             android:layout_height="@dimen/btn_h"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_on_off"
+            android:textColor="@color/btn_text"
             android:textOff="@string/bt_normal"
             android:textOn="@string/bt_normal"
-            android:id="@+id/bt_normal"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/btn_on_off"
-            android:textColor="@color/btn_text"
             android:textSize="@dimen/btn_text_size"/>
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <ToggleButton
+            android:id="@+id/bt_harcore"
             android:layout_width="@dimen/btn_w"
             android:layout_height="@dimen/btn_h"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_on_off"
+            android:textColor="@color/btn_text"
             android:textOff="@string/bt_hardcore"
             android:textOn="@string/bt_hardcore"
-            android:id="@+id/bt_harcore"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/btn_on_off"
-            android:textColor="@color/btn_text"
             android:textSize="@dimen/btn_text_size"/>
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <ToggleButton
-            android:layout_width="@dimen/btn_w"
-            android:layout_height="@dimen/btn_h"
-            android:textOn="@string/bt_season"
-            android:textOff="@string/bt_season"
             android:id="@+id/bt_season"
+            android:layout_width="@dimen/btn_w"
+            android:layout_height="@dimen/btn_h"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/btn_on_off"
             android:textColor="@color/btn_text"
+            android:textOff="@string/bt_season"
+            android:textOn="@string/bt_season"
             android:textSize="@dimen/btn_text_size"/>
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:gravity="top">
+        android:gravity="top"
+        android:orientation="vertical">
 
         <ToggleButton
+            android:id="@+id/bt_season_hardcore"
             android:layout_width="@dimen/btn_w"
             android:layout_height="@dimen/btn_h"
-            android:textOn="@string/bt_season_hardcore"
-            android:textOff="@string/bt_season_hardcore"
-            android:id="@+id/bt_season_hardcore"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/btn_on_off"
             android:textColor="@color/btn_text"
+            android:textOff="@string/bt_season_hardcore"
+            android:textOn="@string/bt_season_hardcore"
             android:textSize="@dimen/btn_text_size"/>
     </LinearLayout>
 </LinearLayout>

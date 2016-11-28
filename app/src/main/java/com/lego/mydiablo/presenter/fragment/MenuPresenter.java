@@ -14,6 +14,7 @@ import static com.lego.mydiablo.utils.Const.ERA;
 import static com.lego.mydiablo.utils.Const.HARDCORE;
 import static com.lego.mydiablo.utils.Const.NO_VALUE;
 import static com.lego.mydiablo.utils.Const.SEASON;
+import static com.lego.mydiablo.utils.Settings.mCurrentZone;
 import static com.lego.mydiablo.utils.Settings.mHARDCODE;
 import static com.lego.mydiablo.utils.Settings.mMode;
 
@@ -53,4 +54,13 @@ public class MenuPresenter extends MvpPresenter<MenuView> {
         bus.post(new FragmentEvent(ItemListFragment.newInstance(), ItemListFragment.TAG));
     }
 
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        getViewState().showTab();
+    }
+
+    public void setRegion(String region) {
+        mCurrentZone = region.toLowerCase();
+    }
 }

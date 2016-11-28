@@ -7,9 +7,9 @@
     <string name="bt_season">Season</string>
     <string name="bt_season_hardcore">Season \n Hardcore</string>
 
-    <string name="region_spiner">Region</string>
-    <string name="season_spiner">Season</string>
-    <string name="class_spiner">Class</string>
+    <string name="region_spinner">Region</string>
+    <string name="season_spinner">Season</string>
+    <string name="class_spinner">Class</string>
 
     <string name="doubleClick_backBtn">Tab again to exit</string>
     <string name="Authorization_title">Authorization…</string>

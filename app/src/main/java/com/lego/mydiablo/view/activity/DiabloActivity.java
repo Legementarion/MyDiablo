@@ -2,6 +2,7 @@ package com.lego.mydiablo.view.activity;
 
 import android.app.Dialog;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IdRes;
@@ -58,6 +59,7 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
         mUnbinder = ButterKnife.bind(this);
         mFragmentManager = getSupportFragmentManager();
         mDiabloPresenter.startConfig(this);
+        Log.d("Locale", "onCreate:" +Resources.getSystem().getConfiguration().locale);
     }
 
     public void prepareSignIn() {
