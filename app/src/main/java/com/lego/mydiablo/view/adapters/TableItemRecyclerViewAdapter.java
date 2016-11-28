@@ -1,6 +1,7 @@
 package com.lego.mydiablo.view.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +15,6 @@ import com.lego.mydiablo.R;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.logic.Core;
-import com.lego.mydiablo.presenter.fragment.ItemDetailPresenter;
 import com.lego.mydiablo.presenter.fragment.ItemListPresenter;
 import com.lego.mydiablo.view.fragments.HeroTabsFragment;
 
@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import rx.Subscriber;
 
 import static com.lego.mydiablo.utils.Settings.mHeroId;
+import static com.lego.mydiablo.view.fragments.ItemListFragment.TAG;
 
 /**
  * @author Lego on 12.09.2016.
@@ -57,6 +58,7 @@ public class TableItemRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(final HeroViewHolder holder, int position) {
+        Log.d(TAG, "gimmeMore: " + position);
         Hero hero = mHeroList.get(position);
         holder.mIdView.setText("#" + hero.getRank());
         holder.mContentView.setText(hero.getBattleTag());
@@ -69,22 +71,25 @@ public class TableItemRecyclerViewAdapter
                         bus.post(new FragmentEvent(HeroTabsFragment.newInstance(hero.getRank()), HeroTabsFragment.TAG)); //send to diablo activity
                     } else {
                         mCore.loadDetailHeroData(hero.getBattleTag(), hero.getId())
-                                .doOnSubscribe(()->mItemListPresenter.showProgressDialog())
-                                .doAfterTerminate(()->mItemListPresenter.hideProgressDialog())
+                                .doOnSubscribe(() -> mItemListPresenter.showProgressDialog())
+                                .doAfterTerminate(() -> mItemListPresenter.hideProgressDialog())
                                 .subscribe(new Subscriber<Hero>() {
-                            @Override
-                            public void onCompleted() {
-                                unsubscribe();
-                            }
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.d("Table adapter", "onError: " + e);
-                            }
-                            @Override
-                            public void onNext(Hero hero) {
-                                bus.post(new FragmentEvent(HeroTabsFragment.newInstance(hero.getRank()), HeroTabsFragment.TAG)); //send to diablo activity
-                            }
-                        });
+
+                                    @Override
+                                    public void onCompleted() {
+                                        unsubscribe();
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Log.d("Table adapter", "onError: " + e);
+                                    }
+
+                                    @Override
+                                    public void onNext(Hero hero) {
+                                        bus.post(new FragmentEvent(HeroTabsFragment.newInstance(hero.getRank()), HeroTabsFragment.TAG)); //send to diablo activity
+                                    }
+                                });
                     }
                 }
         );
@@ -134,6 +139,10 @@ public class TableItemRecyclerViewAdapter
             super(view);
             mView = view;
             ButterKnife.bind(this, mView);
+            Typeface face = Typeface.createFromAsset(mContext.getAssets(),
+                    "fonts/blizzard.ttf");
+            mRankView.setTypeface(face);
+            mContentView.setTypeface(face);
         }
 
         @Override

@@ -37,7 +37,6 @@ import static com.lego.mydiablo.utils.Settings.mHeroId;
 import static com.lego.mydiablo.utils.Settings.mToken;
 import static com.lego.mydiablo.utils.Settings.mTwoPane;
 
-
 @InjectViewState
 public class DiabloPresenter extends MvpPresenter<DiabloView> {
 
@@ -74,7 +73,6 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
             checkSession();
         }
     }
-
 
     private void checkSession() {
         AuthRequest.checkToken(mToken).observeOn(AndroidSchedulers.mainThread())
@@ -171,6 +169,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
                 break;
             case DETAIL:
                 getViewState().showFragment(R.id.additional_container, ItemListFragment.newInstance(), ItemListFragment.TAG);
+                getViewState().showFragment(R.id.main_container, HeroTabsFragment.newInstance(mHeroId), HeroTabsFragment.TAG);
                 break;
             default:
                 break;

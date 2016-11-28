@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.data.RealmDataController;
 import com.lego.mydiablo.data.model.Hero;
@@ -27,6 +29,7 @@ import static com.lego.mydiablo.utils.Settings.mCurrentEraList;
 import static com.lego.mydiablo.utils.Settings.mCurrentSeasonList;
 import static com.lego.mydiablo.utils.Settings.mItemsPerPage;
 import static com.lego.mydiablo.utils.Settings.mMode;
+import static com.lego.mydiablo.view.fragments.ItemListFragment.TAG;
 
 @InjectViewState
 public class ItemListPresenter extends MvpPresenter<ItemListView> {
@@ -35,8 +38,17 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
     private RealmDataController mRealmDataController;
     private EventBus bus = EventBus.getDefault();
 
+    private String mCurrentSeason = NO_VALUE;
+    private String mCurrentClass = NO_VALUE;
+
     private boolean mEmptyData = true;
     private int mPage;
+
+    @Override
+    public void attachView(ItemListView view) {
+        super.attachView(view);
+        mPage = 0;
+    }
 
     public void configure(Fragment fragment) {
         mRealmDataController = RealmDataController.with(fragment);
@@ -55,49 +67,54 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
         }
     }
 
+    @StateStrategyType(SkipStrategy.class)
     public void loadDataHeroList(String heroClass, String season) {
-        if (mMode != null) {
-            mPage = 0;
-            if (mRealmDataController.getHeroList(heroClass, season) != null) {  //get data from db, if db !=null
-                mEmptyData = false;
-                getViewState().setupRecyclerView(mRealmDataController.getHeroList(heroClass, season));
-            } else {
-                mEmptyData = true;
+        if (!mCurrentClass.equals(heroClass) || !mCurrentSeason.equals(season)) {
+            mCurrentSeason = season;
+            mCurrentClass = heroClass;
+            if (mMode != null) {
+                mPage = 0;
+                if (mRealmDataController.getHeroList(heroClass, season) != null) {  //get data from db, if db !=null
+                    mEmptyData = false;
+                    getViewState().setupRecyclerView(mRealmDataController.getHeroList(heroClass, season));
+                } else {
+                    mEmptyData = true;
+                }
+                mCore.loadHeroList(heroClass, season)
+                        .doOnSubscribe(() -> {
+                            getViewState().updateProgressBar(true);
+                            getViewState().blockUI();
+                        })
+                        .doAfterTerminate(() -> {
+                            getViewState().updateProgressBar(false);
+                            getViewState().unBlockUI();
+                        })
+                        .subscribe(new Subscriber<List<Hero>>() {
+                            @Override
+                            public void onCompleted() {
+                                unsubscribe();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("Request hero list", "onError: ", e);
+                                if (e.getMessage().matches("40[1-3]{1}.*")) {
+                                    Log.e("Request hero list", "onError: regex work fine");
+                                }
+                            }
+
+                            @Override
+                            public void onNext(List<Hero> heroList) {
+                                if (mEmptyData) {
+                                    getViewState().setupRecyclerView(heroList);
+                                    mEmptyData = false;
+                                } else {
+                                    getViewState().setNewList(heroList);
+                                }
+                                loadDetailData(heroList);
+                            }
+                        });
             }
-            mCore.loadHeroList(heroClass, season)
-                    .doOnSubscribe(() -> {
-                        getViewState().updateProgressBar(true);
-                        getViewState().blockUI();
-                    })
-                    .doAfterTerminate(() -> {
-                        getViewState().updateProgressBar(false);
-                        getViewState().unBlockUI();
-                    })
-                    .subscribe(new Subscriber<List<Hero>>() {
-                        @Override
-                        public void onCompleted() {
-                            unsubscribe();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e("Request hero list", "onError: ", e);
-                            if (e.getMessage().matches("40[1-3]{1}.*")) {
-                                Log.e("Request hero list", "onError: regex work fine");
-                            }
-                        }
-
-                        @Override
-                        public void onNext(List<Hero> heroList) {
-                            if (mEmptyData) {
-                                getViewState().setupRecyclerView(heroList);
-                                mEmptyData = false;
-                            } else {
-                                getViewState().setNewList(heroList);
-                            }
-                            loadDetailData(heroList);
-                        }
-                    });
         }
     }
 
@@ -138,6 +155,8 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
     }
 
     public void gimmeMore(String heroClass, String season) {
+        Log.d(TAG, "gimmeMore: " + mPage);
+        Log.d(TAG, "gimmeMore: " + mItemsPerPage);
         mPage += mItemsPerPage;
         getViewState().updateList(mRealmDataController.getNextHero(heroClass, season, mPage));
     }

@@ -1,13 +1,16 @@
 <resources>
     <string name="app_name">MyDiablo</string>
     <string name="title_item_detail">Item Detail</string>
+
     <string name="bt_normal">Normal</string>
     <string name="bt_hardcore">HardCore</string>
     <string name="bt_season">Season</string>
-    <string name="bt_season_hardcore">Season Hardcore</string>
+    <string name="bt_season_hardcore">Season \n Hardcore</string>
+
     <string name="region_spiner">Region</string>
     <string name="season_spiner">Season</string>
     <string name="class_spiner">Class</string>
+
     <string name="doubleClick_backBtn">Tab again to exit</string>
     <string name="Authorization_title">Authorization…</string>
     <string name="internet_connection">Check your internet connection</string>
@@ -84,4 +87,5 @@
     <string name="stat_LifeOnHit">Life On Hit</string>
     <string name="stat_PrimaryResource">Primary Resource</string>
     <string name="stat_SecondaryResource">Secondary Resource</string>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.lego.mydiablo.view.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,13 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
+
+        Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
+                "fonts/blizzard.ttf");
+        mNormal.setTypeface(face);
+        mHardcore.setTypeface(face);
+        mSeason.setTypeface(face);
+        mSeasonHardcore.setTypeface(face);
         return rootView;
     }
 

@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.lego.mydiablo.data.RealmDataController;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.events.FragmentEvent;
@@ -40,6 +42,7 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
         }
     }
 
+//    @StateStrategyType(SkipStrategy.class)
     public void compare() {
         getViewState().openPicker();
     }

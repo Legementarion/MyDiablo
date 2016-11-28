@@ -144,5 +144,4 @@ public class RealmDataController implements DataBaseController {
         return heroList;
     }
 
-
 }

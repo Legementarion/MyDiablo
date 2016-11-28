@@ -1,18 +1,16 @@
 package com.lego.mydiablo.view.fragments;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.presenter.fragment.ItemDetailPresenter;
@@ -55,6 +53,10 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
 
     public void setHeroInfo(Hero hero){
         mHero = hero;
+    }
+
+    public String getHeroIcon(){
+        return mItemDetailPresenter.getIcon();
     }
 
     @Override

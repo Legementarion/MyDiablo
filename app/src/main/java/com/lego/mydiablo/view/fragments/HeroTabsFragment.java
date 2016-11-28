@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +19,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -34,11 +34,12 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
+import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.dialog.PickDialog;
 import com.lego.mydiablo.presenter.fragment.HeroTabsPresenter;
 import com.lego.mydiablo.presenter.fragment.HeroTabsView;
-import com.lego.mydiablo.rest.callback.models.UserData.UserHeroList;
 import com.lego.mydiablo.view.adapters.HeroTabsPagerAdapter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
@@ -51,7 +52,6 @@ import butterknife.Unbinder;
 
 import static com.lego.mydiablo.utils.Const.COLOR;
 import static com.lego.mydiablo.utils.Const.NO_VALUE;
-
 
 public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsView {
 
@@ -93,11 +93,13 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     @BindView(R.id.collapsing_toolbar_layout_news_tabs)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
 
-    private final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
-    private final int PERCENTAGE_TO_INVISIBLE_TAB = 75;
+    private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
+    private static final int PERCENTAGE_TO_INVISIBLE_TAB = 75;
     private int mMaxScrollSize;
     private int mPositionViewPage;
-    private boolean mHideToolBar = false, mVisibleImageNews = true, mVisibleTab = true;
+    private boolean mHideToolBar;
+    private boolean mVisibleImageNews = true;
+    private boolean mVisibleTab = true;
 
     private HeroTabsPagerAdapter mAdapter;
     private boolean doublePressed;
@@ -124,6 +126,10 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             setTabs(inflater);
         }
 
+        Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
+                "fonts/blizzard.ttf");
+        mTitleTextView.setTypeface(face);
+
         mResources = getResources();
         mImageLogo.setImageDrawable(mResources.getDrawable(R.drawable.diablo_logo));
 
@@ -138,15 +144,11 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_PICK:
-                    mHeroTabsPresenter.addTab(data.getIntExtra(PickDialog.TAG_PICK_SELECTED, 1));
-                    break;
-                case REQUEST_ANOTHER_ONE:
-                    break;
+            if (requestCode == REQUEST_PICK) {
+                mHeroTabsPresenter.addTab(data.getIntExtra(PickDialog.TAG_PICK_SELECTED, 1));
+            } else if (requestCode == REQUEST_ANOTHER_ONE) {
                 //обработка других requestCode
             }
-
         }
     }
 
@@ -157,7 +159,6 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                     .setAction("YES", view1 ->
                             mHeroTabsPresenter.compare()
                     );
-
             // Changing message text color
             snackbar.setActionTextColor(Color.RED);
             snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
@@ -169,6 +170,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     }
 
     @Override
+    @StateStrategyType(SkipStrategy.class)
     public void openPicker() {
         DialogFragment fragment = new PickDialog();
         fragment.setTargetFragment(this, REQUEST_PICK);
@@ -261,7 +263,17 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             int percentage = (Math.abs(verticalOffset)) * 100 / mMaxScrollSize;
             if (mToolBar.getHeight() - appBarLayout.getHeight() == verticalOffset) {
                 mTitleTextView.setText(mAdapter.getPageTitle(mPositionViewPage));
-                mImageTitle.setImageDrawable(mResources.getDrawable(R.mipmap.ic_launcher));
+                switch (mPositionViewPage) {
+                    case 0:
+                        mImageTitle.setImageDrawable(pickImage(mHeroTabsPresenter.getHeroIcon()));
+                        break;
+                    case 1:
+                        mImageTitle.setImageDrawable(pickImage(mHeroTabsPresenter.getUserHeroIcon()));
+                        break;
+                    case 2:
+                        mImageTitle.setImageDrawable(pickImage(mHeroTabsPresenter.getResultIcon()));
+                        break;
+                }
                 fab.setVisibility(View.GONE);
                 mHideToolBar = true;
                 mVisibleImageNews = false;

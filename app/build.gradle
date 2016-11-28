@@ -23,7 +23,7 @@ android {
 
     defaultConfig {
         applicationId "com.lego.mydiablo"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -39,7 +39,6 @@ android {
         }
     }
     packagingOptions {
-
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
@@ -50,19 +49,17 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
-
     }
 }
-
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     //base support libs
-    compile 'com.android.support:appcompat-v7:25.0.0'
-    compile 'com.android.support:design:25.0.0'
-    compile 'com.android.support:support-v4:25.0.0'
-    compile 'com.android.support:recyclerview-v7:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:design:25.0.1'
+    compile 'com.android.support:support-v4:25.0.1'
+    compile 'com.android.support:recyclerview-v7:25.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
 
     //RX (react)
@@ -106,7 +103,7 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'com.jakewharton:butterknife:8.2.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'me.tatarka:gradle-retrolambda:3.2.5'
+    compile 'me.tatarka:gradle-retrolambda:3.3.0'
     compile 'com.squareup.leakcanary:leakcanary-android:1.4'
     compile 'org.greenrobot:eventbus:3.0.0'
 }

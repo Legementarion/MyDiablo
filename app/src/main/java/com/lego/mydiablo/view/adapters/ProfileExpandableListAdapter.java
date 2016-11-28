@@ -1,6 +1,7 @@
 package com.lego.mydiablo.view.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,9 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(R.layout.profile_list_item, null);
         }
         TextView expandedListTextView = (TextView) convertView.findViewById(R.id.expandedListItem);
+        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
+                "fonts/blizzard.ttf");
+        expandedListTextView.setTypeface(face);
         expandedListTextView.setText(expandedListText);
         return convertView;
     }
@@ -83,10 +87,14 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(R.layout.profile_list_group, null);
         }
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.listTitle);
+        Typeface face = Typeface.createFromAsset(mContext.getAssets(),
+                "fonts/blizzard.ttf");
+        listTitleTextView.setTypeface(face);
         ImageView listTitleIcon = (ImageView) convertView.findViewById(R.id.IconTitle);
         ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.details_progressBar);
-        progressBar.setVisibility(View.VISIBLE);
+
         listTitleTextView.setText(listTitle);
+        progressBar.setVisibility(View.VISIBLE);
         Picasso.with(mContext)
                 .load(mIcons.get(listPosition))
                 .into(listTitleIcon, new com.squareup.picasso.Callback() {

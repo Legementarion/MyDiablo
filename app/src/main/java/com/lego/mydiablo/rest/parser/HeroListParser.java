@@ -1,6 +1,5 @@
 package com.lego.mydiablo.rest.parser;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.lego.mydiablo.data.RealmDataController;
@@ -271,7 +270,7 @@ public class HeroListParser {
                     try {
                         if (hero.getItems() != null) {
                             for (Map.Entry<String, ItemDetail> entry : hero.getItems().entrySet()) {
-                                String key = entry.getKey();    //bla bla bla fot future
+                                String key = entry.getKey();    //bla bla bla for future
                                 ItemDetail value = entry.getValue();
                                 checkItem(subscriber, value);
                             }

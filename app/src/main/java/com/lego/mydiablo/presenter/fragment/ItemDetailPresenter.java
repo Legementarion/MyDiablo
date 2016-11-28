@@ -37,6 +37,10 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
         fillData(context);
     }
 
+    public String getIcon(){
+        return mHero.getHeroClass()+mHero.getGender();
+    }
+
     private void fillData(Context context) {
         expandablePlayerListDetail = new LinkedHashMap<>();
         fillExpandedList();

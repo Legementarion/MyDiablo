@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -70,6 +71,7 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 mDiabloPresenter.signIn(url);
+                Log.d("URL", "shouldOverrideUrlLoading: " + url);
                 view.loadUrl(url);
                 return true;
             }

@@ -1,8 +1,8 @@
 package com.lego.mydiablo.view.fragments;
 
-
 import android.app.ProgressDialog;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -37,14 +38,6 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 import static com.lego.mydiablo.utils.Const.START_PROGRESS_VALUE;
 
-/**
- * An activity representing a list of Items. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 public class ItemListFragment extends MvpAppCompatFragment implements ItemListView, Paginate.Callbacks {
 
     @InjectPresenter(type = PresenterType.GLOBAL)
@@ -62,6 +55,10 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     Button mBackBtn;
     @BindView(R.id.item_list)
     RecyclerView mRecyclerView;
+    @BindView(R.id.classTV)
+    TextView mClassTextView;
+    @BindView(R.id.seasonTV)
+    TextView mSeasonTextView;
 
     private TableItemRecyclerViewAdapter mTableItemRecyclerViewAdapter;
     private static ProgressDialog sProgressDialog;
@@ -98,6 +95,11 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
         mSeasonSpinner.setAdapter(mItemListPresenter.fillSeasonAdapterArrays(getContext()));
         mSeasonSpinner.getBackground().setColorFilter(getResources().getColor(R.color.btn_text), PorterDuff.Mode.SRC_ATOP);
+
+        Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
+                "fonts/blizzard.ttf");
+        mSeasonTextView.setTypeface(face);
+        mClassTextView.setTypeface(face);
 
         setupRecyclerView(Collections.emptyList());
         return rootView;

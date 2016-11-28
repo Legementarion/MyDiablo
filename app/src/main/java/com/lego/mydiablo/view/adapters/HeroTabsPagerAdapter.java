@@ -2,7 +2,7 @@ package com.lego.mydiablo.view.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.view.fragments.ItemDetailFragment;
@@ -11,7 +11,7 @@ import com.lego.mydiablo.view.fragments.SumFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeroTabsPagerAdapter extends FragmentPagerAdapter {
+public class HeroTabsPagerAdapter extends FragmentStatePagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();

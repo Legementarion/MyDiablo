@@ -3,7 +3,6 @@ package com.lego.mydiablo.utils;
 /**
  * @author Lego on 10.09.2016.
  */
-
 public class Settings {
 
     public static boolean mTwoPane; //portrait\landscape
