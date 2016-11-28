@@ -13,8 +13,8 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.lego.mydiablo.utils.Const.LOCALE_RU;
 import static com.lego.mydiablo.utils.Settings.mBattleTag;
+import static com.lego.mydiablo.utils.Settings.mCurrentLocale;
 
 public class Core {
     private static Core mCore;
@@ -53,7 +53,7 @@ public class Core {
     }
 
     public Observable<UserHeroList> loadUserHeroList(){
-        return mServerRequest.getUserHeroList(mBattleTag, LOCALE_RU);
+        return mServerRequest.getUserHeroList(mBattleTag, mCurrentLocale);
     }
 
     public Observable<Hero> loadUserDetailHeroData(String battleTag, int heroId){

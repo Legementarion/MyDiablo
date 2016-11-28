@@ -6,4 +6,8 @@ public interface MenuView extends MvpView {
     void updatePressButton(int i);
 
     void showTab();
+
+    void blockUI();
+
+    void unBlockUI();
 }

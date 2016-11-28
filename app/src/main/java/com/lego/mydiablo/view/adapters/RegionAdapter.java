@@ -27,7 +27,7 @@ public class RegionAdapter extends ArrayAdapter<String> {
     private String[] regionList;
 
     public RegionAdapter(Context context, int resource, String[] objects) {
-        super(context, resource,objects);
+        super(context, resource, objects);
         this.mContext = context;
         this.regionList = objects;
     }
@@ -35,7 +35,7 @@ public class RegionAdapter extends ArrayAdapter<String> {
     @Override
     public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
         View rootView = super.getView(position, convertView, parent);
-        ButterKnife.bind(this,rootView);
+        ButterKnife.bind(this, rootView);
         Typeface face = Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/blizzard.ttf");
         mLabel.setTypeface(face);
@@ -53,7 +53,7 @@ public class RegionAdapter extends ArrayAdapter<String> {
         if (convertView == null) {
             rootView = View.inflate(mContext, R.layout.spinner, null);
         }
-        ButterKnife.bind(this,rootView);
+        ButterKnife.bind(this, rootView);
         Typeface face = Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/blizzard.ttf");
         mLabel.setTypeface(face);
@@ -62,4 +62,11 @@ public class RegionAdapter extends ArrayAdapter<String> {
         mLabel.setTextColor(Color.WHITE);
         return rootView;
     }
+
+    @Override
+    public int getCount() {
+        int count = super.getCount();
+        return count > 0 ? count - 1 : count;
+    }
+
 }

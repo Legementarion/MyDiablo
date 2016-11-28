@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:animateLayoutChanges="true"
               android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/region_tab_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="3"
         android:orientation="vertical">
-
-        <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/arrow_down_float"
-            android:id="@+id/region_tab_btn"
-            android:background="@color/common_google_signin_btn_text_dark_disabled"/>
 
         <include
             android:id="@+id/region_tab"
             layout="@layout/region_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#06f4f4f4"
+            android:layout_gravity="center_horizontal"
             android:visibility="gone"/>
+
+        <ImageButton
+            android:id="@+id/region_tab_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorBar"
+            app:srcCompat="@android:drawable/arrow_down_float"
+            tools:ignore="ContentDescription"
+            />
+
     </LinearLayout>
 
     <LinearLayout

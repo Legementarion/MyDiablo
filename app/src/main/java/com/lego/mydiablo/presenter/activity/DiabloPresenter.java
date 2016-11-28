@@ -14,6 +14,7 @@ import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.lego.mydiablo.R;
+import com.lego.mydiablo.events.AuthEvent;
 import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.rest.AuthRequest;
 import com.lego.mydiablo.rest.RetrofitRequests;
@@ -62,24 +63,18 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     @Override
     public void attachView(DiabloView view) {
         super.attachView(view);
-//        networkConfig();
+        if (!TextUtils.isEmpty(mToken)) {
+            Log.d("ZONE", "attachView: " + mCurrentZone);
+            checkSession();
+        }
     }
 
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-//        networkConfig();
-    }
-
-    private void networkConfig(){
-        if (!TextUtils.isEmpty(mCurrentZone)) {
-            if (mToken == null) {
-                getViewState().openAuthDialog();
-            } else {
-                checkSession();
-            }
-        } else{
-            new Handler().postDelayed(this::networkConfig, 1000);
+    private void networkConfig() {
+        Log.d("ZONE", "networkConfig: " + mCurrentZone);
+        if (TextUtils.isEmpty(mToken)) {
+            getViewState().openAuthDialog();
+        } else {
+            checkSession();
         }
     }
 
@@ -216,8 +211,14 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
 
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(FragmentEvent event) {
+    public void onFragmentSwitch(FragmentEvent event) {
         switchFragment(event.getData(), event.getTag());
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAuth(AuthEvent event) {
+        networkConfig();
     }
 
 }

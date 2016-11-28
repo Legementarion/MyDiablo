@@ -51,7 +51,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.lego.mydiablo.utils.Const.COLOR;
-import static com.lego.mydiablo.utils.Const.NO_VALUE;
+import static com.lego.mydiablo.utils.Const.EMPTY_VALUE;
 
 public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsView {
 
@@ -278,7 +278,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 mHideToolBar = true;
                 mVisibleImageNews = false;
             } else if (mHideToolBar) {
-                mTitleTextView.setText(NO_VALUE);
+                mTitleTextView.setText(EMPTY_VALUE);
                 mImageTitle.setImageDrawable(null);
                 mHideToolBar = false;
                 fab.setVisibility(View.VISIBLE);

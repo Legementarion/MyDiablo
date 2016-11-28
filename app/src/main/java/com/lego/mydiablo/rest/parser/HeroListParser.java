@@ -28,7 +28,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.lego.mydiablo.utils.Const.DEFAULT_RANK;
-import static com.lego.mydiablo.utils.Const.LOCALE_RU;
+import static com.lego.mydiablo.utils.Settings.mCurrentLocale;
 
 public class HeroListParser {
 
@@ -98,7 +98,7 @@ public class HeroListParser {
     }
 
     public Observable<HeroDetail> getTopHeroDetail(String battleTag, int heroId) {
-        return mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, LOCALE_RU);
+        return mRetrofitRequests.getHero(battleTag.replace("#", "%23"), heroId, mCurrentLocale);
     }
 
     public Observable<HeroDetail> setUserHeroToDB(HeroDetail heroDetail) {
@@ -285,7 +285,7 @@ public class HeroListParser {
     }
 
     private void checkItem(Subscriber<? super Call<ResponseItem>> subscriber, ItemDetail itemSup) {
-        subscriber.onNext(mRetrofitRequests.getItem(itemSup.getTooltipParams(), LOCALE_RU));
+        subscriber.onNext(mRetrofitRequests.getItem(itemSup.getTooltipParams(), mCurrentLocale));
     }
 
 }

@@ -1,7 +1,5 @@
 package com.lego.mydiablo.utils;
 
-import static com.lego.mydiablo.utils.Settings.mCurrentZone;
-
 public final class Const {
 
     public static final int DEFAULT_RANK = 1001;
@@ -9,9 +7,10 @@ public final class Const {
     public static final String CLIENT_ID = "qbsqcqpj8dwcyqs4bc5rsxgwyjx5tkue";
     public static final String CLIENT_SECRET = "JcgAFKPQBxrPZGwsx3NfKrnAK2DkS9Ug";
 
-    public static final String BASE_URL = "https://"+mCurrentZone+".battle.net/";
-    public static final String BASE_URL_API = "https://"+mCurrentZone+".api.battle.net/";
-    public static final String AUTHORIZE_URI = "https://"+mCurrentZone+".battle.net/oauth/authorize";
+    public static final String BASE_URL = ".battle.net/";
+    public static final String BASE_URL_API = ".api.battle.net/";
+    public static final String AUTHORIZE_URI = ".battle.net/oauth/authorize";
+
     public static final String MEDIA_URL = "http://media.blizzard.com/";
     public static final String REDIRECT_URI = "https://localhost/";
 
@@ -32,18 +31,19 @@ public final class Const {
     public static final String ERA = "era/";
     public static final String SEASON = "season/";
     public static final String LEADERBOARD_RIFT = "/leaderboard/rift-";
-    public static final String NO_VALUE = "";
+    public static final String EMPTY_VALUE = "";
     public static final String HARDCORE = "hardcore-";
     public static final String ICONS = "icons/";
     public static final String ITEMS = "items/";
     public static final String LARGE = "large/";
-
-    public static final String LOCALE_RU = "ru_RU";
-    public static final String LOCALE_EN = "en_GB";
 
     public static final int SIZE = 1000;
     public static final int START_PROGRESS_VALUE = 50;
 
     public static final String COLOR = "#0B0B0B";
     public static final String PNG = ".png";
+    public static final String HTTP = "https://";
+
+    private Const(){}
+
 }

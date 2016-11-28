@@ -22,7 +22,7 @@ import java.util.List;
 
 import rx.Subscriber;
 
-import static com.lego.mydiablo.utils.Const.NO_VALUE;
+import static com.lego.mydiablo.utils.Const.EMPTY_VALUE;
 import static com.lego.mydiablo.utils.Const.SEASON;
 import static com.lego.mydiablo.utils.Const.SIZE;
 import static com.lego.mydiablo.utils.Settings.mCurrentEraList;
@@ -38,8 +38,8 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
     private RealmDataController mRealmDataController;
     private EventBus bus = EventBus.getDefault();
 
-    private String mCurrentSeason = NO_VALUE;
-    private String mCurrentClass = NO_VALUE;
+    private String mCurrentSeason = EMPTY_VALUE;
+    private String mCurrentClass = EMPTY_VALUE;
 
     private boolean mEmptyData = true;
     private int mPage;
@@ -120,7 +120,7 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
 
     private void loadDetailData(List<Hero> heroList) {
         for (int i = 0; i < (mItemsPerPage / 4); i++) {
-            if (heroList.get(i).getBattleTag() != null && !heroList.get(i).getBattleTag().equals(NO_VALUE)) {
+            if (heroList.get(i).getBattleTag() != null && !heroList.get(i).getBattleTag().equals(EMPTY_VALUE)) {
                 mCore.loadDetailHeroData(heroList.get(i).getBattleTag(), heroList.get(i).getId())
                         .subscribe(new Subscriber<Hero>() {
                             @Override

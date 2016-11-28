@@ -40,6 +40,7 @@
         <item>US</item>
         <item>TW</item>
         <item>KR</item>
+        <item>--</item>
     </string-array>
 
     <string name="stats">ATTRIBUTES</string>

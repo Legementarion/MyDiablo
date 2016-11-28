@@ -30,9 +30,11 @@ import static com.lego.mydiablo.utils.Const.D3;
 import static com.lego.mydiablo.utils.Const.D3_PROFILE;
 import static com.lego.mydiablo.utils.Const.DATA_PATH;
 import static com.lego.mydiablo.utils.Const.HERO;
+import static com.lego.mydiablo.utils.Const.HTTP;
 import static com.lego.mydiablo.utils.Const.LEADERBOARD_RIFT;
 import static com.lego.mydiablo.utils.Settings.mCurrentEraList;
 import static com.lego.mydiablo.utils.Settings.mCurrentSeasonList;
+import static com.lego.mydiablo.utils.Settings.mCurrentZone;
 import static com.lego.mydiablo.utils.Settings.mHARDCODE;
 import static com.lego.mydiablo.utils.Settings.mMode;
 import static com.lego.mydiablo.utils.Settings.mToken;
@@ -71,7 +73,7 @@ public class RetrofitRequests {
                 .addInterceptor(logging);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL_API)
+                .baseUrl(HTTP + mCurrentZone + BASE_URL_API)
                 .client(httpClient.build())
                 .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -79,8 +81,8 @@ public class RetrofitRequests {
                 .build();
         api = retrofit.create(BlizzardApi.class);
 
-        apiSync =new Retrofit.Builder()
-                .baseUrl(BASE_URL_API)
+        apiSync = new Retrofit.Builder()
+                .baseUrl(HTTP + mCurrentZone +BASE_URL_API)
                 .client(httpClient.build())
                 .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .build().create(BlizzardApiSync.class);
@@ -127,19 +129,19 @@ public class RetrofitRequests {
     }
 
     public Observable<HeroList> getEraLeaderTop(final String season, final String heroClass) {
-        return api.getHeroBoard(BASE_URL_API + DATA_PATH + D3 + mMode + season + LEADERBOARD_RIFT + mHARDCODE + heroClass, mToken);
+        return api.getHeroBoard(HTTP + mCurrentZone + BASE_URL_API + DATA_PATH + D3 + mMode + season + LEADERBOARD_RIFT + mHARDCODE + heroClass, mToken);
     }
 
     public Observable<HeroDetail> getHero(final String battleTag, final int heroId, final String locale) {
-        return api.getHero(BASE_URL_API + D3 + D3_PROFILE + battleTag + HERO + heroId, locale, CLIENT_ID);
+        return api.getHero(HTTP + mCurrentZone +BASE_URL_API + D3 + D3_PROFILE + battleTag + HERO + heroId, locale, CLIENT_ID);
     }
 
     public Call<ResponseItem> getItem(final String data, final String locale) {
-        return apiSync.getItem(BASE_URL_API + D3 + DATA_PATH + data, locale, CLIENT_ID);
+        return apiSync.getItem(HTTP + mCurrentZone + BASE_URL_API + D3 + DATA_PATH + data, locale, CLIENT_ID);
     }
 
     public Observable<UserHeroList> getUserHeroList(final String battleTag, final String locale) {
-        return api.getUserHeroList(BASE_URL_API + D3 + D3_PROFILE + battleTag + "/", locale, CLIENT_ID);
+        return api.getUserHeroList(HTTP + mCurrentZone + BASE_URL_API + D3 + D3_PROFILE + battleTag + "/", locale, CLIENT_ID);
     }
 
 }

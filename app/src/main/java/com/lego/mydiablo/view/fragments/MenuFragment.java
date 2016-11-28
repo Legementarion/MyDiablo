@@ -3,11 +3,14 @@ package com.lego.mydiablo.view.fragments;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -32,7 +35,8 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     MenuPresenter mMenuPresenter;
 
     public static final String TAG = "Menu";
-    Animation translate;
+    private Animation mAnimation;
+
     /**
      * Кнопки меню
      */
@@ -44,6 +48,8 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     ToggleButton mSeason;
     @BindView(R.id.bt_season_hardcore)
     ToggleButton mSeasonHardcore;
+    @BindView(R.id.region_tab_btn)
+    ImageButton mRegionButton;
 
     @BindView(R.id.regionTV)
     TextView mRegionTextView;
@@ -51,7 +57,11 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     Spinner mRegionsSpinner;
     @BindView(R.id.region_tab)
     View mRegionTab;
+    @BindView(R.id.region_tab_container)
+    LinearLayout mLinearLayout;
+
     private Unbinder mUnbinder;
+    private boolean fragmentInflate;
 
     public MenuFragment() {
         //do nothing
@@ -77,7 +87,7 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
         RegionAdapter regionAdapter = new RegionAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.region));
         mRegionsSpinner.setAdapter(regionAdapter);
         mRegionsSpinner.getBackground().setColorFilter(getResources().getColor(R.color.btn_text), PorterDuff.Mode.SRC_ATOP);
-
+        mRegionsSpinner.setSelection(getResources().getStringArray(R.array.region).length - 1);
         return rootView;
     }
 
@@ -102,14 +112,15 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     @OnClick(R.id.region_tab_btn)
     void showRegionTab() {
         if (mRegionTab.getVisibility() == View.VISIBLE) {
-            translate = AnimationUtils.loadAnimation(getContext(),R.anim.hide_tab);
-            mRegionTab.startAnimation(translate);
+            mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.hide_tab);
+            mLinearLayout.startAnimation(mAnimation);
             mRegionTab.setVisibility(View.GONE);
-        }
-        else {
-            mRegionTab.setVisibility(View.VISIBLE);
-            translate = AnimationUtils.loadAnimation(getContext(),R.anim.show_tab);
-            mRegionTab.startAnimation(translate);
+            mRegionButton.setImageResource(android.R.drawable.arrow_down_float);
+        } else {
+            mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.show_tab);
+            mLinearLayout.startAnimation(mAnimation);
+            new Handler().postDelayed(() -> mRegionTab.setVisibility(View.VISIBLE), 300);
+            mRegionButton.setImageResource(android.R.drawable.arrow_up_float);
         }
     }
 
@@ -152,6 +163,22 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     @Override
     public void showTab() {
         showRegionTab();
+    }
+
+    @Override
+    public void blockUI() {
+        mNormal.setEnabled(false);
+        mHardcore.setEnabled(false);
+        mSeason.setEnabled(false);
+        mSeasonHardcore.setEnabled(false);
+    }
+
+    @Override
+    public void unBlockUI() {
+        mNormal.setEnabled(true);
+        mHardcore.setEnabled(true);
+        mSeason.setEnabled(true);
+        mSeasonHardcore.setEnabled(true);
     }
 
 }

@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -31,9 +30,12 @@ import butterknife.Unbinder;
 
 import static com.lego.mydiablo.utils.Const.AUTHORIZE_URI;
 import static com.lego.mydiablo.utils.Const.CREDENTIALS;
+import static com.lego.mydiablo.utils.Const.HTTP;
 import static com.lego.mydiablo.utils.Const.REDIRECTION_URI;
 import static com.lego.mydiablo.utils.Const.REDIRECT_URI;
 import static com.lego.mydiablo.utils.Const.RESPONSE_TYPE;
+import static com.lego.mydiablo.utils.Settings.mCurrentLocale;
+import static com.lego.mydiablo.utils.Settings.mCurrentZone;
 
 public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
 
@@ -46,8 +48,6 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
     private Unbinder mUnbinder;
     private Dialog mAuthDialog;
 
-    public static final String URL = AUTHORIZE_URI + RESPONSE_TYPE + CREDENTIALS + REDIRECTION_URI + REDIRECT_URI;
-
     private FragmentManager mFragmentManager;
 
     private boolean doubleBackToExitPressedOnce;
@@ -57,23 +57,25 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diablo);
         mUnbinder = ButterKnife.bind(this);
+        mCurrentLocale = Resources.getSystem().getConfiguration().locale.toString();
         mFragmentManager = getSupportFragmentManager();
         mDiabloPresenter.startConfig(this);
-        Log.d("Locale", "onCreate:" +Resources.getSystem().getConfiguration().locale);
     }
 
     public void prepareSignIn() {
-        mAuthDialog = new Dialog(DiabloActivity.this);
+        String ulr = HTTP + mCurrentZone + AUTHORIZE_URI + RESPONSE_TYPE + CREDENTIALS + REDIRECTION_URI + REDIRECT_URI;
+        if (mAuthDialog == null) {
+            mAuthDialog = new Dialog(DiabloActivity.this);
+        }
         mAuthDialog.setContentView(R.layout.dialog_auth);
         mAuthDialog.setTitle(R.string.Authorization_title);
         WebView webView = (WebView) mAuthDialog.findViewById(R.id.wvOauth);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(URL);
+        webView.loadUrl(ulr);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 mDiabloPresenter.signIn(url);
-                Log.d("URL", "shouldOverrideUrlLoading: " + url);
                 view.loadUrl(url);
                 return true;
             }

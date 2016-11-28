@@ -5,6 +5,7 @@ import android.view.View;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.lego.mydiablo.R;
+import com.lego.mydiablo.events.AuthEvent;
 import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.view.fragments.ItemListFragment;
 
@@ -12,7 +13,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import static com.lego.mydiablo.utils.Const.ERA;
 import static com.lego.mydiablo.utils.Const.HARDCORE;
-import static com.lego.mydiablo.utils.Const.NO_VALUE;
+import static com.lego.mydiablo.utils.Const.EMPTY_VALUE;
 import static com.lego.mydiablo.utils.Const.SEASON;
 import static com.lego.mydiablo.utils.Settings.mCurrentZone;
 import static com.lego.mydiablo.utils.Settings.mHARDCODE;
@@ -29,7 +30,7 @@ public class MenuPresenter extends MvpPresenter<MenuView> {
             case R.id.bt_normal:
                 sChecked = 1;
                 mMode = ERA;
-                mHARDCODE = NO_VALUE;
+                mHARDCODE = EMPTY_VALUE;
                 break;
             case R.id.bt_harcore:
                 sChecked = 2;
@@ -39,7 +40,7 @@ public class MenuPresenter extends MvpPresenter<MenuView> {
             case R.id.bt_season:
                 sChecked = 3;
                 mMode = SEASON;
-                mHARDCODE = NO_VALUE;
+                mHARDCODE = EMPTY_VALUE;
                 break;
             case R.id.bt_season_hardcore:
                 sChecked = 4;
@@ -61,6 +62,12 @@ public class MenuPresenter extends MvpPresenter<MenuView> {
     }
 
     public void setRegion(String region) {
-        mCurrentZone = region.toLowerCase();
+        if (!region.equals("--")) {
+            getViewState().unBlockUI();
+            mCurrentZone = region.toLowerCase();
+            bus.post(new AuthEvent());
+        } else {
+            getViewState().blockUI();
+        }
     }
 }
