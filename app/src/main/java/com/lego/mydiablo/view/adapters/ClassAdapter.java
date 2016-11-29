@@ -46,9 +46,10 @@ public class ClassAdapter extends ArrayAdapter<String> {
         ButterKnife.bind(this, rootView);
         Typeface face = Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/blizzard.ttf");
+        mLabel.setText(classList[position]);
         mLabel.setTypeface(face);
-//        mLabel.setTextColor(Color.BLACK);
-//        mLabel.setBackgroundColor(Color.WHITE);
+        mLabel.setTextColor(Color.BLACK);
+        mLabel.setBackgroundColor(Color.WHITE);
         mImageView.setImageDrawable(pickImage(mContext, classList[position]));
         return rootView;
     }

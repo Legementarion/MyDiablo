@@ -61,10 +61,10 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     private TableItemRecyclerViewAdapter mTableItemRecyclerViewAdapter;
     private static ProgressDialog sProgressDialog;
-    private boolean mLoading = false;
-
     private Unbinder mUnbinder;
     private Paginate mPaginate;
+
+    private boolean mLoading = false;
 
     public static ItemListFragment newInstance() {
         return new ItemListFragment();
@@ -146,7 +146,8 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     @OnItemSelected({R.id.idSeason, R.id.idClass})
     void onItemSelected() {
-        mItemListPresenter.loadDataHeroList(mClassSpinner.getSelectedItem().toString(), mSeasonSpinner.getSelectedItem().toString());
+        new Handler().postDelayed(()-> mItemListPresenter.loadDataHeroList(mClassSpinner.getSelectedItem().toString(),
+                mSeasonSpinner.getSelectedItem().toString()), 2500);
     }
 
     @OnClick(R.id.back_button)

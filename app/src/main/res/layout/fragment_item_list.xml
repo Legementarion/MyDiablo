@@ -35,7 +35,7 @@
             android:id="@+id/seasonTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:layout_marginLeft="@dimen/_10dp"
             android:text="@string/season_spinner"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/btn_text"

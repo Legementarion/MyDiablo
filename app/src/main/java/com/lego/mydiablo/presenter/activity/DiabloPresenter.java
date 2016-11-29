@@ -64,13 +64,11 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     public void attachView(DiabloView view) {
         super.attachView(view);
         if (!TextUtils.isEmpty(mToken)) {
-            Log.d("ZONE", "attachView: " + mCurrentZone);
             checkSession();
         }
     }
 
     private void networkConfig() {
-        Log.d("ZONE", "networkConfig: " + mCurrentZone);
         if (TextUtils.isEmpty(mToken)) {
             getViewState().openAuthDialog();
         } else {
