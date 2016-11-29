@@ -28,7 +28,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.lego.mydiablo.utils.Const.DEFAULT_RANK;
-import static com.lego.mydiablo.utils.ImgUtils.castGender;
+import static com.lego.mydiablo.utils.HeroUtils.castGender;
 import static com.lego.mydiablo.utils.Settings.mCurrentLocale;
 
 public class HeroListParser {

@@ -27,10 +27,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
 
-import static com.lego.mydiablo.utils.ImgUtils.castGender;
+import static com.lego.mydiablo.utils.HeroUtils.castGender;
+import static com.lego.mydiablo.utils.HeroUtils.getDate;
 import static com.lego.mydiablo.utils.ImgUtils.pickHeroIcon;
 import static com.lego.mydiablo.utils.Settings.mHeroId;
-import static com.lego.mydiablo.view.fragments.ItemListFragment.TAG;
 
 /**
  * @author Lego on 12.09.2016.
@@ -64,7 +64,7 @@ public class TableItemRecyclerViewAdapter
         holder.mIdView.setText("#" + hero.getRank());
         holder.mContentView.setText(hero.getBattleTag());
         holder.mClassView.setImageDrawable(pickHeroIcon(mContext, hero.getHeroClass() + "_" + castGender(hero.getGender())));
-        holder.mRankView.setText("Rift - " + hero.getRiftLevel());
+        holder.mRankView.setText("Rift - " + hero.getRiftLevel() + "  " + getDate(hero.getRiftTime()));
         holder.mView.setTag(hero.getId());
         mHeroId = hero.getRank();
         holder.mView.setOnClickListener(v -> {

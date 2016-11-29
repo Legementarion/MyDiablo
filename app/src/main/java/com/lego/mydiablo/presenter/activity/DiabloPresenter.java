@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,7 +35,6 @@ import rx.schedulers.Schedulers;
 import static com.lego.mydiablo.utils.LastFragment.DETAIL;
 import static com.lego.mydiablo.utils.LastFragment.LIST;
 import static com.lego.mydiablo.utils.LastFragment.MENU;
-import static com.lego.mydiablo.utils.Settings.mCurrentZone;
 import static com.lego.mydiablo.utils.Settings.mHeroId;
 import static com.lego.mydiablo.utils.Settings.mToken;
 import static com.lego.mydiablo.utils.Settings.mTwoPane;
@@ -50,7 +48,6 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
 
     DiabloPresenter() {
         bus.register(this);
-        mRetrofitRequests = RetrofitRequests.getInstance();
     }
 
     public boolean hasConnection(final Context context) {
@@ -123,6 +120,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
                         public void onNext(AccessToken accessToken) {
                             mToken = accessToken.getAccess_token();
                             AuthRequest.getBattleTag();
+                            mRetrofitRequests = RetrofitRequests.getInstance();
                             mRetrofitRequests.getEraCount();
                             mRetrofitRequests.getSeasonCount();
                             getViewState().closeAuthDialog();

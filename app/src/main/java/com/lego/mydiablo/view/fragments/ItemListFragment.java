@@ -1,10 +1,12 @@
 package com.lego.mydiablo.view.fragments;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +60,8 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     ImageButton mBackBtn;
     @BindView(R.id.item_list)
     RecyclerView mRecyclerView;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private TableItemRecyclerViewAdapter mTableItemRecyclerViewAdapter;
     private static ProgressDialog sProgressDialog;
@@ -88,6 +92,14 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
             mBackBtn.setVisibility(View.VISIBLE);
         }
 
+
+        mSwipeRefreshLayout.setColorSchemeColors(
+                Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mItemListPresenter.load(mClassSpinner.getSelectedItem().toString(),
+                    mSeasonSpinner.getSelectedItem().toString());
+        });
+
         ClassAdapter classAdapter = new ClassAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.hero_class));
         mClassSpinner.setAdapter(classAdapter);
         mClassSpinner.getBackground().setColorFilter(getResources().getColor(R.color.btn_text), PorterDuff.Mode.SRC_ATOP);
@@ -115,11 +127,15 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
                 .setLoadingListItemCreator(new PaginateLoadingListItemCreator(mRecyclerView, mTableItemRecyclerViewAdapter))
                 .setLoadingListItemSpanSizeLookup(() -> 1)
                 .build();
+
     }
 
     @Override
     public void setNewList(List<Hero> heroList) {
         mTableItemRecyclerViewAdapter.setItems(heroList);
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -146,8 +162,13 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
 
     @OnItemSelected({R.id.idSeason, R.id.idClass})
     void onItemSelected() {
-        new Handler().postDelayed(()-> mItemListPresenter.loadDataHeroList(mClassSpinner.getSelectedItem().toString(),
-                mSeasonSpinner.getSelectedItem().toString()), 2500);
+        new Handler().postDelayed(() -> {
+            if (mClassSpinner != null && mSeasonSpinner != null) {
+                mItemListPresenter.loadDataHeroList(mClassSpinner.getSelectedItem().toString(),
+                        mSeasonSpinner.getSelectedItem().toString());
+            }
+        }, 2500);
+
     }
 
     @OnClick(R.id.back_button)

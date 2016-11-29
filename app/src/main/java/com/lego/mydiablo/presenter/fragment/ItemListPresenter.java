@@ -74,55 +74,60 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
         if (!mCurrentClass.equals(heroClass) || !mCurrentSeason.equals(season)) {
             mCurrentSeason = season;
             mCurrentClass = heroClass;
+            mEmptyData = true;
             if (mMode != null) {
                 mPage = 0;
-                if (mRealmDataController.getHeroList(heroClass, season) != null) {  //get data from db, if db !=null
+                if (!mRealmDataController.getHeroList(heroClass, season).isEmpty()) {  //get data from db, if db !=null
                     mEmptyData = false;
                     getViewState().setupRecyclerView(mRealmDataController.getHeroList(heroClass, season));
                     mPage = 20;
                 } else {
                     mEmptyData = true;
+                    load(heroClass, season);
                 }
-                mCore.loadHeroList(heroClass, season)
-                        .doOnSubscribe(() -> {
-                            getViewState().updateProgressBar(true);
-                            getViewState().blockUI();
-                        })
-                        .doAfterTerminate(() -> {
-                            getViewState().updateProgressBar(false);
-                            getViewState().unBlockUI();
-                        })
-                        .subscribe(new Subscriber<List<Hero>>() {
-                            @Override
-                            public void onCompleted() {
-                                unsubscribe();
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e("Request hero list", "onError: ", e);
-                                if (e.getMessage().matches("40[1]{1}.*")) {
-                                    bus.post(new AuthEvent());
-                                    Log.e("Request hero list", "onError: regex work fine");
-                                } else {
-                                    // TODO error message
-                                }
-                            }
-
-                            @Override
-                            public void onNext(List<Hero> heroList) {
-                                mPage = 20;
-                                if (mEmptyData) {
-                                    getViewState().setupRecyclerView(heroList);
-                                    mEmptyData = false;
-                                } else {
-                                    getViewState().setNewList(heroList);
-                                }
-                                loadDetailData(heroList);
-                            }
-                        });
             }
         }
+    }
+
+    public void load(String heroClass, String season) {
+        mCore.loadHeroList(heroClass, season)
+                .doOnSubscribe(() -> {
+                    getViewState().updateProgressBar(true);
+                    getViewState().blockUI();
+                })
+                .doAfterTerminate(() -> {
+                    getViewState().updateProgressBar(false);
+                    getViewState().unBlockUI();
+                })
+                .subscribe(new Subscriber<List<Hero>>() {
+                    @Override
+                    public void onCompleted() {
+                        unsubscribe();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Request hero list", "onError: ", e);
+                        if (e.getMessage().matches("40[1]{1}.*")) {
+                            bus.post(new AuthEvent());
+                            Log.e("Request hero list", "onError: regex work fine");
+                        } else {
+                            // TODO error message
+                        }
+                    }
+
+                    @Override
+                    public void onNext(List<Hero> heroList) {
+                        mPage = 20;
+                        if (mEmptyData) {
+                            getViewState().setupRecyclerView(heroList);
+                            mEmptyData = false;
+                        } else {
+                            getViewState().setNewList(heroList);
+                        }
+                        loadDetailData(heroList);
+                    }
+                });
     }
 
     private void loadDetailData(List<Hero> heroList) {

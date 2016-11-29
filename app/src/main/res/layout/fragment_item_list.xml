@@ -12,43 +12,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_10dp"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/back_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
             android:visibility="visible"
-            app:srcCompat="@drawable/ic_arrow_back"
-            android:background="@color/transparent"/>
+            app:srcCompat="@drawable/ic_arrow_back"/>
 
         <Spinner
             android:id="@+id/idClass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:entries="@array/hero_class"
-            android:spinnerMode="dialog"
-            android:layout_gravity="center"/>
+            android:spinnerMode="dialog"/>
 
         <TextView
             android:id="@+id/seasonTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginLeft="@dimen/_10dp"
             android:text="@string/season_spinner"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/btn_text"
-            android:layout_gravity="center"/>
+            android:textColor="@color/btn_text"/>
 
         <Spinner
             android:id="@+id/idSeason"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:entries="@array/season"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_vertical"/>
+            android:gravity="center_vertical"/>
 
     </LinearLayout>
 
@@ -69,10 +68,17 @@
         android:layout_height="match_parent"
         android:paddingTop="8dp">
 
-        <include
-            layout="@layout/item_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+            <include
+                layout="@layout/item_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
     </FrameLayout>
 
 </LinearLayout>

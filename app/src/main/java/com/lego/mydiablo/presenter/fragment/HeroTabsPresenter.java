@@ -17,7 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import rx.Subscriber;
 
-import static com.lego.mydiablo.utils.ImgUtils.castGender;
+import static com.lego.mydiablo.utils.HeroUtils.castGender;
 import static com.lego.mydiablo.utils.Settings.mBattleTag;
 
 @InjectViewState
@@ -75,17 +75,17 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
     }
 
     public String getHeroIcon() {
-        if (mRatingHero != null){
-            return mRatingHero.getHeroClass()+"_"+castGender(mRatingHero.getGender());
-        }else{
+        if (mRatingHero != null) {
+            return mRatingHero.getHeroClass() + "_" + castGender(mRatingHero.getGender());
+        } else {
             return "avatar";
         }
     }
 
     public String getUserHeroIcon() {
-        if (mUserHero != null){
-            return mUserHero.getHeroClass()+"_"+castGender(mRatingHero.getGender());
-        }else{
+        if (mUserHero != null) {
+            return mUserHero.getHeroClass() + "_" + castGender(mRatingHero.getGender());
+        } else {
             return "avatar";
         }
     }

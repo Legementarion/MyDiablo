@@ -45,19 +45,4 @@ public class ImgUtils {
         }
     }
 
-    public static String castGender(int i){
-        if (i == 0){
-            return "m";
-        }else {
-            return "f";
-        }
-    }
-
-    public static int castGender(String s){
-        if (s.equals("m")){
-            return 0;
-        }else {
-            return 1;
-        }
-    }
 }
