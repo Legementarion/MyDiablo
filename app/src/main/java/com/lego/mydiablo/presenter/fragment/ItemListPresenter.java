@@ -79,6 +79,7 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
                 if (mRealmDataController.getHeroList(heroClass, season) != null) {  //get data from db, if db !=null
                     mEmptyData = false;
                     getViewState().setupRecyclerView(mRealmDataController.getHeroList(heroClass, season));
+                    mPage = 20;
                 } else {
                     mEmptyData = true;
                 }
@@ -103,13 +104,14 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
                                 if (e.getMessage().matches("40[1]{1}.*")) {
                                     bus.post(new AuthEvent());
                                     Log.e("Request hero list", "onError: regex work fine");
-                                } else{
+                                } else {
                                     // TODO error message
                                 }
                             }
 
                             @Override
                             public void onNext(List<Hero> heroList) {
+                                mPage = 20;
                                 if (mEmptyData) {
                                     getViewState().setupRecyclerView(heroList);
                                     mEmptyData = false;
@@ -140,7 +142,7 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
 
                             @Override
                             public void onNext(Hero hero) {
-                                Log.d("Core", "onNext: "+ hero.getBattleTag());
+                                Log.d("Core", "onNext: " + hero.getBattleTag());
                             }
                         });
             }
@@ -160,17 +162,15 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
     }
 
     public void gimmeMore(String heroClass, String season) {
-        Log.d(TAG, "gimmeMore: " + mPage);
-        Log.d(TAG, "gimmeMore: " + mItemsPerPage);
         mPage += mItemsPerPage;
         getViewState().updateList(mRealmDataController.getNextHero(heroClass, season, mPage));
     }
 
-    public void showProgressDialog(){
+    public void showProgressDialog() {
         getViewState().showProgress("please wait...");
     }
 
-    public void hideProgressDialog(){
+    public void hideProgressDialog() {
         getViewState().hideProgress();
     }
 

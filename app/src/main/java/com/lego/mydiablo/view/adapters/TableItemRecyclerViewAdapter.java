@@ -2,7 +2,6 @@ package com.lego.mydiablo.view.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.data.model.Hero;
@@ -27,7 +27,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
 
-import static com.lego.mydiablo.utils.ImgUtils.pickImage;
+import static com.lego.mydiablo.utils.ImgUtils.castGender;
+import static com.lego.mydiablo.utils.ImgUtils.pickHeroIcon;
 import static com.lego.mydiablo.utils.Settings.mHeroId;
 import static com.lego.mydiablo.view.fragments.ItemListFragment.TAG;
 
@@ -59,11 +60,10 @@ public class TableItemRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(final HeroViewHolder holder, int position) {
-        Log.d(TAG, "gimmeMore: " + position);
         Hero hero = mHeroList.get(position);
         holder.mIdView.setText("#" + hero.getRank());
         holder.mContentView.setText(hero.getBattleTag());
-        holder.mClassView.setImageDrawable(pickImage(mContext, hero.getHeroClass()));
+        holder.mClassView.setImageDrawable(pickHeroIcon(mContext, hero.getHeroClass() + "_" + castGender(hero.getGender())));
         holder.mRankView.setText("Rift - " + hero.getRiftLevel());
         holder.mView.setTag(hero.getId());
         mHeroId = hero.getRank();
@@ -75,7 +75,6 @@ public class TableItemRecyclerViewAdapter
                                 .doOnSubscribe(() -> mItemListPresenter.showProgressDialog())
                                 .doAfterTerminate(() -> mItemListPresenter.hideProgressDialog())
                                 .subscribe(new Subscriber<Hero>() {
-
                                     @Override
                                     public void onCompleted() {
                                         unsubscribe();
@@ -84,6 +83,7 @@ public class TableItemRecyclerViewAdapter
                                     @Override
                                     public void onError(Throwable e) {
                                         Log.d("Table adapter", "onError: " + e);
+                                        Toast.makeText(mContext, "Cant Load  Hero Data ;(", Toast.LENGTH_SHORT).show();
                                     }
 
                                     @Override
@@ -97,11 +97,11 @@ public class TableItemRecyclerViewAdapter
     }
 
     public void add(List<Hero> items) {
-        int previousDataSize = this.mHeroList.size();
+        int previousDataSize = mHeroList.size();
         if (!items.isEmpty()) {
             mHeroList.addAll(items);
-            notifyItemRangeInserted(previousDataSize, mHeroList.size());
         }
+        notifyItemRangeChanged(previousDataSize, mHeroList.size());
     }
 
     public void setItems(List<Hero> heroList) {

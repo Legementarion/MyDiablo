@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -52,6 +51,7 @@ import butterknife.Unbinder;
 
 import static com.lego.mydiablo.utils.Const.COLOR;
 import static com.lego.mydiablo.utils.Const.EMPTY_VALUE;
+import static com.lego.mydiablo.utils.ImgUtils.pickHeroIcon;
 
 public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsView {
 
@@ -202,34 +202,19 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             ImageView icon = (ImageView) itemView.findViewById(R.id.custom_tab_icon);
             switch (position) {
                 case 0:
-                    icon.setImageDrawable(pickImage(mHeroTabsPresenter.getHeroIcon()));
+                    icon.setImageDrawable(pickHeroIcon(getContext(), mHeroTabsPresenter.getHeroIcon()));
                     break;
                 case 1:
-                    icon.setImageDrawable(pickImage(mHeroTabsPresenter.getUserHeroIcon()));
+                    icon.setImageDrawable(pickHeroIcon(getContext(), mHeroTabsPresenter.getUserHeroIcon()));
                     break;
                 case 2:
-                    icon.setImageDrawable(pickImage(mHeroTabsPresenter.getResultIcon()));
+                    icon.setImageDrawable(pickHeroIcon(getContext(), mHeroTabsPresenter.getResultIcon()));
                     break;
                 default:
                     throw new IllegalStateException("Invalid position: " + position);
             }
             return itemView;
         });
-    }
-
-    private Drawable pickImage(String s) {
-        switch (s) {
-            case "demon hunter_m":
-                return getContext().getResources().getDrawable(getContext().getResources().getIdentifier("dh_m", "drawable", getContext().getPackageName()));
-            case "demon hunter_f":
-                return getContext().getResources().getDrawable(getContext().getResources().getIdentifier("dh_f", "drawable", getContext().getPackageName()));
-            case "witch doctor_m":
-                return getContext().getResources().getDrawable(getContext().getResources().getIdentifier("wd_m", "drawable", getContext().getPackageName()));
-            case "witch doctor_f":
-                return getContext().getResources().getDrawable(getContext().getResources().getIdentifier("wd_f", "drawable", getContext().getPackageName()));
-            default:
-                return getContext().getResources().getDrawable(getContext().getResources().getIdentifier(s, "drawable", getContext().getPackageName()));
-        }
     }
 
     private final SimpleOnPageChangeListener mOnPageChangeListener = new SimpleOnPageChangeListener() {
@@ -261,68 +246,9 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     private void animation() {
         mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             int percentage = (Math.abs(verticalOffset)) * 100 / mMaxScrollSize;
-            if (mToolBar.getHeight() - appBarLayout.getHeight() == verticalOffset) {
-                mTitleTextView.setText(mAdapter.getPageTitle(mPositionViewPage));
-                switch (mPositionViewPage) {
-                    case 0:
-                        mImageTitle.setImageDrawable(pickImage(mHeroTabsPresenter.getHeroIcon()));
-                        break;
-                    case 1:
-                        mImageTitle.setImageDrawable(pickImage(mHeroTabsPresenter.getUserHeroIcon()));
-                        break;
-                    case 2:
-                        mImageTitle.setImageDrawable(pickImage(mHeroTabsPresenter.getResultIcon()));
-                        break;
-                }
-                fab.setVisibility(View.GONE);
-                mHideToolBar = true;
-                mVisibleImageNews = false;
-            } else if (mHideToolBar) {
-                mTitleTextView.setText(EMPTY_VALUE);
-                mImageTitle.setImageDrawable(null);
-                mHideToolBar = false;
-                fab.setVisibility(View.VISIBLE);
-            }
-            if (percentage >= PERCENTAGE_TO_ANIMATE_AVATAR && mVisibleImageNews) {
-                mVisibleImageNews = false;
-                animationCloseImageNews();
-                mAnimation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                        // Do nothing
-                    }
 
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        mAnimatorIconRelativeLayout.setVisibility(View.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                        // Do nothing
-                    }
-                });
-            }
-            if (percentage <= PERCENTAGE_TO_ANIMATE_AVATAR && !mVisibleImageNews) {
-                mVisibleImageNews = true;
-                animationShowImageNews();
-                mAnimation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                        // Do nothing
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        mAnimatorIconRelativeLayout.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                        // Do nothing
-                    }
-                });
-            }
+            toolBarAnimation(appBarLayout, verticalOffset);
+            avatarAnimation(percentage);
             if (percentage > PERCENTAGE_TO_INVISIBLE_TAB && mVisibleTab) {
                 mVisibleTab = false;
                 mTabLayout.setVisibility(View.INVISIBLE);
@@ -332,6 +258,70 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 mTabLayout.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    private void avatarAnimation(int percentage) {
+        if (percentage >= PERCENTAGE_TO_ANIMATE_AVATAR && mVisibleImageNews) {
+            mVisibleImageNews = false;
+            animationCloseImageNews();
+            mAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    // Do nothing
+                }
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mAnimatorIconRelativeLayout.setVisibility(View.INVISIBLE);
+                }
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                    // Do nothing
+                }
+            });
+        }
+        if (percentage <= PERCENTAGE_TO_ANIMATE_AVATAR && !mVisibleImageNews) {
+            mVisibleImageNews = true;
+            animationShowImageNews();
+            mAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    // Do nothing
+                }
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mAnimatorIconRelativeLayout.setVisibility(View.VISIBLE);
+                }
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                    // Do nothing
+                }
+            });
+        }
+    }
+
+    private void toolBarAnimation(AppBarLayout appBarLayout, int verticalOffset){
+        if (mToolBar.getHeight() - appBarLayout.getHeight() == verticalOffset) {
+            mTitleTextView.setText(mAdapter.getPageTitle(mPositionViewPage));
+            switch (mPositionViewPage) {
+                case 0:
+                    mImageTitle.setImageDrawable(pickHeroIcon(getContext(), mHeroTabsPresenter.getHeroIcon()));
+                    break;
+                case 1:
+                    mImageTitle.setImageDrawable(pickHeroIcon(getContext(), mHeroTabsPresenter.getUserHeroIcon()));
+                    break;
+                default:
+                    mImageTitle.setImageDrawable(pickHeroIcon(getContext(), mHeroTabsPresenter.getResultIcon()));
+                    break;
+            }
+            fab.setVisibility(View.GONE);
+            mHideToolBar = true;
+            mVisibleImageNews = false;
+        } else if (mHideToolBar) {
+            mTitleTextView.setText(EMPTY_VALUE);
+            mImageTitle.setImageDrawable(null);
+            mHideToolBar = false;
+            fab.setVisibility(View.VISIBLE);
+        }
     }
 
     private void animationCloseImageNews() {
@@ -371,17 +361,14 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 public void onAnimationStart(Animator animation) {
                     mBackgroundLinearLayout2.setBackgroundColor(Color.parseColor(COLOR));
                 }
-
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mBackgroundLinearLayout2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
                 }
-
                 @Override
                 public void onAnimationCancel(Animator animation) {
                     // Do nothing
                 }
-
                 @Override
                 public void onAnimationRepeat(Animator animation) {
                     // Do nothing

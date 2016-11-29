@@ -28,6 +28,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.lego.mydiablo.utils.Const.DEFAULT_RANK;
+import static com.lego.mydiablo.utils.ImgUtils.castGender;
 import static com.lego.mydiablo.utils.Settings.mCurrentLocale;
 
 public class HeroListParser {
@@ -52,6 +53,7 @@ public class HeroListParser {
                 if (heroList.getRow().get(i).getPlayer().get(0).getData().get(0).getId().equals("HeroBattleTag")) {
                     currentHero.setBattleTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(0).getString());    //player data
                     currentHero.setHeroClass(heroList.getRow().get(i).getPlayer().get(0).getData().get(2).getString());
+                    currentHero.setGender(castGender(heroList.getRow().get(i).getPlayer().get(0).getData().get(3).getString()));
                     currentHero.setLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber());
                     if (heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber() != null) {
                         currentHero.setParagonLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber());
