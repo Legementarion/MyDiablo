@@ -61,8 +61,6 @@ public class ItemDetailFragment extends MvpAppCompatFragment implements ItemDeta
         View footerView = inflater.inflate(R.layout.expandable_list_footer, mPlayerExpandableListView, false);
         View headerView = inflater.inflate(R.layout.expandable_list_header, mPlayerExpandableListView, false);
         mRecyclerView = ButterKnife.findById(footerView, R.id.item_list);
-        TextView textView = ButterKnife.findById(footerView, R.id.textViewololo);
-        textView.setText("ololo changed");
 
         mPlayerExpandableListView.addFooterView(footerView);
         mPlayerExpandableListView.addHeaderView(headerView);

@@ -23,6 +23,7 @@ import static com.lego.mydiablo.utils.Settings.mMode;
 public class MenuPresenter extends MvpPresenter<MenuView> {
 
     private EventBus bus = EventBus.getDefault();
+    private int regionPosition;
 
     public void pressButton(View view) {
         int sChecked;
@@ -61,7 +62,16 @@ public class MenuPresenter extends MvpPresenter<MenuView> {
         getViewState().showTab();
     }
 
-    public void setRegion(String region) {
+    @Override
+    public void attachView(MenuView view) {
+        super.attachView(view);
+        if (mCurrentZone != null){
+            getViewState().setRegionPosition(regionPosition);
+        }
+    }
+
+    public void setRegion(String region, int position) {
+        regionPosition = position;
         if (!region.equals("--")) {
             getViewState().unBlockUI();
             mCurrentZone = region.toLowerCase();

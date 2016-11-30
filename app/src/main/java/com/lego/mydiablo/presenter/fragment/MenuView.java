@@ -10,4 +10,6 @@ public interface MenuView extends MvpView {
     void blockUI();
 
     void unBlockUI();
+
+    void setRegionPosition(int region);
 }

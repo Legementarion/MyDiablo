@@ -99,8 +99,8 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     }
 
     @OnItemSelected(R.id.idRegion)
-    void onItemSelected() {
-        mMenuPresenter.setRegion(mRegionsSpinner.getSelectedItem().toString());
+    void onItemSelected(int position) {
+        mMenuPresenter.setRegion(mRegionsSpinner.getSelectedItem().toString(), position);
     }
 
     @OnClick({R.id.bt_normal, R.id.bt_harcore, R.id.bt_season, R.id.bt_season_hardcore})
@@ -179,6 +179,11 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
         mHardcore.setEnabled(true);
         mSeason.setEnabled(true);
         mSeasonHardcore.setEnabled(true);
+    }
+
+    @Override
+    public void setRegionPosition(int region) {
+        mRegionsSpinner.setSelection(region);
     }
 
 }
