@@ -1,6 +1,5 @@
 package com.lego.mydiablo.view.adapters;
 
-
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -9,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lego.mydiablo.R;
+import com.lego.mydiablo.view.adapters.rv.TableItemRecyclerViewAdapter;
 import com.paginate.recycler.LoadingListItemCreator;
 
 public class PaginateLoadingListItemCreator implements LoadingListItemCreator {
@@ -39,9 +39,9 @@ public class PaginateLoadingListItemCreator implements LoadingListItemCreator {
         }
     }
 
-
     private class VH extends RecyclerView.ViewHolder {
         TextView tvLoading;
+
         VH(View itemView) {
             super(itemView);
             tvLoading = (TextView) itemView.findViewById(R.id.tv_loading_text);

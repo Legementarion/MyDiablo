@@ -82,6 +82,7 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
         expandablePlayerListTitle = new ArrayList<>(expandablePlayerListDetail.keySet());
         expandablePlayerListAdapter = new ProfileExpandableListAdapter(context, expandablePlayerListTitle, expandablePlayerListDetail, mIcons);
 
+        getViewState().setupRV(general);
         getViewState().fillData(expandablePlayerListAdapter);
     }
 

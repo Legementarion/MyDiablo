@@ -21,7 +21,7 @@ import com.arellomobile.mvp.presenter.PresenterType;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.presenter.fragment.MenuPresenter;
 import com.lego.mydiablo.presenter.fragment.MenuView;
-import com.lego.mydiablo.view.adapters.RegionAdapter;
+import com.lego.mydiablo.view.adapters.spinners.RegionAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

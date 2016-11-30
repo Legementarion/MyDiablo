@@ -3,7 +3,6 @@ package com.lego.mydiablo.presenter.fragment;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -15,7 +14,7 @@ import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.events.AuthEvent;
 import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.logic.Core;
-import com.lego.mydiablo.view.adapters.SeasonAdapter;
+import com.lego.mydiablo.view.adapters.spinners.SeasonAdapter;
 import com.lego.mydiablo.view.fragments.MenuFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,7 +30,6 @@ import static com.lego.mydiablo.utils.Settings.mCurrentEraList;
 import static com.lego.mydiablo.utils.Settings.mCurrentSeasonList;
 import static com.lego.mydiablo.utils.Settings.mItemsPerPage;
 import static com.lego.mydiablo.utils.Settings.mMode;
-import static com.lego.mydiablo.view.fragments.ItemListFragment.TAG;
 
 @InjectViewState
 public class ItemListPresenter extends MvpPresenter<ItemListView> {

@@ -28,7 +28,7 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
     private Hero mRatingHero;
     private Hero mUserHero;
 
-    RealmDataController mRealmDataController;
+    private RealmDataController mRealmDataController;
     private EventBus mEventBus = EventBus.getDefault();
 
     HeroTabsPresenter() {

@@ -5,31 +5,23 @@
     android:id="@+id/app_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:layout_scrollFlags="enterAlwaysCollapsed">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_detail"
+        android:orientation="vertical"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:statusBarBackground="?attr/colorBackgroundFloating"
-        android:background="@color/background_detail">
+        app:statusBarBackground="?attr/colorBackgroundFloating">
 
         <ExpandableListView
             android:id="@+id/playerParam"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        </ExpandableListView>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/stats_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:scrollbars="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:layout_margin="@dimen/_10dp"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

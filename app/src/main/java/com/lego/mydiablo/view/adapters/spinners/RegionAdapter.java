@@ -1,4 +1,4 @@
-package com.lego.mydiablo.view.adapters;
+package com.lego.mydiablo.view.adapters.spinners;
 
 import android.content.Context;
 import android.graphics.Color;

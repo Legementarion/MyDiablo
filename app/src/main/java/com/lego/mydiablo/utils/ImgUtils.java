@@ -7,7 +7,8 @@ import com.lego.mydiablo.R;
 
 public class ImgUtils {
 
-    private ImgUtils(){}
+    private ImgUtils() {
+    }
 
     public static Drawable pickImage(Context context, String s) {
         switch (s) {
@@ -19,6 +20,20 @@ public class ImgUtils {
                 return context.getResources().getDrawable(context.getResources().getIdentifier("wd", context.getString(R.string.drawable),
                         context.getPackageName()));
 
+            default:
+                return context.getResources().getDrawable(context.getResources().getIdentifier(s, context.getString(R.string.drawable),
+                        context.getPackageName()));
+        }
+    }
+
+    public static Drawable pickImageDash(Context context, String s) {
+        switch (s) {
+            case "demon-hunter":
+                return context.getResources().getDrawable(context.getResources().getIdentifier("dh", context.getString(R.string.drawable),
+                        context.getPackageName()));
+            case "witch-doctor":
+                return context.getResources().getDrawable(context.getResources().getIdentifier("wd", context.getString(R.string.drawable),
+                        context.getPackageName()));
             default:
                 return context.getResources().getDrawable(context.getResources().getIdentifier(s, context.getString(R.string.drawable),
                         context.getPackageName()));

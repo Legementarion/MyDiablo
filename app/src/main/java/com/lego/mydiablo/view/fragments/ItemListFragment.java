@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,9 +23,9 @@ import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.presenter.fragment.ItemListPresenter;
 import com.lego.mydiablo.presenter.fragment.ItemListView;
 import com.lego.mydiablo.utils.Settings;
-import com.lego.mydiablo.view.adapters.ClassAdapter;
+import com.lego.mydiablo.view.adapters.spinners.ClassAdapter;
 import com.lego.mydiablo.view.adapters.PaginateLoadingListItemCreator;
-import com.lego.mydiablo.view.adapters.TableItemRecyclerViewAdapter;
+import com.lego.mydiablo.view.adapters.rv.TableItemRecyclerViewAdapter;
 import com.paginate.Paginate;
 
 import java.util.Collections;
@@ -63,6 +62,7 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
+
     private TableItemRecyclerViewAdapter mTableItemRecyclerViewAdapter;
     private static ProgressDialog sProgressDialog;
     private Unbinder mUnbinder;
@@ -92,13 +92,12 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
             mBackBtn.setVisibility(View.VISIBLE);
         }
 
-
         mSwipeRefreshLayout.setColorSchemeColors(
                 Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> {
-            mItemListPresenter.load(mClassSpinner.getSelectedItem().toString(),
-                    mSeasonSpinner.getSelectedItem().toString());
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(() ->
+                mItemListPresenter.load(mClassSpinner.getSelectedItem().toString(),
+                        mSeasonSpinner.getSelectedItem().toString())
+        );
 
         ClassAdapter classAdapter = new ClassAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.hero_class));
         mClassSpinner.setAdapter(classAdapter);
@@ -127,7 +126,6 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
                 .setLoadingListItemCreator(new PaginateLoadingListItemCreator(mRecyclerView, mTableItemRecyclerViewAdapter))
                 .setLoadingListItemSpanSizeLookup(() -> 1)
                 .build();
-
     }
 
     @Override

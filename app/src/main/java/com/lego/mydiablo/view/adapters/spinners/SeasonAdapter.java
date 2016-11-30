@@ -1,4 +1,4 @@
-package com.lego.mydiablo.view.adapters;
+package com.lego.mydiablo.view.adapters.spinners;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lego.mydiablo.R;
@@ -16,41 +15,34 @@ import com.lego.mydiablo.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.lego.mydiablo.utils.ImgUtils.pickImage;
-
 /**
  * @author Lego on 26.03.2016.
  */
-public class ClassAdapter extends ArrayAdapter<String> {
+public class SeasonAdapter  extends ArrayAdapter<String>{
 
-    @BindView(R.id.spinner_class_text)
+    @BindView(R.id.spinnertext)
     TextView mLabel;
-    @BindView(R.id.spinner_class_imageView)
-    ImageView mImageView;
-
     private Context mContext;
-    private String[] classList;
+    private String[] seasonList;
 
-    public ClassAdapter(Context context, int resource, String[] objects) {
-        super(context, resource, objects);
+    public SeasonAdapter(Context context, int resource, String[] objects) {
+        super(context, resource,objects);
         this.mContext = context;
-        this.classList = objects;
+        this.seasonList = objects;
     }
 
     @Override
     public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
-        View rootView = convertView;
-        if (convertView == null) {
-            rootView = View.inflate(mContext, R.layout.spinner_class_dropdown_item, null);
-        }
-        ButterKnife.bind(this, rootView);
+        View rootView = super.getView(position, convertView, parent);
+        ButterKnife.bind(this,rootView);
+
         Typeface face = Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/blizzard.ttf");
-        mLabel.setText(classList[position]);
         mLabel.setTypeface(face);
+        mLabel.setTextSize(20);
+        mLabel.setGravity(Gravity.CENTER);
         mLabel.setTextColor(Color.BLACK);
         mLabel.setBackgroundColor(Color.WHITE);
-        mImageView.setImageDrawable(pickImage(mContext, classList[position]));
         return rootView;
     }
 
@@ -59,15 +51,15 @@ public class ClassAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View rootView = convertView;
         if (convertView == null) {
-            rootView = View.inflate(mContext, R.layout.spinner_class, null);
+            rootView = View.inflate(mContext, R.layout.spinner, null);
         }
-        ButterKnife.bind(this, rootView);
+        ButterKnife.bind(this,rootView);
         Typeface face = Typeface.createFromAsset(mContext.getAssets(),
                 "fonts/blizzard.ttf");
         mLabel.setTypeface(face);
-        mLabel.setText(classList[position]);
+        mLabel.setText(seasonList[position]);
+        mLabel.setTextSize(20);
         mLabel.setTextColor(Color.WHITE);
-        mImageView.setImageDrawable(pickImage(mContext, classList[position]));
         return rootView;
     }
 }

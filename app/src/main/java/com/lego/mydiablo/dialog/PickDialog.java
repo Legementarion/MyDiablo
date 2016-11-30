@@ -16,7 +16,7 @@ import com.lego.mydiablo.R;
 import com.lego.mydiablo.logic.Core;
 import com.lego.mydiablo.rest.callback.models.UserData.UserHero;
 import com.lego.mydiablo.rest.callback.models.UserData.UserHeroList;
-import com.lego.mydiablo.view.adapters.UserHeroListRecyclerAdapter;
+import com.lego.mydiablo.view.adapters.rv.UserHeroListRecyclerAdapter;
 
 import java.util.Collections;
 import java.util.List;
