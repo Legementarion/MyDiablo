@@ -75,6 +75,7 @@ public class MenuPresenter extends MvpPresenter<MenuView> {
         if (!region.equals("--")) {
             getViewState().unBlockUI();
             mCurrentZone = region.toLowerCase();
+            getViewState().showTab();
             bus.post(new AuthEvent());
         } else {
             getViewState().blockUI();

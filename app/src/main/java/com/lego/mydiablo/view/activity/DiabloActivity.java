@@ -86,6 +86,7 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
                 if (url.matches("^https:\\/\\/localhost\\/.*")) {
                     view.loadUrl("file:///android_asset/fonts/success.html");
                     mDiabloPresenter.signIn(url);
+                    mAuthDialog.dismiss();
                 } else {
                     view.loadUrl(url);
                 }
