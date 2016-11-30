@@ -40,6 +40,10 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
 
     private String mCurrentSeason = EMPTY_VALUE;
     private String mCurrentClass = EMPTY_VALUE;
+    private String mCurrentMode = EMPTY_VALUE;
+
+    private int heroClassSpinnerPos = 0;
+    private int seasonSpinnerPos = 0;
 
     private boolean mEmptyData = true;
     private int mPage;
@@ -48,6 +52,9 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
     public void attachView(ItemListView view) {
         super.attachView(view);
         mPage = 0;
+        if (!mCurrentMode.equals(mMode)) {
+            loadDataHeroList(mCurrentClass, mCurrentSeason, seasonSpinnerPos, heroClassSpinnerPos);
+        }
     }
 
     public void configure(Fragment fragment) {
@@ -68,22 +75,25 @@ public class ItemListPresenter extends MvpPresenter<ItemListView> {
     }
 
     @StateStrategyType(SkipStrategy.class)
-    public void loadDataHeroList(String heroClass, String season) {
-        if (!mCurrentClass.equals(heroClass) || !mCurrentSeason.equals(season)) {
+    public void loadDataHeroList(String heroClass, String season, int pos1, int pos2) {
+        heroClassSpinnerPos = pos1;
+        seasonSpinnerPos = pos2;
+        getViewState().setSpinnerPositions(heroClassSpinnerPos, seasonSpinnerPos);
+        if (!mCurrentClass.equals(heroClass) || !mCurrentSeason.equals(season) || mCurrentMode.equals(mMode)) {
             mCurrentSeason = season;
             mCurrentClass = heroClass;
+            mCurrentMode = mMode;
             mEmptyData = true;
-            if (mMode != null) {
-                mPage = 0;
-                if (!mRealmDataController.getHeroList(heroClass, season).isEmpty()) {  //get data from db, if db !=null
-                    mEmptyData = false;
-                    getViewState().setupRecyclerView(mRealmDataController.getHeroList(heroClass, season));
-                    mPage = 20;
-                } else {
-                    mEmptyData = true;
-                    load(heroClass, season);
-                }
+            mPage = 0;
+            if (!mRealmDataController.getHeroList(heroClass, season).isEmpty()) {  //get data from db, if db !=null
+                mEmptyData = false;
+                getViewState().setupRecyclerView(mRealmDataController.getHeroList(heroClass, season));
+                mPage = 20;
+            } else {
+                mEmptyData = true;
+                load(heroClass, season);
             }
+
         }
     }
 

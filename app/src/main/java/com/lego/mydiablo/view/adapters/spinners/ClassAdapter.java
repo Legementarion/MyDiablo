@@ -69,4 +69,9 @@ public class ClassAdapter extends ArrayAdapter<String> {
         mImageView.setImageDrawable(pickImage(mContext, classList[position]));
         return rootView;
     }
+
+    @Override
+    public int getPosition(String item) {
+        return super.getPosition(item);
+    }
 }

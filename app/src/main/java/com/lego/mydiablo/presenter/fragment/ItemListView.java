@@ -21,4 +21,6 @@ public interface ItemListView extends MvpView {
     void showProgress(String message);
 
     void hideProgress();
+
+    void setSpinnerPositions(int heroPos, int seasonPos);
 }

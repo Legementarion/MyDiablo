@@ -26,6 +26,7 @@ import com.lego.mydiablo.utils.Settings;
 import com.lego.mydiablo.view.adapters.spinners.ClassAdapter;
 import com.lego.mydiablo.view.adapters.PaginateLoadingListItemCreator;
 import com.lego.mydiablo.view.adapters.rv.TableItemRecyclerViewAdapter;
+import com.lego.mydiablo.view.adapters.spinners.SeasonAdapter;
 import com.paginate.Paginate;
 
 import java.util.Collections;
@@ -62,11 +63,12 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-
     private TableItemRecyclerViewAdapter mTableItemRecyclerViewAdapter;
     private static ProgressDialog sProgressDialog;
     private Unbinder mUnbinder;
     private Paginate mPaginate;
+    private ClassAdapter mClassAdapter;
+    private SeasonAdapter mSeasonAdapter;
 
     private boolean mLoading = false;
 
@@ -99,11 +101,11 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
                         mSeasonSpinner.getSelectedItem().toString())
         );
 
-        ClassAdapter classAdapter = new ClassAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.hero_class));
-        mClassSpinner.setAdapter(classAdapter);
+        mClassAdapter = new ClassAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.hero_class));
+        mClassSpinner.setAdapter(mClassAdapter);
         mClassSpinner.getBackground().setColorFilter(getResources().getColor(R.color.btn_text), PorterDuff.Mode.SRC_ATOP);
-
-        mSeasonSpinner.setAdapter(mItemListPresenter.fillSeasonAdapterArrays(getContext()));
+        mSeasonAdapter = mItemListPresenter.fillSeasonAdapterArrays(getContext());
+        mSeasonSpinner.setAdapter(mSeasonAdapter);
         mSeasonSpinner.getBackground().setColorFilter(getResources().getColor(R.color.btn_text), PorterDuff.Mode.SRC_ATOP);
 
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
@@ -163,10 +165,11 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
         new Handler().postDelayed(() -> {
             if (mClassSpinner != null && mSeasonSpinner != null) {
                 mItemListPresenter.loadDataHeroList(mClassSpinner.getSelectedItem().toString(),
-                        mSeasonSpinner.getSelectedItem().toString());
+                        mSeasonSpinner.getSelectedItem().toString(),
+                        mClassAdapter.getPosition(mClassSpinner.getSelectedItem().toString()),
+                        mSeasonAdapter.getPosition(mSeasonSpinner.getSelectedItem().toString()));
             }
         }, 2500);
-
     }
 
     @OnClick(R.id.back_button)
@@ -201,6 +204,12 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
         if (sProgressDialog != null) {
             sProgressDialog.dismiss();
         }
+    }
+
+    @Override
+    public void setSpinnerPositions(int heroPos, int seasonPos) {
+        mClassSpinner.setSelection(heroPos);
+        mSeasonSpinner.setSelection(seasonPos);
     }
 
     @Override
