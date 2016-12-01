@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:textColor="@color/btn_text"/>
+        android:textColor="@color/btn_text"
+        />
 
     <ImageView
         android:id="@+id/idClass"
@@ -25,28 +26,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin='@dimen/text_margin'>
 
         <TextView
             android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/text_margin"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="@color/btn_text"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/rank"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="@color/btn_text"
-            android:layout_marginLeft="@dimen/text_margin"
-            android:layout_marginRight="@dimen/text_margin"
-            android:layout_marginBottom="@dimen/text_margin"
             android:maxLines="1"/>
 
     </LinearLayout>

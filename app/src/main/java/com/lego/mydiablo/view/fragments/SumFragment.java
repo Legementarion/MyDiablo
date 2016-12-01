@@ -13,6 +13,8 @@ import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.presenter.fragment.SumFragmentPresenter;
 import com.lego.mydiablo.presenter.fragment.SumFragmentView;
 
+import java.util.List;
+
 public class SumFragment extends MvpAppCompatFragment implements SumFragmentView{
 
     @InjectPresenter
@@ -35,6 +37,11 @@ public class SumFragment extends MvpAppCompatFragment implements SumFragmentView
     }
 
     public void compare(Hero hero, Hero userHero) {
+        mSumFragmentPresenter.calcDifference(hero, userHero);
+    }
+
+    @Override
+    public void setDiff(List<String> diffList) {
 
     }
 }

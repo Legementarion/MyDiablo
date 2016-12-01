@@ -2,10 +2,12 @@ package com.lego.mydiablo.view.adapters.rv;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lego.mydiablo.R;
@@ -42,8 +44,8 @@ public class UserHeroListRecyclerAdapter
     public void onBindViewHolder(HeroViewHolder holder, int position) {
         if (!mHeroList.isEmpty()) {
             UserHero hero = mHeroList.get(position);
-            holder.mIdView.setText(" " + hero.getName());
-            holder.mContentView.setText(" " + hero.gethClass());
+            holder.mContentView.setText(hero.getName());
+            holder.mRankView.setText(hero.gethClass());
             holder.mClassView.setImageDrawable(pickImageDash(mContext, hero.gethClass()));
             holder.mView.setOnClickListener(v ->
                     mUserHeroPick.pickHero(hero.getId())
