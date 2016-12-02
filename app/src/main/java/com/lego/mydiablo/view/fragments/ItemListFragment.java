@@ -215,7 +215,7 @@ public class ItemListFragment extends MvpAppCompatFragment implements ItemListVi
     @Override
     public void onLoadMore() {
         mLoading = true;
-        new Handler().postDelayed(this::loadMore, 200);
+        new Handler().postDelayed(this::loadMore, 400);
     }
 
     private void loadMore() {
