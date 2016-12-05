@@ -1,6 +1,5 @@
 package com.lego.mydiablo.rest.callback.models.Item;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,8 +7,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ResponseItem {
 
     @SerializedName("id")
@@ -44,7 +44,7 @@ public class ResponseItem {
     private Attributes mAttributes;
     @SerializedName("attributesRaw")
     @Expose
-    private AttributesRaw mAttributesRaw;
+    private Map<String, Property> mAttributesRaw = new HashMap<>();
     @SerializedName("dps")
     @Expose
     private Property dps;
@@ -63,7 +63,9 @@ public class ResponseItem {
     @SerializedName("blockChance")
     @Expose
     private String blockChance;
-
+    @SerializedName("augmentation")
+    @Expose
+    private String augmentation;
 
     public String getId() {
         return id;
@@ -193,14 +195,13 @@ public class ResponseItem {
         mAttributes = attributes;
     }
 
-    public AttributesRaw getAttributesRaw() {
+    public Map<String, Property> getAttributesRaw() {
         return mAttributesRaw;
     }
 
-    public void setAttributesRaw(AttributesRaw attributesRaw) {
+    public void setAttributesRaw(Map<String, Property> attributesRaw) {
         mAttributesRaw = attributesRaw;
     }
-
 
     @Override
     public String toString() {
@@ -208,5 +209,13 @@ public class ResponseItem {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public String getAugmentation() {
+        return augmentation;
+    }
+
+    public void setAugmentation(String augmentation) {
+        this.augmentation = augmentation;
     }
 }

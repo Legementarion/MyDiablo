@@ -7,13 +7,9 @@ import com.google.gson.annotations.SerializedName;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class AttributesRaw {
 
-
     @SerializedName("Strength_Item")
     @Expose
     private Property Strength_Item;
-//    @SerializedName("Post_2_1_2_Drop")
-//    @Expose
-//    private Property Post_2_1_2_Drop;
     @SerializedName("Vitality_Item")
     @Expose
     private Property Vitality_Item;
@@ -100,11 +96,4 @@ public class AttributesRaw {
         Gold_Find = gold_Find;
     }
 
-//    public Property getPost_2_1_2_Drop() {
-//        return Post_2_1_2_Drop;
-//    }
-//
-//    public void setPost_2_1_2_Drop(Property post_2_1_2_Drop) {
-//        Post_2_1_2_Drop = post_2_1_2_Drop;
-//    }
 }

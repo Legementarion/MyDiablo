@@ -40,4 +40,5 @@ public class Attributes {
     public void setPassive(List<Description> passive) {
         this.passive = passive;
     }
+
 }

@@ -1,6 +1,5 @@
 package com.lego.mydiablo.rest.callback.models.Item;
 
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -26,5 +25,10 @@ public class Property {
 
     public void setMax(double max) {
         this.max = max;
+    }
+
+    @Override
+    public String toString() {
+        return Double.toString(Math.round((min + max) / 2));
     }
 }

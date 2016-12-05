@@ -3,16 +3,22 @@ package com.lego.mydiablo.rest.parser;
 import android.util.Log;
 
 import com.lego.mydiablo.data.RealmDataController;
+import com.lego.mydiablo.data.model.DisplayedItemAttribute;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.data.model.Item;
+import com.lego.mydiablo.data.model.ItemProperty;
 import com.lego.mydiablo.data.model.LegendaryPower;
 import com.lego.mydiablo.data.model.Rune;
 import com.lego.mydiablo.data.model.Skill;
+import com.lego.mydiablo.data.model.Socket;
 import com.lego.mydiablo.data.model.Stats;
 import com.lego.mydiablo.rest.RetrofitRequests;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
 import com.lego.mydiablo.rest.callback.models.HeroDetail.Items.ItemDetail;
 import com.lego.mydiablo.rest.callback.models.HeroList.HeroList;
+import com.lego.mydiablo.rest.callback.models.Item.Description;
+import com.lego.mydiablo.rest.callback.models.Item.Gem;
+import com.lego.mydiablo.rest.callback.models.Item.Property;
 import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
 
 import java.io.IOException;
@@ -216,9 +222,48 @@ public class HeroListParser {
     private Item parseItem(ResponseItem responseItem) {
         Item item = mRealmDataController.getRealm().createObject(Item.class);
         item.setTitle(responseItem.getName());
-//        item.setType(); TODO PARSE PARAM
+        item.setColor(responseItem.getDisplayColor());
         item.setImageUrl(responseItem.getIcon());
+
+        RealmList<DisplayedItemAttribute> displayedItemAttributes = new RealmList<>();
+        getDisplayedParam(responseItem.getAttributes().getPrimary(), displayedItemAttributes);
+        getDisplayedParam(responseItem.getAttributes().getSecondary(), displayedItemAttributes);
+        getDisplayedParam(responseItem.getAttributes().getPassive(), displayedItemAttributes);
+
+        item.setParamDescription(responseItem.getAugmentation());
+
+        RealmList<ItemProperty> calcItemAttributes = new RealmList<>();
+
+        for (Map.Entry<String, Property> entry : responseItem.getAttributesRaw().entrySet()) {
+            ItemProperty itemProperty = mRealmDataController.getRealm().createObject(ItemProperty.class);
+            itemProperty.setAttribute(entry.getKey());
+            itemProperty.setValue(entry.getValue().toString());
+            calcItemAttributes.add(itemProperty);
+        }
+
+//        for (Gem gem : responseItem.getGems()) { TODO Gems
+//            Socket socket = mRealmDataController.getRealm().createObject(Socket.class);
+//            socket.setTitle(gem.getItem().getName());
+//            socket.setImageUrl(gem.getItem().getIcon());
+//            socket.setParamDescription(gem.getItem().getName());
+//            for (Map.Entry<String, List<Description>> entry: gem.getAttributes().entrySet()){
+//                getDisplayedParam(entry.getValue(), displayedItemAttributes);
+//            }
+//        }
+        //TODO Sets
+
+        item.setCalcStats(calcItemAttributes);
+        item.setDisplayedStats(displayedItemAttributes);
         return item;
+    }
+
+    private void getDisplayedParam(List<Description> from, RealmList<DisplayedItemAttribute> to) {
+        for (Description description : from) {
+            DisplayedItemAttribute displayedItemAttribute = mRealmDataController.getRealm().createObject(DisplayedItemAttribute.class);
+            displayedItemAttribute.setAttribute(description.getText());
+            displayedItemAttribute.setColor(description.getColor());
+            to.add(displayedItemAttribute);
+        }
     }
 
     private Skill setSkill(HeroDetail hero, int i) {
@@ -236,16 +281,12 @@ public class HeroListParser {
                 .flatMap(this::getBody)
                 .toList()
                 .compose(applySchedulers())
-                .map(items -> transform(items, hero));
+                .map(items -> mRealmDataController.updateHero(hero, items));
     }
 
     private <T> Observable.Transformer<T, T> applySchedulers() {
         return observable -> observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    private Hero transform(List<ResponseItem> items, HeroDetail detail) {
-        return mRealmDataController.updateHero(detail, items);
     }
 
     private Observable<ResponseItem> getBody(Call<ResponseItem> itemCall) {
@@ -272,7 +313,6 @@ public class HeroListParser {
                     try {
                         if (hero.getItems() != null) {
                             for (Map.Entry<String, ItemDetail> entry : hero.getItems().entrySet()) {
-                                String key = entry.getKey();    //bla bla bla for future
                                 ItemDetail value = entry.getValue();
                                 checkItem(subscriber, value);
                             }

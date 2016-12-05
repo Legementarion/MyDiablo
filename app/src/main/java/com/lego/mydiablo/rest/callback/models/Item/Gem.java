@@ -1,12 +1,12 @@
 package com.lego.mydiablo.rest.callback.models.Item;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Gem {
@@ -21,10 +21,10 @@ public class Gem {
     private boolean isJewel;
     @SerializedName("attributes")
     @Expose
-    private HashMap<String, List<Description>> attributes;
+    private Map<String, List<Description>> attributes = new HashMap<>();
     @SerializedName("attributesRaw")
     @Expose
-    private HashMap<String,Property> attributesRaw;
+    private Map<String,Property> attributesRaw = new HashMap<>();
 
     public Params getItem() {
         return item;
@@ -50,19 +50,19 @@ public class Gem {
         isJewel = jewel;
     }
 
-    public HashMap<String, List<Description>> getAttributes() {
+    public Map<String, List<Description>> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(HashMap<String, List<Description>> attributes) {
+    public void setAttributes(Map<String, List<Description>> attributes) {
         this.attributes = attributes;
     }
 
-    public HashMap<String, Property> getAttributesRaw() {
+    public Map<String, Property> getAttributesRaw() {
         return attributesRaw;
     }
 
-    public void setAttributesRaw(HashMap<String, Property> attributesRaw) {
+    public void setAttributesRaw(Map<String, Property> attributesRaw) {
         this.attributesRaw = attributesRaw;
     }
 }

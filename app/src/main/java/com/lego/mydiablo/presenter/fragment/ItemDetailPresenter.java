@@ -1,13 +1,16 @@
 package com.lego.mydiablo.presenter.fragment;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ExpandableListAdapter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.lego.mydiablo.R;
+import com.lego.mydiablo.data.model.DisplayedItemAttribute;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.data.model.Item;
+import com.lego.mydiablo.data.model.ItemProperty;
 import com.lego.mydiablo.view.adapters.ProfileExpandableListAdapter;
 
 import java.util.ArrayList;
@@ -37,8 +40,8 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
         fillData(context);
     }
 
-    public String getIcon(){
-        return mHero.getHeroClass()+mHero.getGender();
+    public String getIcon() {
+        return mHero.getHeroClass() + mHero.getGender();
     }
 
     private void fillData(Context context) {
@@ -77,7 +80,6 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
         general.add(context.getString(R.string.stat_PrimaryResource) + " - " + mHero.getHeroStats().getPrimaryResource());
         general.add(context.getString(R.string.stat_SecondaryResource) + " - " + mHero.getHeroStats().getSecondaryResource());
 
-//        expandablePlayerListDetail.put(context.getResources().getString(R.string.stats), general);
         mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + null + PNG);
         expandablePlayerListTitle = new ArrayList<>(expandablePlayerListDetail.keySet());
         expandablePlayerListAdapter = new ProfileExpandableListAdapter(context, expandablePlayerListTitle, expandablePlayerListDetail, mIcons);
@@ -89,12 +91,15 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
     private void fillExpandedList() {
         for (Item Item : mHero.getHeroComplect()) {
             List<String> itemStats = new ArrayList<>();
-            itemStats.add("" + Item.getTitle());
+            for (DisplayedItemAttribute displayedItemAttribute : Item.getDisplayedStats()) {
+                itemStats.add(displayedItemAttribute.getAttribute());
+            }
+
             heroItems.add(itemStats);
             mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + Item.getImageUrl() + PNG);
         }
 
-        for (int i = 0; i< mHero.getHeroComplect().size(); i++) {
+        for (int i = 0; i < mHero.getHeroComplect().size(); i++) {
             expandablePlayerListDetail.put(mHero.getHeroComplect().get(i).getTitle(), heroItems.get(i));
         }
     }

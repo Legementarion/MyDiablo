@@ -1,15 +1,15 @@
 package com.lego.mydiablo.data.model;
 
-
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
-public class Socet extends RealmObject{
+public class Socket extends RealmObject{
 
     private String mTitle;
     private String mImageUrl;
     private String mParamDescription;
 
-    private int mAttribute;
+    private RealmList<ItemProperty> mAttribute;
 
     public String getTitle() {
         return mTitle;
@@ -35,11 +35,12 @@ public class Socet extends RealmObject{
         mParamDescription = paramDescription;
     }
 
-    public int getAttribute() {
+    public RealmList<ItemProperty> getAttribute() {
         return mAttribute;
     }
 
-    public void setAttribute(int attribute) {
+    public void setAttribute(RealmList<ItemProperty> attribute) {
         mAttribute = attribute;
     }
+
 }
