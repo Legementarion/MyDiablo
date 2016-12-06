@@ -3,9 +3,9 @@ package com.lego.mydiablo.rest;
 import android.util.Base64;
 import android.util.Log;
 
-import com.lego.mydiablo.rest.callback.models.UserData.AccessToken;
-import com.lego.mydiablo.rest.callback.models.UserData.CheckedToken;
-import com.lego.mydiablo.rest.callback.models.UserData.UserTag;
+import com.lego.mydiablo.rest.callback.models.user.AccessToken;
+import com.lego.mydiablo.rest.callback.models.user.CheckedToken;
+import com.lego.mydiablo.rest.callback.models.user.UserTag;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

@@ -4,9 +4,9 @@ package com.lego.mydiablo.rest;
  * @author Lego on 13.05.2016.
  */
 
-import com.lego.mydiablo.rest.callback.models.UserData.AccessToken;
-import com.lego.mydiablo.rest.callback.models.UserData.CheckedToken;
-import com.lego.mydiablo.rest.callback.models.UserData.UserTag;
+import com.lego.mydiablo.rest.callback.models.user.AccessToken;
+import com.lego.mydiablo.rest.callback.models.user.CheckedToken;
+import com.lego.mydiablo.rest.callback.models.user.UserTag;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

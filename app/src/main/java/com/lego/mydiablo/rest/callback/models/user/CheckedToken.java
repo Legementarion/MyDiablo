@@ -1,4 +1,4 @@
-package com.lego.mydiablo.rest.callback.models.UserData;
+package com.lego.mydiablo.rest.callback.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.Expose;

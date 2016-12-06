@@ -1,6 +1,6 @@
 package com.lego.mydiablo.rest;
 
-import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
+import com.lego.mydiablo.rest.callback.models.item.ResponseItem;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

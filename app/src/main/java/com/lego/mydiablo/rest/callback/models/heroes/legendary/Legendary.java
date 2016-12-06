@@ -1,15 +1,10 @@
-package com.lego.mydiablo.rest.callback.models.HeroDetail.Items;
+package com.lego.mydiablo.rest.callback.models.heroes.legendary;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class ItemDetail {
+public class Legendary {
     @SerializedName("id")
     @Expose
     private String id;
@@ -25,9 +20,6 @@ public class ItemDetail {
     @SerializedName("tooltipParams")
     @Expose
     private String tooltipParams;
-    @SerializedName("setItemsEquipped")
-    @Expose
-    private List<String> setItemsEquipped = new ArrayList<String>();
 
     public String getId() {
         return id;
@@ -67,13 +59,5 @@ public class ItemDetail {
 
     public void setTooltipParams(String tooltipParams) {
         this.tooltipParams = tooltipParams;
-    }
-
-    public List<String> getSetItemsEquipped() {
-        return setItemsEquipped;
-    }
-
-    public void setSetItemsEquipped(List<String> setItemsEquipped) {
-        this.setItemsEquipped = setItemsEquipped;
     }
 }

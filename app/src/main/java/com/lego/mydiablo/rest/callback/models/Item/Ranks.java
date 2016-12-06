@@ -1,4 +1,4 @@
-package com.lego.mydiablo.rest.callback.models.Item;
+package com.lego.mydiablo.rest.callback.models.item;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

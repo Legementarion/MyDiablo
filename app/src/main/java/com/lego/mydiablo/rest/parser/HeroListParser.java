@@ -13,18 +13,20 @@ import com.lego.mydiablo.data.model.Skill;
 import com.lego.mydiablo.data.model.Socket;
 import com.lego.mydiablo.data.model.Stats;
 import com.lego.mydiablo.rest.RetrofitRequests;
-import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
-import com.lego.mydiablo.rest.callback.models.HeroDetail.Items.ItemDetail;
-import com.lego.mydiablo.rest.callback.models.HeroList.HeroList;
-import com.lego.mydiablo.rest.callback.models.Item.Description;
-import com.lego.mydiablo.rest.callback.models.Item.Gem;
-import com.lego.mydiablo.rest.callback.models.Item.Property;
-import com.lego.mydiablo.rest.callback.models.Item.Ranks;
-import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
+import com.lego.mydiablo.rest.callback.models.heroes.HeroDetail;
+import com.lego.mydiablo.rest.callback.models.heroes.items.ItemDetail;
+import com.lego.mydiablo.rest.callback.models.heroes.legendary.Legendary;
+import com.lego.mydiablo.rest.callback.models.heroes.skills.SkillLists;
+import com.lego.mydiablo.rest.callback.models.leaderboard.HeroList;
+import com.lego.mydiablo.rest.callback.models.leaderboard.Row;
+import com.lego.mydiablo.rest.callback.models.item.Description;
+import com.lego.mydiablo.rest.callback.models.item.Gem;
+import com.lego.mydiablo.rest.callback.models.item.Property;
+import com.lego.mydiablo.rest.callback.models.item.Ranks;
+import com.lego.mydiablo.rest.callback.models.item.ResponseItem;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -56,165 +58,36 @@ public class HeroListParser {
 
     private List<Hero> parseFromJson(HeroList heroList) {
         List<Hero> currentHeroList = new ArrayList<>();
-        for (int i = 0; i < heroList.getRow().size(); i++) {
+        for (Row row : heroList.getRow()) {
             Hero currentHero = new Hero();
             try {
-                if (heroList.getRow()
-                        .get(i)
-                        .getPlayer()
-                        .get(0)
-                        .getData()
-                        .get(0)
-                        .getId()
-                        .equals("HeroBattleTag")) {
-                    currentHero.setBattleTag(heroList.getRow()
-                            .get(i)
-                            .getPlayer()
-                            .get(0)
-                            .getData()
-                            .get(0)
-                            .getString());    //player data
-                    currentHero.setHeroClass(heroList.getRow()
-                            .get(i)
-                            .getPlayer()
-                            .get(0)
-                            .getData()
-                            .get(2)
-                            .getString());
-                    currentHero.setGender(castGender(heroList.getRow()
-                            .get(i)
-                            .getPlayer()
-                            .get(0)
-                            .getData()
-                            .get(3)
-                            .getString()));
-                    currentHero.setLevel(heroList.getRow()
-                            .get(i)
-                            .getPlayer()
-                            .get(0)
-                            .getData()
-                            .get(4)
-                            .getNumber());
-                    if (heroList.getRow()
-                            .get(i)
-                            .getPlayer()
-                            .get(0)
-                            .getData()
-                            .get(5)
-                            .getNumber() != null) {
-                        currentHero.setParagonLevel(heroList.getRow()
-                                .get(i)
-                                .getPlayer()
-                                .get(0)
-                                .getData()
-                                .get(5)
-                                .getNumber());
+                if (row.getPlayer().get(0).getData().get(0).getId().equals("HeroBattleTag")) {
+                    currentHero.setBattleTag(row.getPlayer().get(0).getData().get(0).getString());    //player data
+                    currentHero.setHeroClass(row.getPlayer().get(0).getData().get(2).getString());
+                    currentHero.setGender(castGender(row.getPlayer().get(0).getData().get(3).getString()));
+                    currentHero.setLevel(row.getPlayer().get(0).getData().get(4).getNumber());
+                    if (row.getPlayer().get(0).getData().get(5).getNumber() != null) {
+                        currentHero.setParagonLevel(row.getPlayer().get(0).getData().get(5).getNumber());
                     }
-                    if (heroList.getRow()
-                            .get(i)
-                            .getPlayer()
-                            .get(0)
-                            .getData()
-                            .get(6)
-                            .getId()
-                            .equals("HeroClanTag")) {
-                        currentHero.setClanTag(heroList.getRow()
-                                .get(i)
-                                .getPlayer()
-                                .get(0)
-                                .getData()
-                                .get(6)
-                                .getString());
-                        currentHero.setClanName(heroList.getRow()
-                                .get(i)
-                                .getPlayer()
-                                .get(0)
-                                .getData()
-                                .get(7)
-                                .getString());
-                        currentHero.setId(heroList.getRow()
-                                .get(i)
-                                .getPlayer()
-                                .get(0)
-                                .getData()
-                                .get(8)
-                                .getNumber());    // if era = 1 and query = barbarian -> Error field doesn't exist
+                    if (row.getPlayer().get(0).getData().get(6).getId().equals("HeroClanTag")) {
+                        currentHero.setClanTag(row.getPlayer().get(0).getData().get(6).getString());
+                        currentHero.setClanName(row.getPlayer().get(0).getData().get(7).getString());
+                        currentHero.setId(row.getPlayer().get(0).getData().get(8).getNumber());    // if era = 1 and query = barbarian -> Error field doesn't exist
                     } else {
-                        currentHero.setId(heroList.getRow()
-                                .get(i)
-                                .getPlayer()
-                                .get(0)
-                                .getData()
-                                .get(6)
-                                .getNumber());
+                        currentHero.setId(row.getPlayer().get(0).getData().get(6).getNumber());
                     }
                 } else {
-                    currentHero.setHeroClass(heroList.getRow()
-                            .get(i)
-                            .getPlayer()
-                            .get(0)
-                            .getData()
-                            .get(1)
-                            .getString());
-                    currentHero.setLevel(heroList.getRow()
-                            .get(i)
-                            .getPlayer()
-                            .get(0)
-                            .getData()
-                            .get(3)
-                            .getNumber());
-                    if (heroList.getRow()
-                            .get(i)
-                            .getPlayer()
-                            .get(0)
-                            .getData()
-                            .get(4)
-                            .getNumber() != null) {
-                        currentHero.setParagonLevel(heroList.getRow()
-                                .get(i)
-                                .getPlayer()
-                                .get(0)
-                                .getData()
-                                .get(4)
-                                .getNumber());
+                    currentHero.setHeroClass(row.getPlayer().get(0).getData().get(1).getString());
+                    currentHero.setLevel(row.getPlayer().get(0).getData().get(3).getNumber());
+                    if (row.getPlayer().get(0).getData().get(4).getNumber() != null) {
+                        currentHero.setParagonLevel(row.getPlayer().get(0).getData().get(4).getNumber());
                     }
-                    if (heroList.getRow()
-                            .get(i)
-                            .getPlayer()
-                            .get(0)
-                            .getData()
-                            .get(5)
-                            .getId()
-                            .equals("HeroClanTag")) {
-                        currentHero.setClanTag(heroList.getRow()
-                                .get(i)
-                                .getPlayer()
-                                .get(0)
-                                .getData()
-                                .get(5)
-                                .getString());
-                        currentHero.setClanName(heroList.getRow()
-                                .get(i)
-                                .getPlayer()
-                                .get(0)
-                                .getData()
-                                .get(6)
-                                .getString());
-                        currentHero.setId(heroList.getRow()
-                                .get(i)
-                                .getPlayer()
-                                .get(0)
-                                .getData()
-                                .get(7)
-                                .getNumber());
+                    if (row.getPlayer().get(0).getData().get(5).getId().equals("HeroClanTag")) {
+                        currentHero.setClanTag(row.getPlayer().get(0).getData().get(5).getString());
+                        currentHero.setClanName(row.getPlayer().get(0).getData().get(6).getString());
+                        currentHero.setId(row.getPlayer().get(0).getData().get(7).getNumber());
                     } else {
-                        currentHero.setId(heroList.getRow()
-                                .get(i)
-                                .getPlayer()
-                                .get(0)
-                                .getData()
-                                .get(5)
-                                .getNumber());
+                        currentHero.setId(row.getPlayer().get(0).getData().get(5).getNumber());
                     }
                 }
 
@@ -223,18 +96,14 @@ public class HeroListParser {
                 } else {
                     currentHero.setSeasonValue(heroList.getSeason());
                 }
-                currentHero.setRank(heroList.getRow()
-                        .get(i)
-                        .getData()
-                        .get(0)
-                        .getNumber());     //other data
-                currentHero.setRiftLevel(heroList.getRow().get(i).getData().get(1).getNumber());
-                currentHero.setRiftTime(heroList.getRow().get(i).getData().get(2).getTimestamp());
+                currentHero.setRank(row.getData().get(0).getNumber());     //other data
+                currentHero.setRiftLevel(row.getData().get(1).getNumber());
+                currentHero.setRiftTime(row.getData().get(2).getTimestamp());
 
                 currentHero.setLoadingProgress(false);
 
             } catch (IndexOutOfBoundsException ex) {
-                Log.d("Error", "parseFromJson: array out of range cell " + i);
+                Log.d("Error", "parseFromJson: array out of range cell " + ex);
             }
             currentHeroList.add(currentHero);
         }
@@ -300,50 +169,34 @@ public class HeroListParser {
             newHeroData.setHeroStats(stats);
 
             RealmList<LegendaryPower> heroLegendaryPowers = new RealmList<>();
-            for (int i = 0; i < hero.getLegendaryPowers().size(); i++) {
-                if (hero.getLegendaryPowers().get(i) != null) {
-                    LegendaryPower legendaryPower = mRealmDataController.getRealm()
-                            .createObject(LegendaryPower.class);
-                    legendaryPower.setId(hero.getLegendaryPowers().get(i).getId());
-                    legendaryPower.setName(hero.getLegendaryPowers().get(i).getName());
-                    legendaryPower.setIcon(hero.getLegendaryPowers().get(i).getIcon());
-                    legendaryPower.setColor(hero.getLegendaryPowers().get(i).getDisplayColor());
-                    heroLegendaryPowers.add(legendaryPower);
-                }
+            for (Legendary legendary : hero.getLegendaryPowers()) {
+                LegendaryPower legendaryPower = mRealmDataController.getRealm().createObject(LegendaryPower.class);
+                legendaryPower.setId(legendary.getId());
+                legendaryPower.setName(legendary.getName());
+                legendaryPower.setIcon(legendary.getIcon());
+                legendaryPower.setColor(legendary.getDisplayColor());
+                heroLegendaryPowers.add(legendaryPower);
             }
             newHeroData.setHeroPower(heroLegendaryPowers);
 
             RealmList<Skill> heroSkillsActive = new RealmList<>();
-            for (int i = 0; i < hero.getSkills().getActive().size(); i++) {
-                if (hero.getSkills().getActive().get(i).getSkill() != null) {
-                    Skill skill = setSkill(hero, i);
-                    if (hero.getSkills().getActive().get(i).getRune() != null) {
-                        Rune rune = mRealmDataController.getRealm().createObject(Rune.class);
-                        rune.setSlug(hero.getSkills().getActive().get(i).getRune().getSlug());
-                        rune.setTitle(hero.getSkills().getActive().get(i).getRune().getName());
-                        rune.setDescription(hero.getSkills()
-                                .getActive()
-                                .get(i)
-                                .getRune()
-                                .getDescription());
-                        rune.setSimpleDescription(hero.getSkills()
-                                .getActive()
-                                .get(i)
-                                .getRune()
-                                .getSimpleDescription());
-                        skill.setRune(rune);
-                    }
-                    heroSkillsActive.add(skill);
+            for (SkillLists skillLists : hero.getSkills().getActive()) {
+                Skill skill = setSkill(skillLists);
+                if (skillLists.getRune() != null) {
+                    Rune rune = mRealmDataController.getRealm().createObject(Rune.class);
+                    rune.setSlug(skillLists.getRune().getSlug());
+                    rune.setTitle(skillLists.getRune().getName());
+                    rune.setDescription(skillLists.getRune().getDescription());
+                    rune.setSimpleDescription(skillLists.getRune().getSimpleDescription());
+                    skill.setRune(rune);
                 }
+                heroSkillsActive.add(skill);
             }
-
             newHeroData.setActiveSkills(heroSkillsActive);
 
             RealmList<Skill> heroSkillsPassive = new RealmList<>();
-            for (int i = 0; i < hero.getSkills().getPassive().size(); i++) {
-                if (hero.getSkills().getPassive().get(i).getSkill() != null) {
-                    heroSkillsPassive.add(setSkill(hero, i));
-                }
+            for (SkillLists passive : hero.getSkills().getPassive()) {
+                heroSkillsPassive.add(setSkill(passive));
             }
             newHeroData.setPassiveSkills(heroSkillsPassive);
 
@@ -425,18 +278,13 @@ public class HeroListParser {
         }
     }
 
-    private Skill setSkill(HeroDetail hero, int i) {
+    private Skill setSkill(SkillLists skillLists) {
         Skill skill = mRealmDataController.getRealm().createObject(Skill.class);
-        skill.setSlug(hero.getSkills().getActive().get(i).getSkill().getSlug());
-        skill.setTitle(hero.getSkills().getActive().get(i).getSkill().getName());
-        skill.setDescription(hero.getSkills().getActive().get(i).getSkill().getDescription());
-        skill.setSimpleDescription(hero
-                .getSkills()
-                .getActive()
-                .get(i)
-                .getSkill()
-                .getSimpleDescription());
-        skill.setImageUrl(hero.getSkills().getActive().get(i).getSkill().getIcon());
+        skill.setSlug(skillLists.getSkill().getSlug());
+        skill.setTitle(skillLists.getSkill().getName());
+        skill.setDescription(skillLists.getSkill().getDescription());
+        skill.setSimpleDescription(skillLists.getSkill().getSimpleDescription());
+        skill.setImageUrl(skillLists.getSkill().getIcon());
         return skill;
     }
 

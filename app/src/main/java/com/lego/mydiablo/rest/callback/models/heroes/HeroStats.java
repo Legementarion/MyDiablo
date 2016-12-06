@@ -1,9 +1,10 @@
-package com.lego.mydiablo.rest.callback.models.HeroDetail;
+package com.lego.mydiablo.rest.callback.models.heroes;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class HeroStats {
     @SerializedName("life")
     @Expose
@@ -89,6 +90,9 @@ public class HeroStats {
     @SerializedName("magicFind")
     @Expose
     private Double magicFind;
+    @SerializedName("experienceBonus")
+    @Expose
+    private Double experienceBonus;
     @SerializedName("lifeOnHit")
     @Expose
     private Double lifeOnHit;
@@ -345,5 +349,13 @@ public class HeroStats {
 
     public void setSecondaryResource(Integer secondaryResource) {
         this.secondaryResource = secondaryResource;
+    }
+
+    public Double getExperienceBonus() {
+        return experienceBonus;
+    }
+
+    public void setExperienceBonus(Double experienceBonus) {
+        this.experienceBonus = experienceBonus;
     }
 }

@@ -1,5 +1,4 @@
-package com.lego.mydiablo.rest.callback.models.HeroList;
-
+package com.lego.mydiablo.rest.callback.models.leaderboard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.Expose;

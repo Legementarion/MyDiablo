@@ -1,4 +1,4 @@
-package com.lego.mydiablo.rest.callback.models.HeroList;
+package com.lego.mydiablo.rest.callback.models.leaderboard;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

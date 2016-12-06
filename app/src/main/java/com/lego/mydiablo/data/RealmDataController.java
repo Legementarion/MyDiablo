@@ -3,13 +3,12 @@ package com.lego.mydiablo.data;
 import android.app.Activity;
 import android.app.Application;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.data.model.Item;
 import com.lego.mydiablo.data.model.Skill;
-import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
-import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
+import com.lego.mydiablo.rest.callback.models.heroes.HeroDetail;
+import com.lego.mydiablo.rest.callback.models.item.ResponseItem;
 import com.lego.mydiablo.rest.parser.HeroListParser;
 
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import com.lego.mydiablo.data.DataBaseController;
 import com.lego.mydiablo.data.RealmDataController;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.rest.RetrofitRequests;
-import com.lego.mydiablo.rest.callback.models.UserData.UserHeroList;
+import com.lego.mydiablo.rest.callback.models.user.UserHeroList;
 import com.lego.mydiablo.rest.parser.HeroListParser;
 
 import java.util.List;

@@ -4,12 +4,12 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lego.mydiablo.rest.callback.models.GameData.Era;
-import com.lego.mydiablo.rest.callback.models.GameData.Season;
-import com.lego.mydiablo.rest.callback.models.HeroDetail.HeroDetail;
-import com.lego.mydiablo.rest.callback.models.HeroList.HeroList;
-import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
-import com.lego.mydiablo.rest.callback.models.UserData.UserHeroList;
+import com.lego.mydiablo.rest.callback.models.game.Era;
+import com.lego.mydiablo.rest.callback.models.game.Season;
+import com.lego.mydiablo.rest.callback.models.heroes.HeroDetail;
+import com.lego.mydiablo.rest.callback.models.leaderboard.HeroList;
+import com.lego.mydiablo.rest.callback.models.item.ResponseItem;
+import com.lego.mydiablo.rest.callback.models.user.UserHeroList;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
