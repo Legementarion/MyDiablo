@@ -13,9 +13,11 @@ import com.lego.mydiablo.data.model.Item;
 import com.lego.mydiablo.view.adapters.ProfileExpandableListAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static com.lego.mydiablo.utils.Const.D3;
@@ -33,6 +35,7 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
     private LinkedHashMap<String, List<String>> expandablePlayerListDetail;
     private List<String> mIcons = new ArrayList<>();
     private List<List<String>> heroItems = new ArrayList<>();
+    private Map<String, List<String>> heroSetBonus = new HashMap<>();
 
     private Hero mHero;
 
@@ -102,7 +105,13 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
                 itemStats.add(displayedItemAttribute.getAttribute());
             }
             if (item.getSetName() != null){
-                Log.d("ITEM", "fillExpandedList: " + item.getSetName());
+                if (!heroSetBonus.containsKey(item.getSetName())){
+                    List<String> temp = new ArrayList<>();
+                    for (DisplayedItemAttribute displayedItemAttribute : item.getSetStats()){
+                        temp.add(displayedItemAttribute.getAttribute());
+                    }
+                    heroSetBonus.put(item.getSetName(), temp);
+                }
             }
             heroItems.add(itemStats);
             mIcons.add(MEDIA_URL + D3 + ICONS + ITEMS + LARGE + item.getImageUrl() + PNG);
