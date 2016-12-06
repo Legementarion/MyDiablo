@@ -19,16 +19,19 @@ import com.lego.mydiablo.rest.callback.models.HeroList.HeroList;
 import com.lego.mydiablo.rest.callback.models.Item.Description;
 import com.lego.mydiablo.rest.callback.models.Item.Gem;
 import com.lego.mydiablo.rest.callback.models.Item.Property;
+import com.lego.mydiablo.rest.callback.models.Item.Ranks;
 import com.lego.mydiablo.rest.callback.models.Item.ResponseItem;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import io.realm.RealmList;
 import retrofit2.Call;
 import rx.Observable;
+import rx.Observable.OnSubscribe;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -56,33 +59,162 @@ public class HeroListParser {
         for (int i = 0; i < heroList.getRow().size(); i++) {
             Hero currentHero = new Hero();
             try {
-                if (heroList.getRow().get(i).getPlayer().get(0).getData().get(0).getId().equals("HeroBattleTag")) {
-                    currentHero.setBattleTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(0).getString());    //player data
-                    currentHero.setHeroClass(heroList.getRow().get(i).getPlayer().get(0).getData().get(2).getString());
-                    currentHero.setGender(castGender(heroList.getRow().get(i).getPlayer().get(0).getData().get(3).getString()));
-                    currentHero.setLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber());
-                    if (heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber() != null) {
-                        currentHero.setParagonLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber());
+                if (heroList.getRow()
+                        .get(i)
+                        .getPlayer()
+                        .get(0)
+                        .getData()
+                        .get(0)
+                        .getId()
+                        .equals("HeroBattleTag")) {
+                    currentHero.setBattleTag(heroList.getRow()
+                            .get(i)
+                            .getPlayer()
+                            .get(0)
+                            .getData()
+                            .get(0)
+                            .getString());    //player data
+                    currentHero.setHeroClass(heroList.getRow()
+                            .get(i)
+                            .getPlayer()
+                            .get(0)
+                            .getData()
+                            .get(2)
+                            .getString());
+                    currentHero.setGender(castGender(heroList.getRow()
+                            .get(i)
+                            .getPlayer()
+                            .get(0)
+                            .getData()
+                            .get(3)
+                            .getString()));
+                    currentHero.setLevel(heroList.getRow()
+                            .get(i)
+                            .getPlayer()
+                            .get(0)
+                            .getData()
+                            .get(4)
+                            .getNumber());
+                    if (heroList.getRow()
+                            .get(i)
+                            .getPlayer()
+                            .get(0)
+                            .getData()
+                            .get(5)
+                            .getNumber() != null) {
+                        currentHero.setParagonLevel(heroList.getRow()
+                                .get(i)
+                                .getPlayer()
+                                .get(0)
+                                .getData()
+                                .get(5)
+                                .getNumber());
                     }
-                    if (heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getId().equals("HeroClanTag")) {
-                        currentHero.setClanTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getString());
-                        currentHero.setClanName(heroList.getRow().get(i).getPlayer().get(0).getData().get(7).getString());
-                        currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(8).getNumber());    // if era = 1 and query = barbarian -> Error field doesn't exist
+                    if (heroList.getRow()
+                            .get(i)
+                            .getPlayer()
+                            .get(0)
+                            .getData()
+                            .get(6)
+                            .getId()
+                            .equals("HeroClanTag")) {
+                        currentHero.setClanTag(heroList.getRow()
+                                .get(i)
+                                .getPlayer()
+                                .get(0)
+                                .getData()
+                                .get(6)
+                                .getString());
+                        currentHero.setClanName(heroList.getRow()
+                                .get(i)
+                                .getPlayer()
+                                .get(0)
+                                .getData()
+                                .get(7)
+                                .getString());
+                        currentHero.setId(heroList.getRow()
+                                .get(i)
+                                .getPlayer()
+                                .get(0)
+                                .getData()
+                                .get(8)
+                                .getNumber());    // if era = 1 and query = barbarian -> Error field doesn't exist
                     } else {
-                        currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getNumber());
+                        currentHero.setId(heroList.getRow()
+                                .get(i)
+                                .getPlayer()
+                                .get(0)
+                                .getData()
+                                .get(6)
+                                .getNumber());
                     }
                 } else {
-                    currentHero.setHeroClass(heroList.getRow().get(i).getPlayer().get(0).getData().get(1).getString());
-                    currentHero.setLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(3).getNumber());
-                    if (heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber() != null) {
-                        currentHero.setParagonLevel(heroList.getRow().get(i).getPlayer().get(0).getData().get(4).getNumber());
+                    currentHero.setHeroClass(heroList.getRow()
+                            .get(i)
+                            .getPlayer()
+                            .get(0)
+                            .getData()
+                            .get(1)
+                            .getString());
+                    currentHero.setLevel(heroList.getRow()
+                            .get(i)
+                            .getPlayer()
+                            .get(0)
+                            .getData()
+                            .get(3)
+                            .getNumber());
+                    if (heroList.getRow()
+                            .get(i)
+                            .getPlayer()
+                            .get(0)
+                            .getData()
+                            .get(4)
+                            .getNumber() != null) {
+                        currentHero.setParagonLevel(heroList.getRow()
+                                .get(i)
+                                .getPlayer()
+                                .get(0)
+                                .getData()
+                                .get(4)
+                                .getNumber());
                     }
-                    if (heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getId().equals("HeroClanTag")) {
-                        currentHero.setClanTag(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getString());
-                        currentHero.setClanName(heroList.getRow().get(i).getPlayer().get(0).getData().get(6).getString());
-                        currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(7).getNumber());
+                    if (heroList.getRow()
+                            .get(i)
+                            .getPlayer()
+                            .get(0)
+                            .getData()
+                            .get(5)
+                            .getId()
+                            .equals("HeroClanTag")) {
+                        currentHero.setClanTag(heroList.getRow()
+                                .get(i)
+                                .getPlayer()
+                                .get(0)
+                                .getData()
+                                .get(5)
+                                .getString());
+                        currentHero.setClanName(heroList.getRow()
+                                .get(i)
+                                .getPlayer()
+                                .get(0)
+                                .getData()
+                                .get(6)
+                                .getString());
+                        currentHero.setId(heroList.getRow()
+                                .get(i)
+                                .getPlayer()
+                                .get(0)
+                                .getData()
+                                .get(7)
+                                .getNumber());
                     } else {
-                        currentHero.setId(heroList.getRow().get(i).getPlayer().get(0).getData().get(5).getNumber());
+                        currentHero.setId(heroList.getRow()
+                                .get(i)
+                                .getPlayer()
+                                .get(0)
+                                .getData()
+                                .get(5)
+                                .getNumber());
                     }
                 }
 
@@ -91,7 +223,11 @@ public class HeroListParser {
                 } else {
                     currentHero.setSeasonValue(heroList.getSeason());
                 }
-                currentHero.setRank(heroList.getRow().get(i).getData().get(0).getNumber());     //other data
+                currentHero.setRank(heroList.getRow()
+                        .get(i)
+                        .getData()
+                        .get(0)
+                        .getNumber());     //other data
                 currentHero.setRiftLevel(heroList.getRow().get(i).getData().get(1).getNumber());
                 currentHero.setRiftTime(heroList.getRow().get(i).getData().get(2).getTimestamp());
 
@@ -166,7 +302,8 @@ public class HeroListParser {
             RealmList<LegendaryPower> heroLegendaryPowers = new RealmList<>();
             for (int i = 0; i < hero.getLegendaryPowers().size(); i++) {
                 if (hero.getLegendaryPowers().get(i) != null) {
-                    LegendaryPower legendaryPower = mRealmDataController.getRealm().createObject(LegendaryPower.class);
+                    LegendaryPower legendaryPower = mRealmDataController.getRealm()
+                            .createObject(LegendaryPower.class);
                     legendaryPower.setId(hero.getLegendaryPowers().get(i).getId());
                     legendaryPower.setName(hero.getLegendaryPowers().get(i).getName());
                     legendaryPower.setIcon(hero.getLegendaryPowers().get(i).getIcon());
@@ -184,8 +321,16 @@ public class HeroListParser {
                         Rune rune = mRealmDataController.getRealm().createObject(Rune.class);
                         rune.setSlug(hero.getSkills().getActive().get(i).getRune().getSlug());
                         rune.setTitle(hero.getSkills().getActive().get(i).getRune().getName());
-                        rune.setDescription(hero.getSkills().getActive().get(i).getRune().getDescription());
-                        rune.setSimpleDescription(hero.getSkills().getActive().get(i).getRune().getSimpleDescription());
+                        rune.setDescription(hero.getSkills()
+                                .getActive()
+                                .get(i)
+                                .getRune()
+                                .getDescription());
+                        rune.setSimpleDescription(hero.getSkills()
+                                .getActive()
+                                .get(i)
+                                .getRune()
+                                .getSimpleDescription());
                         skill.setRune(rune);
                     }
                     heroSkillsActive.add(skill);
@@ -214,7 +359,7 @@ public class HeroListParser {
 
         } catch (NullPointerException ex) {
             Log.d("Hero parse", "heroStatParse: " + hero.getId());
-            Log.d("Hero parse", "heroStatParse: " + ex.getMessage());
+            Log.d("Hero parse", "heroStatParse: " + ex);
             return null;
         }
     }
@@ -233,25 +378,28 @@ public class HeroListParser {
         item.setParamDescription(responseItem.getAugmentation());
 
         RealmList<ItemProperty> calcItemAttributes = new RealmList<>();
+        getCalcParam(responseItem.getAttributesRaw(), calcItemAttributes);
 
-        for (Map.Entry<String, Property> entry : responseItem.getAttributesRaw().entrySet()) {
-            ItemProperty itemProperty = mRealmDataController.getRealm().createObject(ItemProperty.class);
-            itemProperty.setAttribute(entry.getKey());
-            itemProperty.setValue(entry.getValue().toString());
-            calcItemAttributes.add(itemProperty);
+        for (Gem gem : responseItem.getGems()) {
+            Socket socket = mRealmDataController.getRealm().createObject(Socket.class);
+            socket.setTitle(gem.getItem().getName());
+            socket.setImageUrl(gem.getItem().getIcon());
+            for (Map.Entry<String, List<Description>> entry : gem.getAttributes().entrySet()) {
+                getDisplayedParam(entry.getValue(), displayedItemAttributes);
+            }
+            getCalcParam(gem.getAttributesRaw(), calcItemAttributes);
         }
 
-//        for (Gem gem : responseItem.getGems()) { TODO Gems
-//            Socket socket = mRealmDataController.getRealm().createObject(Socket.class);
-//            socket.setTitle(gem.getItem().getName());
-//            socket.setImageUrl(gem.getItem().getIcon());
-//            socket.setParamDescription(gem.getItem().getName());
-//            for (Map.Entry<String, List<Description>> entry: gem.getAttributes().entrySet()){
-//                getDisplayedParam(entry.getValue(), displayedItemAttributes);
-//            }
-//        }
-        //TODO Sets
-
+        RealmList<DisplayedItemAttribute> setStats = new RealmList<>();
+        if (responseItem.getSet() != null) {
+            for (Ranks rank : responseItem.getSet().getRanks()) {
+                for (Map.Entry<String, List<Description>> entry : rank.getAttributes().entrySet()) {
+                    getDisplayedParam(entry.getValue(), setStats);
+                }
+            }
+            item.setSetStats(setStats);
+            item.setSetName(responseItem.getSet().getName());
+        }
         item.setCalcStats(calcItemAttributes);
         item.setDisplayedStats(displayedItemAttributes);
         return item;
@@ -259,10 +407,21 @@ public class HeroListParser {
 
     private void getDisplayedParam(List<Description> from, RealmList<DisplayedItemAttribute> to) {
         for (Description description : from) {
-            DisplayedItemAttribute displayedItemAttribute = mRealmDataController.getRealm().createObject(DisplayedItemAttribute.class);
+            DisplayedItemAttribute displayedItemAttribute = mRealmDataController.getRealm()
+                    .createObject(DisplayedItemAttribute.class);
             displayedItemAttribute.setAttribute(description.getText());
             displayedItemAttribute.setColor(description.getColor());
             to.add(displayedItemAttribute);
+        }
+    }
+
+    private void getCalcParam(Map<String, Property> from, RealmList<ItemProperty> to) {
+        for (Map.Entry<String, Property> entry : from.entrySet()) {
+            ItemProperty itemProperty = mRealmDataController.getRealm()
+                    .createObject(ItemProperty.class);
+            itemProperty.setAttribute(entry.getKey());
+            itemProperty.setValue(entry.getValue().toString());
+            to.add(itemProperty);
         }
     }
 
@@ -271,7 +430,12 @@ public class HeroListParser {
         skill.setSlug(hero.getSkills().getActive().get(i).getSkill().getSlug());
         skill.setTitle(hero.getSkills().getActive().get(i).getSkill().getName());
         skill.setDescription(hero.getSkills().getActive().get(i).getSkill().getDescription());
-        skill.setSimpleDescription(hero.getSkills().getActive().get(i).getSkill().getSimpleDescription());
+        skill.setSimpleDescription(hero
+                .getSkills()
+                .getActive()
+                .get(i)
+                .getSkill()
+                .getSimpleDescription());
         skill.setImageUrl(hero.getSkills().getActive().get(i).getSkill().getIcon());
         return skill;
     }
@@ -290,7 +454,7 @@ public class HeroListParser {
     }
 
     private Observable<ResponseItem> getBody(Call<ResponseItem> itemCall) {
-        return Observable.create(new Observable.OnSubscribe<ResponseItem>() {
+        return Observable.create(new OnSubscribe<ResponseItem>() {
             @Override
             public void call(Subscriber<? super ResponseItem> subscriber) {
                 if (!subscriber.isUnsubscribed()) {
@@ -306,17 +470,17 @@ public class HeroListParser {
     }
 
     private Observable<Call<ResponseItem>> getItem(HeroDetail hero) {
-        return Observable.create(new Observable.OnSubscribe<Call<ResponseItem>>() {
+        return Observable.create(new OnSubscribe<Call<ResponseItem>>() {
             @Override
             public void call(Subscriber<? super Call<ResponseItem>> subscriber) {
                 if (!subscriber.isUnsubscribed()) {
                     try {
-                        if (hero.getItems() != null) {
-                            for (Map.Entry<String, ItemDetail> entry : hero.getItems().entrySet()) {
+                        if (hero.getItems() != null)
+                            for (Map.Entry<String, ItemDetail> entry : hero.getItems()
+                                    .entrySet()) {
                                 ItemDetail value = entry.getValue();
                                 checkItem(subscriber, value);
                             }
-                        }
                         subscriber.onCompleted();
                     } catch (Exception e) {
                         subscriber.onError(e);

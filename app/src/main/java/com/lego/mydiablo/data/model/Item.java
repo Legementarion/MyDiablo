@@ -16,6 +16,9 @@ public class Item extends RealmObject {
     private RealmList<DisplayedItemAttribute> displayedStats;
     private RealmList<ItemProperty> calcStats;
 
+    private String mSetName;
+    private RealmList<DisplayedItemAttribute> setStats;
+
     private RealmList<Socket> mSocket;
     private String mParamDescription;  // augmentation
 
@@ -96,4 +99,21 @@ public class Item extends RealmObject {
     public void setColor(String color) {
         mColor = color;
     }
+
+    public String getSetName() {
+        return mSetName;
+    }
+
+    public void setSetName(String setName) {
+        mSetName = setName;
+    }
+
+    public RealmList<DisplayedItemAttribute> getSetStats() {
+        return setStats;
+    }
+
+    public void setSetStats(RealmList<DisplayedItemAttribute> setStats) {
+        this.setStats = setStats;
+    }
+    
 }

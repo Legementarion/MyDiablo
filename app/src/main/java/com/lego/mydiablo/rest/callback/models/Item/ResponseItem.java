@@ -45,6 +45,9 @@ public class ResponseItem {
     @SerializedName("attributesRaw")
     @Expose
     private Map<String, Property> mAttributesRaw = new HashMap<>();
+    @SerializedName("set")
+    @Expose
+    private Set set;
     @SerializedName("dps")
     @Expose
     private Property dps;
@@ -217,5 +220,13 @@ public class ResponseItem {
 
     public void setAugmentation(String augmentation) {
         this.augmentation = augmentation;
+    }
+
+    public Set getSet() {
+        return set;
+    }
+
+    public void setSet(Set set) {
+        this.set = set;
     }
 }
