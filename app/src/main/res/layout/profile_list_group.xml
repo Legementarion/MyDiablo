@@ -30,8 +30,7 @@
             app:srcCompat="@android:color/transparent"
             tools:ignore="ContentDescription"
             android:layout_width="64dp"
-            android:layout_height="64dp"
-            />
+            android:layout_height="64dp"/>
 
     </RelativeLayout>
 

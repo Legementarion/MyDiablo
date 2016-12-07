@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Skill {
+public class HeroSkill {
     @SerializedName("slug")
     @Expose
     private String slug;

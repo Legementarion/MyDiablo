@@ -27,6 +27,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -64,6 +65,8 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
+    @BindView(R.id.user_info_progressBar)
+    ProgressBar mProgressBar;
     @BindView(R.id.tabs)
     SmartTabLayout mTabLayout;
     @BindView(R.id.background_linear_layout)
@@ -72,7 +75,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     LinearLayout mBackgroundLinearLayout2;
     @BindView(R.id.image_background_logo)
     ImageView mImageBackgroundLogo;
-    @BindView(R.id.image_news_tabs)
+    @BindView(R.id.image_logo_tabs)
     ImageView mImageLogo;
     @BindView(R.id.fab)
     FloatingActionButton fab;
@@ -181,6 +184,18 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     public void setHeroAdapter(Hero hero) {
         mAdapter.setupAdapter(hero);
         mTabLayout.setViewPager(mViewPager);
+    }
+
+    @Override
+    public void showUserProgressBar() {
+        mImageLogo.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideUserProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
+        mImageLogo.setVisibility(View.VISIBLE);
     }
 
     @Override

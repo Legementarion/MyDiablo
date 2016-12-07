@@ -16,6 +16,7 @@ import com.lego.mydiablo.rest.RetrofitRequests;
 import com.lego.mydiablo.rest.callback.models.heroes.HeroDetail;
 import com.lego.mydiablo.rest.callback.models.heroes.items.ItemDetail;
 import com.lego.mydiablo.rest.callback.models.heroes.legendary.Legendary;
+import com.lego.mydiablo.rest.callback.models.heroes.skills.HeroSkill;
 import com.lego.mydiablo.rest.callback.models.heroes.skills.SkillLists;
 import com.lego.mydiablo.rest.callback.models.leaderboard.HeroList;
 import com.lego.mydiablo.rest.callback.models.leaderboard.Row;
@@ -169,34 +170,41 @@ public class HeroListParser {
             newHeroData.setHeroStats(stats);
 
             RealmList<LegendaryPower> heroLegendaryPowers = new RealmList<>();
+            Log.d("NPE", "heroStatParse: " + hero.getLegendaryPowers().size());
             for (Legendary legendary : hero.getLegendaryPowers()) {
-                LegendaryPower legendaryPower = mRealmDataController.getRealm().createObject(LegendaryPower.class);
-                legendaryPower.setId(legendary.getId());
-                legendaryPower.setName(legendary.getName());
-                legendaryPower.setIcon(legendary.getIcon());
-                legendaryPower.setColor(legendary.getDisplayColor());
-                heroLegendaryPowers.add(legendaryPower);
+                if (legendary != null) {
+                    LegendaryPower legendaryPower = mRealmDataController.getRealm().createObject(LegendaryPower.class);
+                    legendaryPower.setId(legendary.getId());
+                    legendaryPower.setName(legendary.getName());
+                    legendaryPower.setIcon(legendary.getIcon());
+                    legendaryPower.setColor(legendary.getDisplayColor());
+                    heroLegendaryPowers.add(legendaryPower);
+                }
             }
             newHeroData.setHeroPower(heroLegendaryPowers);
 
             RealmList<Skill> heroSkillsActive = new RealmList<>();
             for (SkillLists skillLists : hero.getSkills().getActive()) {
-                Skill skill = setSkill(skillLists);
-                if (skillLists.getRune() != null) {
-                    Rune rune = mRealmDataController.getRealm().createObject(Rune.class);
-                    rune.setSlug(skillLists.getRune().getSlug());
-                    rune.setTitle(skillLists.getRune().getName());
-                    rune.setDescription(skillLists.getRune().getDescription());
-                    rune.setSimpleDescription(skillLists.getRune().getSimpleDescription());
-                    skill.setRune(rune);
+                if (skillLists.getSkill() != null) {
+                    Skill skill = setSkill(skillLists.getSkill());
+                    if (skillLists.getRune() != null) {
+                        Rune rune = mRealmDataController.getRealm().createObject(Rune.class);
+                        rune.setSlug(skillLists.getRune().getSlug());
+                        rune.setTitle(skillLists.getRune().getName());
+                        rune.setDescription(skillLists.getRune().getDescription());
+                        rune.setSimpleDescription(skillLists.getRune().getSimpleDescription());
+                        skill.setRune(rune);
+                    }
+                    heroSkillsActive.add(skill);
                 }
-                heroSkillsActive.add(skill);
             }
             newHeroData.setActiveSkills(heroSkillsActive);
 
             RealmList<Skill> heroSkillsPassive = new RealmList<>();
-            for (SkillLists passive : hero.getSkills().getPassive()) {
-                heroSkillsPassive.add(setSkill(passive));
+            for (SkillLists skillLists : hero.getSkills().getPassive()) {
+                if (skillLists.getSkill() != null) {
+                    heroSkillsPassive.add(setSkill(skillLists.getSkill()));
+                }
             }
             newHeroData.setPassiveSkills(heroSkillsPassive);
 
@@ -207,7 +215,6 @@ public class HeroListParser {
             newHeroData.setHeroComplect(heroItems);
 
             newHeroData.setLoadingProgress(true);
-
             return newHeroData;
 
         } catch (NullPointerException ex) {
@@ -278,13 +285,13 @@ public class HeroListParser {
         }
     }
 
-    private Skill setSkill(SkillLists skillLists) {
+    private Skill setSkill(HeroSkill heroSkill) {
         Skill skill = mRealmDataController.getRealm().createObject(Skill.class);
-        skill.setSlug(skillLists.getSkill().getSlug());
-        skill.setTitle(skillLists.getSkill().getName());
-        skill.setDescription(skillLists.getSkill().getDescription());
-        skill.setSimpleDescription(skillLists.getSkill().getSimpleDescription());
-        skill.setImageUrl(skillLists.getSkill().getIcon());
+        skill.setSlug(heroSkill.getSlug());
+        skill.setTitle(heroSkill.getName());
+        skill.setDescription(heroSkill.getDescription());
+        skill.setSimpleDescription(heroSkill.getSimpleDescription());
+        skill.setImageUrl(heroSkill.getIcon());
         return skill;
     }
 

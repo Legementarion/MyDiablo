@@ -59,8 +59,20 @@
                     android:src="@drawable/background_oval"
                     tools:ignore="ContentDescription"/>
 
+                <ProgressBar
+                    android:id="@+id/user_info_progressBar"
+                    style="@style/CircularProgressBar"
+                    android:layout_width="@dimen/size_image_news"
+                    android:layout_height="@dimen/size_image_news"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp" />
+
                 <ImageView
-                    android:id="@+id/image_news_tabs"
+                    android:id="@+id/image_logo_tabs"
                     android:layout_width="@dimen/size_image_news"
                     android:layout_height="@dimen/size_image_news"
                     android:layout_centerHorizontal="true"

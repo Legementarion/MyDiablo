@@ -2,6 +2,7 @@ package com.lego.mydiablo.presenter.fragment;
 
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -51,6 +52,8 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
     public void addTab(int userHeroId) {
         mCore.loadUserDetailHeroData(mBattleTag, userHeroId)
                 .cache()
+                .doOnSubscribe(() -> getViewState().showUserProgressBar())
+                .doAfterTerminate(() -> getViewState().hideUserProgressBar())
                 .subscribe(new Subscriber<Hero>() {
                     @Override
                     public void onCompleted() {
@@ -59,6 +62,7 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
 
                     @Override
                     public void onError(Throwable e) {
+                        getViewState().hideUserProgressBar();
                         Log.d("addTab", "onError: " + e);
                     }
 

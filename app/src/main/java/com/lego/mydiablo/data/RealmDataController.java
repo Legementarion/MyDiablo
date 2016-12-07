@@ -3,6 +3,7 @@ package com.lego.mydiablo.data;
 import android.app.Activity;
 import android.app.Application;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.data.model.Item;
@@ -133,7 +134,6 @@ public class RealmDataController implements DataBaseController {
                 realm.copyToRealmOrUpdate(userHero)
         );
     }
-
 
     private List<Hero> supportFillList(List<Hero> heroes, int from, int toSize) {
         List<Hero> heroList = new ArrayList<>();

@@ -104,10 +104,13 @@ public class ItemDetailPresenter extends MvpPresenter<ItemDetailView> {
             for (DisplayedItemAttribute displayedItemAttribute : item.getDisplayedStats()) {
                 itemStats.add(displayedItemAttribute.getAttribute());
             }
-            if (item.getSetName() != null){
-                if (!heroSetBonus.containsKey(item.getSetName())){
+            if (item.getParamDescription() != null) {
+                itemStats.add(item.getParamDescription());
+            }
+            if (item.getSetName() != null) {
+                if (!heroSetBonus.containsKey(item.getSetName())) {
                     List<String> temp = new ArrayList<>();
-                    for (DisplayedItemAttribute displayedItemAttribute : item.getSetStats()){
+                    for (DisplayedItemAttribute displayedItemAttribute : item.getSetStats()) {
                         temp.add(displayedItemAttribute.getAttribute());
                     }
                     heroSetBonus.put(item.getSetName(), temp);

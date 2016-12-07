@@ -11,7 +11,7 @@ import java.util.List;
 public class SumFragmentPresenter extends MvpPresenter<SumFragmentView> {
 
     public void calcDifference(Hero hero, Hero userHero) {
-        getViewState().setDiff(Calc.compareHeroes(hero, userHero));
+//        getViewState().setDiff(Calc.compareHeroes(hero, userHero));
     }
 
 }

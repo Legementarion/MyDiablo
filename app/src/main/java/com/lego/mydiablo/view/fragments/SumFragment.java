@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.lego.mydiablo.R;
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.presenter.fragment.SumFragmentPresenter;
 import com.lego.mydiablo.presenter.fragment.SumFragmentView;
@@ -23,17 +24,13 @@ public class SumFragment extends MvpAppCompatFragment implements SumFragmentView
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View mView = inflater.inflate(R.layout.fragment_item_detail, container, false);
+        return mView;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-    }
-
-    public static Fragment newInstance(int i) {
-
-        return new SumFragment();
     }
 
     public void compare(Hero hero, Hero userHero) {

@@ -120,4 +120,13 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    @Override
+    public int getGroupType(int groupPosition) {
+        return super.getGroupType(groupPosition);
+    }
+
+    @Override
+    public int getChildType(int groupPosition, int childPosition) {
+        return super.getChildType(groupPosition, childPosition);
+    }
 }

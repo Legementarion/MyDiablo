@@ -9,4 +9,8 @@ public interface HeroTabsView extends MvpView {
     void openPicker();
 
     void setHeroAdapter(Hero hero);
+
+    void showUserProgressBar();
+
+    void hideUserProgressBar();
 }

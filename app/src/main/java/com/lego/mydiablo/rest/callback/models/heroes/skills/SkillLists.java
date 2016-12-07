@@ -6,16 +6,16 @@ import com.google.gson.annotations.SerializedName;
 public class SkillLists {
     @SerializedName("skill")
     @Expose
-    private Skill skill;
+    private HeroSkill skill;
     @SerializedName("rune")
     @Expose
     private Rune rune;
 
-    public Skill getSkill() {
+    public HeroSkill getSkill() {
         return skill;
     }
 
-    public void setSkill(Skill skill) {
+    public void setSkill(HeroSkill skill) {
         this.skill = skill;
     }
 

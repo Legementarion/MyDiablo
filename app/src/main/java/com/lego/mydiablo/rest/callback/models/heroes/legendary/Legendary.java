@@ -1,6 +1,5 @@
 package com.lego.mydiablo.rest.callback.models.heroes.legendary;
 
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

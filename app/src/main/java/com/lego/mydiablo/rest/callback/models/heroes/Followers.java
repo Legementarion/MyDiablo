@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.lego.mydiablo.rest.callback.models.heroes.items.ItemDetail;
-import com.lego.mydiablo.rest.callback.models.heroes.skills.Skill;
+import com.lego.mydiablo.rest.callback.models.heroes.skills.HeroSkill;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -21,7 +21,7 @@ public class Followers {
     private Map<String, ItemDetail> items = new LinkedHashMap<>();
     @SerializedName("skills")
     @Expose
-    private List<Skill> skills = new ArrayList<>();
+    private List<HeroSkill> skills = new ArrayList<>();
     @SerializedName("stats")
     @Expose
     private HeroStats stats;
@@ -51,11 +51,11 @@ public class Followers {
         this.stats = stats;
     }
 
-    public List<Skill> getSkills() {
+    public List<HeroSkill> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<Skill> skills) {
+    public void setSkills(List<HeroSkill> skills) {
         this.skills = skills;
     }
 }

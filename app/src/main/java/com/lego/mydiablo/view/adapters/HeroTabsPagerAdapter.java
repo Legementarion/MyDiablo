@@ -50,10 +50,10 @@ public class HeroTabsPagerAdapter extends FragmentStatePagerAdapter {
 
     private void addSummaryFragment(Hero hero, Hero userHero) {
         SumFragment sumFragment = new SumFragment();
-        sumFragment.compare(hero, userHero);
         mFragmentTitleList.add("Difference");
         mFragmentList.add(sumFragment);
         notifyDataSetChanged();
+//        sumFragment.compare(hero, userHero);
     }
 
     @Override
