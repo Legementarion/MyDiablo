@@ -9,9 +9,9 @@
     <dimen name="_10dp">10dp</dimen>
     <dimen name="avatar_size">30dp</dimen>
 
-    <dimen name="size_image_news_background">100dp</dimen>
-    <dimen name="size_collapsing_toolbar_layout_news_tabs">180dp</dimen>
-    <dimen name="size_image_news">120dp</dimen>
+    <dimen name="size_image_stats_background">100dp</dimen>
+    <dimen name="size_collapsing_toolbar_layout_stats_tabs">180dp</dimen>
+    <dimen name="size_image_stats">120dp</dimen>
     <dimen name="size_collapsing_toolbar_layout">256dp</dimen>
 
     <dimen name="text_margin">16dp</dimen>

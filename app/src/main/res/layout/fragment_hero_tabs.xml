@@ -10,12 +10,12 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_collapsing_toolbar_layout_news_tabs"
+        android:layout_height="@dimen/size_collapsing_toolbar_layout_stats_tabs"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:expanded="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_layout_news_tabs"
+            android:id="@+id/collapsing_toolbar_layout_param_tabs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:expandedTitleMarginEnd="64dp"
@@ -52,8 +52,8 @@
 
                 <ImageView
                     android:id="@+id/image_background_logo"
-                    android:layout_width="@dimen/size_image_news_background"
-                    android:layout_height="@dimen/size_image_news_background"
+                    android:layout_width="@dimen/size_image_stats_background"
+                    android:layout_height="@dimen/size_image_stats_background"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/background_oval"
@@ -62,19 +62,19 @@
                 <ProgressBar
                     android:id="@+id/user_info_progressBar"
                     style="@style/CircularProgressBar"
-                    android:layout_width="@dimen/size_image_news"
-                    android:layout_height="@dimen/size_image_news"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
+                    android:layout_width="@dimen/size_image_stats"
+                    android:layout_height="@dimen/size_image_stats"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp" />
+                    android:visibility="gone"/>
 
                 <ImageView
                     android:id="@+id/image_logo_tabs"
-                    android:layout_width="@dimen/size_image_news"
-                    android:layout_height="@dimen/size_image_news"
+                    android:layout_width="@dimen/size_image_stats"
+                    android:layout_height="@dimen/size_image_stats"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     tools:ignore="ContentDescription"/>
@@ -119,18 +119,18 @@
                         android:layout_width="30dp"
                         android:layout_height="@dimen/avatar_size"
                         android:layout_gravity="center_vertical"
+                        android:background="@color/transparent"
                         android:contentDescription="@null"
                         android:gravity="end"
-                        android:background="@color/transparent"
                         app:srcCompat="@drawable/ic_arrow_back"/>
 
                     <ImageView
                         android:id="@+id/image_title_toolbar"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:contentDescription="@null"
-                        android:scaleType="fitXY"
-                        android:layout_height="wrap_content"/>
+                        android:scaleType="fitXY"/>
 
                     <TextView
                         android:id="@+id/text_view_title_toolbar"

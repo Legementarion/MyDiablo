@@ -18,13 +18,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -63,7 +62,6 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
     public static final String TAG = "Detail";
     private static final int REQUEST_PICK = 1;
-    private static final int REQUEST_ANOTHER_ONE = 2;
 
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
@@ -95,7 +93,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     ImageView mImageTitle;
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
-    @BindView(R.id.collapsing_toolbar_layout_news_tabs)
+    @BindView(R.id.collapsing_toolbar_layout_param_tabs)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
 
     private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
@@ -103,14 +101,38 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     private int mMaxScrollSize;
     private int mPositionViewPage;
     private boolean mHideToolBar;
-    private boolean mVisibleImageNews = true;
+    private boolean mVisibleHeroIcon = true;
     private boolean mVisibleTab = true;
 
     private HeroTabsPagerAdapter mAdapter;
     private Animation mAnimation;
-    private Animator mCircleRevealAnim;
     private Unbinder mUnbinder;
-    private Resources mResources;
+    private AnimationListener animationListenerInvisible;
+    private AnimationListener animationListenerVisible;
+
+    private final SimpleOnPageChangeListener mOnPageChangeListener = new SimpleOnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            mPositionViewPage = position;
+            animationCloseImageNews();
+            mAnimation.setAnimationListener(new AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {     //do nothing
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    animationShowImageNews();
+                    setColorCoordinatorLayout();
+                    animationFillingColor();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {    //do nothing
+                }
+            });
+        }
+    };
 
     public static HeroTabsFragment newInstance(int rank) {
         Bundle args = new Bundle();
@@ -135,9 +157,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 "fonts/blizzard.ttf");
         mTitleTextView.setTypeface(face);
 
-        mResources = getResources();
-        mImageLogo.setImageDrawable(mResources.getDrawable(R.drawable.diablo_logo));
-
+        mImageLogo.setImageDrawable(getResources().getDrawable(R.drawable.diablo_logo));
         mTabLayout.setViewPager(mViewPager);
         mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
         setColorCoordinatorLayout();
@@ -148,16 +168,12 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_PICK) {
-                mViewPager.setCurrentItem(0);
-                mAdapter.removeFragments();
-                mViewPager.setAdapter(mAdapter);
-                mTabLayout.setViewPager(mViewPager);
-                mHeroTabsPresenter.addTab(data.getIntExtra(PickDialog.TAG_PICK_SELECTED, 1));
-            } else if (requestCode == REQUEST_ANOTHER_ONE) {
-                //обработка других requestCode
-            }
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PICK) {
+            mViewPager.setCurrentItem(0);
+            mAdapter.removeFragments();
+            mViewPager.setAdapter(mAdapter);
+            mTabLayout.setViewPager(mViewPager);
+            mHeroTabsPresenter.addTab(data.getIntExtra(PickDialog.TAG_PICK_SELECTED, 1));
         }
     }
 
@@ -168,7 +184,6 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                     .setAction("YES", view1 ->
                             mHeroTabsPresenter.compare()
                     );
-            // Changing message text color
             snackbar.setActionTextColor(Color.RED);
             snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
             snackbar.show();
@@ -238,33 +253,8 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         });
     }
 
-    private final SimpleOnPageChangeListener mOnPageChangeListener = new SimpleOnPageChangeListener() {
-        @Override
-        public void onPageSelected(int position) {
-            mPositionViewPage = position;
-            animationCloseImageNews();
-            mAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    // Do nothing
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    animationShowImageNews();
-                    setColorCoordinatorLayout();
-                    animationFillingColor();
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                    // Do nothing
-                }
-            });
-        }
-    };
-
     private void animation() {
+        initAnimationListener();
         mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             int percentage = (Math.abs(verticalOffset)) * 100 / mMaxScrollSize;
             toolBarAnimation(appBarLayout, verticalOffset);
@@ -281,51 +271,21 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     }
 
     private void avatarAnimation(int percentage) {
-        if (percentage >= PERCENTAGE_TO_ANIMATE_AVATAR && mVisibleImageNews) {
-            mVisibleImageNews = false;
+        if (percentage >= PERCENTAGE_TO_ANIMATE_AVATAR && mVisibleHeroIcon) {
+            mVisibleHeroIcon = false;
             animationCloseImageNews();
-            mAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    // Do nothing
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    mAnimatorIconRelativeLayout.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                    // Do nothing
-                }
-            });
+            mAnimation.setAnimationListener(animationListenerInvisible);
         }
-        if (percentage <= PERCENTAGE_TO_ANIMATE_AVATAR && !mVisibleImageNews) {
-            mVisibleImageNews = true;
+        if (percentage <= PERCENTAGE_TO_ANIMATE_AVATAR && !mVisibleHeroIcon) {
+            mVisibleHeroIcon = true;
             animationShowImageNews();
-            mAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    // Do nothing
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    mAnimatorIconRelativeLayout.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                    // Do nothing
-                }
-            });
+            mAnimation.setAnimationListener(animationListenerVisible);
         }
     }
 
     private void toolBarAnimation(AppBarLayout appBarLayout, int verticalOffset) {
-        if (mToolBar.getHeight() - appBarLayout.getHeight() == verticalOffset && !TextUtils.isEmpty(mTitleTextView.getText())) {
-            mTitleTextView.setText(mAdapter.getPageTitle(mPositionViewPage));
+        if (mToolBar.getHeight() - appBarLayout.getHeight() == verticalOffset) {
+            mCollapsingToolbarLayout.setTitle(mAdapter.getPageTitle(mPositionViewPage));
             switch (mPositionViewPage) {
                 case 0:
                     mImageTitle.setImageDrawable(pickHeroIcon(getContext(), mHeroTabsPresenter.getHeroIcon()));
@@ -339,9 +299,9 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             }
             fab.setVisibility(View.GONE);
             mHideToolBar = true;
-            mVisibleImageNews = false;
+            mVisibleHeroIcon = false;
         } else if (mHideToolBar) {
-            mTitleTextView.setText(EMPTY_VALUE);
+            mCollapsingToolbarLayout.setTitle(EMPTY_VALUE);
             mImageTitle.setImageDrawable(null);
             mHideToolBar = false;
             fab.setVisibility(View.VISIBLE);
@@ -378,9 +338,9 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             int cy = mBackgroundLinearLayout2.getHeight() / 2;
             int finalRadius = Math.max(mBackgroundLinearLayout2.getWidth(), mBackgroundLinearLayout2.getHeight());
 
-            mCircleRevealAnim = ViewAnimationUtils.createCircularReveal(mBackgroundLinearLayout2, cx, cy, 0, finalRadius);
-            mCircleRevealAnim.setStartDelay(5);
-            mCircleRevealAnim.addListener(new Animator.AnimatorListener() {
+            Animator circleRevealAnim = ViewAnimationUtils.createCircularReveal(mBackgroundLinearLayout2, cx, cy, 0, finalRadius);
+            circleRevealAnim.setStartDelay(5);
+            circleRevealAnim.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
                     mBackgroundLinearLayout2.setBackgroundColor(Color.parseColor(COLOR));
@@ -392,16 +352,14 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 }
 
                 @Override
-                public void onAnimationCancel(Animator animation) {
-                    // Do nothing
+                public void onAnimationCancel(Animator animation) {     // Do nothing
                 }
 
                 @Override
-                public void onAnimationRepeat(Animator animation) {
-                    // Do nothing
+                public void onAnimationRepeat(Animator animation) {     // Do nothing
                 }
             });
-            mCircleRevealAnim.start();
+            circleRevealAnim.start();
         }
     }
 
@@ -409,6 +367,38 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     public void onDestroyView() {
         mUnbinder.unbind();
         super.onDestroyView();
+    }
+
+    private void initAnimationListener() {
+        animationListenerInvisible = new AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {     //do nothing
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mAnimatorIconRelativeLayout.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {    //do nothing
+            }
+        };
+
+        animationListenerVisible = new AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {     //do nothing
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mAnimatorIconRelativeLayout.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {    //do nothing
+            }
+        };
     }
 
 }
