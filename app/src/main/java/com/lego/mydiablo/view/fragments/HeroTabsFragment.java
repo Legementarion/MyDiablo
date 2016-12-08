@@ -18,6 +18,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -105,7 +107,6 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     private boolean mVisibleTab = true;
 
     private HeroTabsPagerAdapter mAdapter;
-    private boolean doublePressed;
     private Animation mAnimation;
     private Animator mCircleRevealAnim;
     private Unbinder mUnbinder;
@@ -121,7 +122,8 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_hero_tabs, container, false);
         mUnbinder = ButterKnife.bind(this, mView);
         if (getArguments() != null) {
@@ -148,6 +150,10 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_PICK) {
+                mViewPager.setCurrentItem(0);
+                mAdapter.removeFragments();
+                mViewPager.setAdapter(mAdapter);
+                mTabLayout.setViewPager(mViewPager);
                 mHeroTabsPresenter.addTab(data.getIntExtra(PickDialog.TAG_PICK_SELECTED, 1));
             } else if (requestCode == REQUEST_ANOTHER_ONE) {
                 //обработка других requestCode
@@ -157,7 +163,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
     @OnClick(R.id.fab)
     public void compareButton(View view) {
-        if (doublePressed) {
+        if (mAdapter.getCount() > 1) {
             Snackbar snackbar = Snackbar.make(view, "Compare another one?", Snackbar.LENGTH_LONG)
                     .setAction("YES", view1 ->
                             mHeroTabsPresenter.compare()
@@ -168,13 +174,13 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             snackbar.show();
         } else {
             mHeroTabsPresenter.compare();
-            doublePressed = true;
         }
     }
 
     @Override
     @StateStrategyType(SkipStrategy.class)
     public void openPicker() {
+        mAdapter.getPageTitle(0);
         DialogFragment fragment = new PickDialog();
         fragment.setTargetFragment(this, REQUEST_PICK);
         fragment.show(getFragmentManager(), fragment.getClass().getName());
@@ -261,7 +267,6 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     private void animation() {
         mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             int percentage = (Math.abs(verticalOffset)) * 100 / mMaxScrollSize;
-
             toolBarAnimation(appBarLayout, verticalOffset);
             avatarAnimation(percentage);
             if (percentage > PERCENTAGE_TO_INVISIBLE_TAB && mVisibleTab) {
@@ -284,10 +289,12 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 public void onAnimationStart(Animation animation) {
                     // Do nothing
                 }
+
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     mAnimatorIconRelativeLayout.setVisibility(View.INVISIBLE);
                 }
+
                 @Override
                 public void onAnimationRepeat(Animation animation) {
                     // Do nothing
@@ -302,10 +309,12 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 public void onAnimationStart(Animation animation) {
                     // Do nothing
                 }
+
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     mAnimatorIconRelativeLayout.setVisibility(View.VISIBLE);
                 }
+
                 @Override
                 public void onAnimationRepeat(Animation animation) {
                     // Do nothing
@@ -314,8 +323,8 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         }
     }
 
-    private void toolBarAnimation(AppBarLayout appBarLayout, int verticalOffset){
-        if (mToolBar.getHeight() - appBarLayout.getHeight() == verticalOffset) {
+    private void toolBarAnimation(AppBarLayout appBarLayout, int verticalOffset) {
+        if (mToolBar.getHeight() - appBarLayout.getHeight() == verticalOffset && !TextUtils.isEmpty(mTitleTextView.getText())) {
             mTitleTextView.setText(mAdapter.getPageTitle(mPositionViewPage));
             switch (mPositionViewPage) {
                 case 0:
@@ -376,14 +385,17 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 public void onAnimationStart(Animator animation) {
                     mBackgroundLinearLayout2.setBackgroundColor(Color.parseColor(COLOR));
                 }
+
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mBackgroundLinearLayout2.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
                 }
+
                 @Override
                 public void onAnimationCancel(Animator animation) {
                     // Do nothing
                 }
+
                 @Override
                 public void onAnimationRepeat(Animator animation) {
                     // Do nothing

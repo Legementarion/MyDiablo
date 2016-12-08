@@ -3,6 +3,7 @@ package com.lego.mydiablo.view.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.view.fragments.ItemDetailFragment;
@@ -29,12 +30,6 @@ public class HeroTabsPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void compare(Hero hero, Hero userHero) {
-        if (mFragmentList.size() > 1){
-            mFragmentList.remove(2);
-            mFragmentList.remove(1);
-            mFragmentTitleList.remove(2);
-            mFragmentTitleList.remove(1);
-        }
         addFragment(userHero.getName(), userHero);
         addSummaryFragment(hero, userHero);
         notifyDataSetChanged();
@@ -45,6 +40,16 @@ public class HeroTabsPagerAdapter extends FragmentStatePagerAdapter {
         itemDetailFragment.setHeroInfo(hero);
         mFragmentTitleList.add(title);
         mFragmentList.add(itemDetailFragment);
+        notifyDataSetChanged();
+    }
+
+    public void removeFragments(){
+        if (mFragmentList.size() > 1){
+            mFragmentList.remove(2);
+            mFragmentList.remove(1);
+            mFragmentTitleList.remove(2);
+            mFragmentTitleList.remove(1);
+        }
         notifyDataSetChanged();
     }
 

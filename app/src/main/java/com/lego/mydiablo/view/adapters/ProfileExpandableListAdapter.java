@@ -26,7 +26,8 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> mIcons = new ArrayList<>();
 
     public ProfileExpandableListAdapter(Context context, List<String> expandableListTitle,
-                                        LinkedHashMap<String, List<String>> expandableListDetail, List<String> icons) {
+                                        LinkedHashMap<String, List<String>> expandableListDetail,
+                                        List<String> icons) {
         this.mContext = context;
         this.mIcons = icons;
         this.mExpandableListTitle = expandableListTitle;
@@ -44,7 +45,8 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild,
+                             View convertView, ViewGroup parent) {
         final String expandedListText = (String) getChild(listPosition, expandedListPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.mContext
@@ -80,7 +82,8 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int listPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(int listPosition, boolean isExpanded, View convertView,
+                             ViewGroup parent) {
         String listTitle = (String) getGroup(listPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -102,6 +105,7 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
                     public void onSuccess() {
                         progressBar.setVisibility(View.GONE);
                     }
+
                     @Override
                     public void onError() {
 
@@ -122,6 +126,14 @@ public class ProfileExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupType(int groupPosition) {
+//        switch (groupPosition) {        //TODO TYPE
+//            case 1:
+//                return R.layout.profile_list_group;
+//            case 2:
+//                return R.layout.profile_list_group;
+//            default:
+//                return -1;
+//        }
         return super.getGroupType(groupPosition);
     }
 

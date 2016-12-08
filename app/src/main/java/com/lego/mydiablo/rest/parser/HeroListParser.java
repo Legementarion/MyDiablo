@@ -170,7 +170,6 @@ public class HeroListParser {
             newHeroData.setHeroStats(stats);
 
             RealmList<LegendaryPower> heroLegendaryPowers = new RealmList<>();
-            Log.d("NPE", "heroStatParse: " + hero.getLegendaryPowers().size());
             for (Legendary legendary : hero.getLegendaryPowers()) {
                 if (legendary != null) {
                     LegendaryPower legendaryPower = mRealmDataController.getRealm().createObject(LegendaryPower.class);

@@ -1,7 +1,6 @@
 package com.lego.mydiablo.presenter.fragment;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ExpandableListAdapter;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -14,11 +13,9 @@ import com.lego.mydiablo.view.adapters.ProfileExpandableListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static com.lego.mydiablo.utils.Const.D3;
 import static com.lego.mydiablo.utils.Const.ICONS;
