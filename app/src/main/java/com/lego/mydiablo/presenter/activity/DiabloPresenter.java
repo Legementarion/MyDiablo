@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,8 +15,6 @@ import com.lego.mydiablo.R;
 import com.lego.mydiablo.events.AuthEvent;
 import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.rest.AuthRequest;
-import com.lego.mydiablo.rest.RetrofitRequests;
-import com.lego.mydiablo.rest.callback.models.user.AccessToken;
 import com.lego.mydiablo.rest.callback.models.user.CheckedToken;
 import com.lego.mydiablo.utils.LastFragment;
 import com.lego.mydiablo.view.fragments.HeroTabsFragment;
@@ -43,7 +40,6 @@ import static com.lego.mydiablo.utils.Settings.mTwoPane;
 public class DiabloPresenter extends MvpPresenter<DiabloView> {
 
     private EventBus bus = EventBus.getDefault();
-    private RetrofitRequests mRetrofitRequests;
     private LastFragment mLastFragment;
 
     DiabloPresenter() {
@@ -95,38 +91,6 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
                         }
                     }
                 });
-    }
-
-    public void signIn(String url) {
-        String mAuthCode;
-        if (url.contains("?code=") || url.contains("&code=")) {
-            Uri uri = Uri.parse(url);
-            mAuthCode = uri.getQueryParameter("code");
-            AuthRequest.getAccessToken(false, mAuthCode)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.newThread())
-                    .subscribe(new Subscriber<AccessToken>() {
-                        @Override
-                        public void onCompleted() {
-                            unsubscribe();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e("getAccessToken", e.toString());
-                        }
-
-                        @Override
-                        public void onNext(AccessToken accessToken) {
-                            mToken = accessToken.getAccess_token();
-                            AuthRequest.getBattleTag();
-                            mRetrofitRequests = RetrofitRequests.getInstance();
-                            mRetrofitRequests.getEraCount();
-                            mRetrofitRequests.getSeasonCount();
-                            getViewState().closeAuthDialog();
-                        }
-                    });
-        }
     }
 
     public void startConfig(Activity activity) {

@@ -17,8 +17,10 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -79,18 +81,18 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     ImageView mImageLogo;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    @BindView(R.id.image_back)
-    ImageButton mImageBackButton;
+//    @BindView(R.id.image_back)
+//    ImageButton mImageBackButton;
     @BindView(R.id.background_tool_bar)
     ImageView mImageBackgroundToolBar;
     @BindView(R.id.animator_icon_relative_layout)
     RelativeLayout mAnimatorIconRelativeLayout;
     @BindView(R.id.app_bar)
     AppBarLayout mAppBarLayout;
-    @BindView(R.id.text_view_title_toolbar)
-    TextView mTitleTextView;
-    @BindView(R.id.image_title_toolbar)
-    ImageView mImageTitle;
+//    @BindView(R.id.text_view_title_toolbar)
+//    TextView mTitleTextView;
+//    @BindView(R.id.image_title_toolbar)
+//    ImageView mImageTitle;
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
     @BindView(R.id.collapsing_toolbar_layout_param_tabs)
@@ -152,10 +154,11 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             setupViewPager(getArguments().getInt("rank"));
             setTabs(inflater);
         }
-
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
                 "fonts/blizzard.ttf");
-        mTitleTextView.setTypeface(face);
+//        mToolBar.getTitle()..setTypeface(face);
+        mToolBar.setNavigationIcon(R.drawable.ic_arrow_back);
+        mToolBar.setNavigationOnClickListener(v -> backButton());
 
         mImageLogo.setImageDrawable(getResources().getDrawable(R.drawable.diablo_logo));
         mTabLayout.setViewPager(mViewPager);
@@ -225,8 +228,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         mTabLayout.setViewPager(mViewPager);
     }
 
-    @OnClick(R.id.image_back)
-    public void backButton() {
+    private void backButton() {
         mHeroTabsPresenter.backPress();
     }
 
@@ -288,13 +290,13 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             mCollapsingToolbarLayout.setTitle(mAdapter.getPageTitle(mPositionViewPage));
             switch (mPositionViewPage) {
                 case 0:
-                    mImageTitle.setImageDrawable(pickHeroIcon(getContext(), mHeroTabsPresenter.getHeroIcon()));
+                    mToolBar.setNavigationIcon(pickHeroIcon(getContext(), mHeroTabsPresenter.getHeroIcon()));
                     break;
                 case 1:
-                    mImageTitle.setImageDrawable(pickHeroIcon(getContext(), mHeroTabsPresenter.getUserHeroIcon()));
+                    mToolBar.setNavigationIcon(pickHeroIcon(getContext(), mHeroTabsPresenter.getUserHeroIcon()));
                     break;
                 default:
-                    mImageTitle.setImageDrawable(pickHeroIcon(getContext(), mHeroTabsPresenter.getResultIcon()));
+                    mToolBar.setNavigationIcon(pickHeroIcon(getContext(), mHeroTabsPresenter.getResultIcon()));
                     break;
             }
             fab.setVisibility(View.GONE);
@@ -302,9 +304,9 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             mVisibleHeroIcon = false;
         } else if (mHideToolBar) {
             mCollapsingToolbarLayout.setTitle(EMPTY_VALUE);
-            mImageTitle.setImageDrawable(null);
             mHideToolBar = false;
             fab.setVisibility(View.VISIBLE);
+            mToolBar.setNavigationIcon(R.drawable.ic_arrow_back);
         }
     }
 

@@ -107,52 +107,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="@color/transparent">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/image_back"
-                        android:layout_width="30dp"
-                        android:layout_height="@dimen/avatar_size"
-                        android:layout_gravity="center_vertical"
-                        android:background="@color/transparent"
-                        android:contentDescription="@null"
-                        android:gravity="end"
-                        app:srcCompat="@drawable/ic_arrow_back"/>
 
-                    <ImageView
-                        android:id="@+id/image_title_toolbar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:contentDescription="@null"
-                        android:scaleType="fitXY"/>
+                    <!--<ImageButton-->
+                        <!--android:id="@+id/image_back"-->
+                        <!--android:layout_width="30dp"-->
+                        <!--android:layout_height="@dimen/avatar_size"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:background="@color/transparent"-->
+                        <!--android:contentDescription="@null"-->
+                        <!--android:gravity="end"-->
+                        <!--app:srcCompat="@drawable/ic_arrow_back"/>-->
 
-                    <TextView
-                        android:id="@+id/text_view_title_toolbar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/_10dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/icons"
-                        android:textSize="18sp"/>
+                    <!--<ImageView-->
+                        <!--android:id="@+id/image_title_toolbar"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:contentDescription="@null"-->
+                        <!--android:scaleType="fitXY"/>-->
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:id="@+id/fab"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="@dimen/_10dp"
-                        android:src="@android:drawable/stat_notify_chat"
-                        app:fabSize="mini"
-                        app:layout_anchor="@+id/app_bar"/>
-
-                </LinearLayout>
+                    <!--<TextView-->
+                        <!--android:id="@+id/text_view_title_toolbar"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_vertical"-->
+                        <!--android:layout_marginLeft="@dimen/_10dp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:textColor="@color/icons"-->
+                        <!--android:textSize="18sp"/>-->
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -165,5 +151,16 @@
         android:layout_height="match_parent"
         android:background="#120f0f"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="top|left"
+        android:layout_marginRight="@dimen/_10dp"
+        android:src="@android:drawable/stat_notify_chat"
+        app:fabSize="mini"
+        app:layout_anchor="@+id/app_bar"
+        app:layout_anchorGravity="center_vertical|right"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -8,8 +8,6 @@ import com.arellomobile.mvp.MvpView;
 public interface DiabloView extends MvpView {
     void openAuthDialog();
 
-    void closeAuthDialog();
-
     void showFragment(@IdRes int containerViewID, Fragment fragment, String tag);
 
     void checkOrientation();
