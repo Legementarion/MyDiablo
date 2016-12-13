@@ -1,8 +1,12 @@
 package com.lego.mydiablo.view.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -18,8 +22,14 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginActivity
 
     @BindView(R.id.wvOauth)
     WebView mWebView;
+    @BindView(R.id.auth_progressBar)
+    ProgressBar mProgressBar;
 
     private Unbinder mUnbinder;
+    //тэг для передачи результата обратно
+    public static final String TAG_AUTH = "auth";
+    public static final int AUTH_CODE = 200;
+
 
     @InjectPresenter
     LoginActivityPresenter mLoginActivityPresenter;
@@ -27,7 +37,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_auth);
+        setContentView(R.layout.activity_auth);
         mUnbinder = ButterKnife.bind(this);
         mLoginActivityPresenter.logIn();
     }
@@ -40,8 +50,17 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginActivity
     }
 
     @Override
-    public void closeAuth(){
-        finish();
+    public void closeAuth(int authCode) {
+        Intent intent = new Intent(this, DiabloActivity.class);
+        intent.putExtra(TAG_AUTH, authCode);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        onActivityResult(AUTH_CODE, Activity.RESULT_OK, intent);
+        startActivityForResult(intent, AUTH_CODE);
+    }
+
+    @Override
+    public void hideProgress() {
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override

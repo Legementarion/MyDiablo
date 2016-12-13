@@ -9,6 +9,7 @@ import android.support.annotation.IdRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static com.lego.mydiablo.utils.Settings.mCurrentLocale;
+import static com.lego.mydiablo.view.activity.LoginActivity.AUTH_CODE;
 
 public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
 
@@ -51,6 +53,7 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
 
     public void prepareSignIn() {
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
@@ -78,6 +81,16 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
         } else {
             Toast.makeText(this, R.string.internet_connection, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("Auth", "onActivityResult: ololo worked!!!" + requestCode);
+        Log.d("Auth", "onActivityResult: ololo worked!!!" + resultCode);
+        if (resultCode == RESULT_OK && requestCode == AUTH_CODE) {
+            Log.d("Auth", "onActivityResult: ololo worked!!!" + data.getIntExtra(LoginActivity.TAG_AUTH, 1));
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

@@ -28,10 +28,18 @@ import static com.lego.mydiablo.utils.Settings.mToken;
 public class LoginActivityPresenter extends MvpPresenter<LoginActivityView> {
 
     private RetrofitRequests mRetrofitRequests;
+    private int authOk = 1;
+    private int authError = 0;
 
     public void logIn() {
         String authUrl = HTTP + mCurrentZone + AUTHORIZE_URI + RESPONSE_TYPE + CREDENTIALS + REDIRECTION_URI + REDIRECT_URI;
         WebViewClient webViewClient = new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                getViewState().hideProgress();
+            }
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.matches("^https://localhost/.*")) {
@@ -63,6 +71,7 @@ public class LoginActivityPresenter extends MvpPresenter<LoginActivityView> {
                         @Override
                         public void onError(Throwable e) {
                             Log.e("getAccessToken", e.toString());
+                            getViewState().closeAuth(authError);
                         }
 
                         @Override
@@ -72,7 +81,7 @@ public class LoginActivityPresenter extends MvpPresenter<LoginActivityView> {
                             mRetrofitRequests = RetrofitRequests.getInstance();
                             mRetrofitRequests.getEraCount();
                             mRetrofitRequests.getSeasonCount();
-                            getViewState().closeAuth();
+                            getViewState().closeAuth(authOk);
                         }
                     });
         }

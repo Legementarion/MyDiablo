@@ -48,7 +48,6 @@ public class PickDialog extends DialogFragment implements UserHeroPick {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        inflater = getActivity().getLayoutInflater();
         View rootView = inflater.inflate(R.layout.fragment_dialog, container);
         mUnbinder = ButterKnife.bind(this, rootView);
         mCore = Core.getInstance();
