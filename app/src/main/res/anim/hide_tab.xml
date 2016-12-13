@@ -3,7 +3,7 @@
     android:interpolator="@android:anim/linear_interpolator" >
 
     <translate
-        android:duration="600"
-        android:fromYDelta="9%p"
-        android:toYDelta="1%p" />
+        android:duration="500"
+        android:fromYDelta="0%p"
+        android:toYDelta="-9%p" />
 </set>

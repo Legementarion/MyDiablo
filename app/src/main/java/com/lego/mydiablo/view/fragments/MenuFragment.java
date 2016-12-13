@@ -61,7 +61,6 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     LinearLayout mLinearLayout;
 
     private Unbinder mUnbinder;
-    private boolean fragmentInflate;
 
     public MenuFragment() {
         //do nothing
@@ -72,7 +71,8 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
         mUnbinder = ButterKnife.bind(this, rootView);
 
@@ -113,14 +113,43 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     void showRegionTab() {
         if (mRegionTab.getVisibility() == View.VISIBLE) {
             mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.hide_tab);
+            mAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mRegionButton.setImageResource(android.R.drawable.arrow_down_float);
+                    mRegionTab.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
             mLinearLayout.startAnimation(mAnimation);
-            mRegionTab.setVisibility(View.GONE);
-            mRegionButton.setImageResource(android.R.drawable.arrow_down_float);
         } else {
             mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.show_tab);
+            mAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    mRegionTab.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mRegionButton.setImageResource(android.R.drawable.arrow_up_float);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
             mLinearLayout.startAnimation(mAnimation);
-            new Handler().postDelayed(() -> mRegionTab.setVisibility(View.VISIBLE), 300);
-            mRegionButton.setImageResource(android.R.drawable.arrow_up_float);
         }
     }
 
@@ -136,7 +165,6 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
 
     /**
      * При востановлении или пороте єкрана восстанавливаем ранее нажатую кнопку
-     *
      * @param check - номер кнопки
      */
     @Override
