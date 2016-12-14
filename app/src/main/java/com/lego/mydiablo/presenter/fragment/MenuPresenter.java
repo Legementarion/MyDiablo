@@ -7,6 +7,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.events.AuthEvent;
 import com.lego.mydiablo.events.FragmentEvent;
+import com.lego.mydiablo.rest.RetrofitRequests;
 import com.lego.mydiablo.view.fragments.ItemListFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -75,7 +76,7 @@ public class MenuPresenter extends MvpPresenter<MenuView> {
         if (!region.equals("--")) {
             getViewState().unBlockUI();
             mCurrentZone = region.toLowerCase();
-            getViewState().showTab();
+            RetrofitRequests.getInstance().update();
             bus.post(new AuthEvent());
         } else {
             getViewState().blockUI();

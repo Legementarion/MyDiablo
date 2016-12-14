@@ -1,6 +1,5 @@
 package com.lego.mydiablo.view.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +29,6 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginActivity
     public static final String TAG_AUTH = "auth";
     public static final int AUTH_CODE = 200;
 
-
     @InjectPresenter
     LoginActivityPresenter mLoginActivityPresenter;
 
@@ -54,7 +52,8 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginActivity
         Intent intent = new Intent(this, DiabloActivity.class);
         intent.putExtra(TAG_AUTH, authCode);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        onActivityResult(AUTH_CODE, Activity.RESULT_OK, intent);
+//        onActivityResult(AUTH_CODE, Activity.RESULT_OK, intent);
+//        finish();
         startActivityForResult(intent, AUTH_CODE);
     }
 

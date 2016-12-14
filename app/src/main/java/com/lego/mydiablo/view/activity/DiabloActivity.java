@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static com.lego.mydiablo.utils.Settings.mCurrentLocale;
+import static com.lego.mydiablo.utils.Settings.mTwoPane;
 import static com.lego.mydiablo.view.activity.LoginActivity.AUTH_CODE;
 
 public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
@@ -51,12 +52,6 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
         mDiabloPresenter.startConfig(this);
     }
 
-    public void prepareSignIn() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -77,7 +72,9 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
     @Override
     public void openAuthDialog() {
         if (mDiabloPresenter.hasConnection(this)) {
-            prepareSignIn();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         } else {
             Toast.makeText(this, R.string.internet_connection, Toast.LENGTH_SHORT).show();
         }
@@ -85,12 +82,12 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("Auth", "onActivityResult: ololo worked!!!" + requestCode);
-        Log.d("Auth", "onActivityResult: ololo worked!!!" + resultCode);
-        if (resultCode == RESULT_OK && requestCode == AUTH_CODE) {
-            Log.d("Auth", "onActivityResult: ololo worked!!!" + data.getIntExtra(LoginActivity.TAG_AUTH, 1));
-        }
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("AuthDiablo", "onActivityResult: ololo worked!!!" + requestCode);
+        Log.d("AuthDiablo", "onActivityResult: ololo worked!!!" + resultCode);
+        if (resultCode == RESULT_OK && requestCode == AUTH_CODE) {
+            Log.d("AuthDiablo", "onActivityResult: ololo worked!!!" + data.getIntExtra(LoginActivity.TAG_AUTH, 1));
+        }
     }
 
     @Override
@@ -102,7 +99,7 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
 
     @Override
     public void checkOrientation() {
-        Settings.mTwoPane = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        mTwoPane = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
     @Override

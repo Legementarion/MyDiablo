@@ -27,7 +27,6 @@ import static com.lego.mydiablo.utils.Settings.mToken;
 @InjectViewState
 public class LoginActivityPresenter extends MvpPresenter<LoginActivityView> {
 
-    private RetrofitRequests mRetrofitRequests;
     private int authOk = 1;
     private int authError = 0;
 
@@ -78,9 +77,9 @@ public class LoginActivityPresenter extends MvpPresenter<LoginActivityView> {
                         public void onNext(AccessToken accessToken) {
                             mToken = accessToken.getAccess_token();
                             AuthRequest.getBattleTag();
-                            mRetrofitRequests = RetrofitRequests.getInstance();
-                            mRetrofitRequests.getEraCount();
-                            mRetrofitRequests.getSeasonCount();
+                            RetrofitRequests retrofitRequests = RetrofitRequests.getInstance();
+                            retrofitRequests.getEraCount();
+                            retrofitRequests.getSeasonCount();
                             getViewState().closeAuth(authOk);
                         }
                     });
