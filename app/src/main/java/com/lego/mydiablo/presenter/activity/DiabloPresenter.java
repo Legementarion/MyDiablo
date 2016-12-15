@@ -1,6 +1,5 @@
 package com.lego.mydiablo.presenter.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
@@ -17,6 +16,7 @@ import com.lego.mydiablo.events.FragmentEvent;
 import com.lego.mydiablo.rest.AuthRequest;
 import com.lego.mydiablo.rest.callback.models.user.CheckedToken;
 import com.lego.mydiablo.utils.LastFragment;
+import com.lego.mydiablo.view.activity.DiabloActivity;
 import com.lego.mydiablo.view.fragments.HeroTabsFragment;
 import com.lego.mydiablo.view.fragments.ItemListFragment;
 import com.lego.mydiablo.view.fragments.MenuFragment;
@@ -42,29 +42,14 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     private EventBus bus = EventBus.getDefault();
     private LastFragment mLastFragment;
 
-    DiabloPresenter() {
+    public DiabloPresenter() {
         bus.register(this);
-    }
-
-    public boolean hasConnection(final Context context) {
-        ConnectivityManager cm =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     @Override
     public void attachView(DiabloView view) {
         super.attachView(view);
         if (!TextUtils.isEmpty(mToken)) {
-            checkSession();
-        }
-    }
-
-    private void networkConfig() {
-        if (TextUtils.isEmpty(mToken)) {
-            getViewState().openAuthDialog();
-        } else {
             checkSession();
         }
     }
@@ -80,26 +65,27 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        getViewState().openAuthDialog();
+//                        getViewState().openAuthDialog();
                         Log.d("Check Session", "onError: " + e);
                     }
 
                     @Override
                     public void onNext(CheckedToken checkedToken) {
                         if (checkedToken.getError() != null) {
-                            getViewState().openAuthDialog();
+//                            getViewState().openAuthDialog();
                         }
                     }
                 });
     }
 
-    public void startConfig(Activity activity) {
-        getViewState().showFragment(R.id.main_container, MenuFragment.newInstance(), MenuFragment.TAG);
-        mLastFragment = MENU;
+    public void startConfig(DiabloActivity activity) {
         if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mTwoPane = true;
             mLastFragment = LIST;
             setTwoScreen();
+        } else {
+            getViewState().showFragment(R.id.main_container, MenuFragment.newInstance(), MenuFragment.TAG);
+            mLastFragment = MENU;
         }
     }
 
@@ -178,7 +164,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAuth(AuthEvent event) {
-        networkConfig();
+        checkSession();
     }
 
 }

@@ -31,7 +31,7 @@ import static com.lego.mydiablo.view.activity.LoginActivity.AUTH_CODE;
 
 public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
 
-    @InjectPresenter(type = PresenterType.WEAK)
+    @InjectPresenter(type = PresenterType.GLOBAL)
     DiabloPresenter mDiabloPresenter;
 
     @BindView(R.id.main_container)
@@ -67,17 +67,6 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
         this.doubleBackToExitPressedOnce = true;
         Snackbar.make(mContainer, R.string.doubleClick_backBtn, Snackbar.LENGTH_SHORT).show();
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
-    }
-
-    @Override
-    public void openAuthDialog() {
-        if (mDiabloPresenter.hasConnection(this)) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, R.string.internet_connection, Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override

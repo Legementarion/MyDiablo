@@ -55,12 +55,6 @@ public class RealmDataController implements DataBaseController {
         return mRealm;
     }
 
-
-    public Skill getSkill(String param) {
-        return mRealm.where(Skill.class)
-                .findFirst();
-    }
-
     public Hero getHero(int rank) {
         return mRealm.where(Hero.class).equalTo("mRank", rank)
                 .findFirst();
@@ -84,11 +78,6 @@ public class RealmDataController implements DataBaseController {
         } else {
             return supportFillList(results, size - mItemsPerPage, size);
         }
-    }
-
-    public Item getItem(String param) {
-        return mRealm.where(Item.class)
-                .findFirst();
     }
 
     @Override

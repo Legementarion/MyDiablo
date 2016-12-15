@@ -1,25 +1,30 @@
 package com.lego.mydiablo.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HeroUtils {
 
-    private HeroUtils(){}
+    private HeroUtils() {
+    }
 
-    public static String castGender(int i){
-        if (i == 0){
+    public static String castGender(int i) {
+        if (i == 0) {
             return "m";
-        }else {
+        } else {
             return "f";
         }
     }
 
-    public static int castGender(String s){
-        if ("m".equals(s)){
+    public static int castGender(String s) {
+        if ("m".equals(s)) {
             return 0;
-        }else {
+        } else {
             return 1;
         }
     }
@@ -32,6 +37,13 @@ public class HeroUtils {
         } catch (Exception ex) {
             return "xx";
         }
+    }
+
+    public static boolean hasConnection(final Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 }

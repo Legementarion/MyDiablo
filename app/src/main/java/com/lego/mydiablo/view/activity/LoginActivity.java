@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.PresenterType;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.presenter.activity.LoginActivityPresenter;
 import com.lego.mydiablo.presenter.activity.LoginActivityView;
@@ -25,11 +26,10 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginActivity
     ProgressBar mProgressBar;
 
     private Unbinder mUnbinder;
-    //тэг для передачи результата обратно
     public static final String TAG_AUTH = "auth";
     public static final int AUTH_CODE = 200;
 
-    @InjectPresenter
+    @InjectPresenter(type = PresenterType.LOCAL)
     LoginActivityPresenter mLoginActivityPresenter;
 
     @Override

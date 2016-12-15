@@ -74,10 +74,10 @@ android {
             compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
 
             //MVP
-            compile 'com.arello-mobile:moxy:1.1.1'
-            compile 'com.arello-mobile:moxy-android:1.1.1'
-            compile 'com.arello-mobile:moxy-app-compat:1.1.1'
-            provided 'com.arello-mobile:moxy-compiler:1.1.1'
+            compile 'com.arello-mobile:moxy:1.3.3'
+            compile 'com.arello-mobile:moxy-android:1.3.3'
+            compile 'com.arello-mobile:moxy-app-compat:1.3.3'
+            provided 'com.arello-mobile:moxy-compiler:1.3.3'
 
             //paginate & progress bar
             compile 'com.github.markomilos:paginate:0.5.1'

@@ -73,8 +73,8 @@
 
             <ToggleButton
                 android:id="@+id/bt_harcore"
-                android:layout_width="@dimen/btn_w"
-                android:layout_height="@dimen/btn_h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/btn_on_off"
                 android:textColor="@color/btn_text"

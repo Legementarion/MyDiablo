@@ -1,9 +1,13 @@
 package com.lego.mydiablo.view.fragments;
 
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +26,8 @@ import com.lego.mydiablo.R;
 import com.lego.mydiablo.presenter.fragment.MenuPresenter;
 import com.lego.mydiablo.presenter.fragment.MenuView;
 import com.lego.mydiablo.view.adapters.spinners.RegionAdapter;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,7 +94,30 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
         mRegionsSpinner.setAdapter(regionAdapter);
         mRegionsSpinner.getBackground().setColorFilter(getResources().getColor(R.color.btn_text), PorterDuff.Mode.SRC_ATOP);
         mRegionsSpinner.setSelection(getResources().getStringArray(R.array.region).length - 1);
+
+//        calcSize();
+
         return rootView;
+    }
+
+    private void calcSize() {
+        Picasso.with(getContext()).load(R.drawable.btn_on_off).resize(100,100).into(new Target(){
+
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                mHardcore.setBackground(new BitmapDrawable(getContext().getResources(), bitmap));
+            }
+
+            @Override
+            public void onBitmapFailed(final Drawable errorDrawable) {
+                Log.d("TAG", "FAILED");
+            }
+
+            @Override
+            public void onPrepareLoad(final Drawable placeHolderDrawable) {
+                Log.d("TAG", "Prepare Load");
+            }
+        });
     }
 
     @Override
@@ -96,11 +125,6 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
         unCheckButton();
         mUnbinder.unbind();
         super.onDestroyView();
-    }
-
-    @OnItemSelected(R.id.idRegion)
-    void onItemSelected(int position) {
-        mMenuPresenter.setRegion(mRegionsSpinner.getSelectedItem().toString(), position);
     }
 
     @OnClick({R.id.bt_normal, R.id.bt_harcore, R.id.bt_season, R.id.bt_season_hardcore})

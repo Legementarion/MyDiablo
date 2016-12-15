@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import com.arellomobile.mvp.MvpView;
 
 public interface DiabloView extends MvpView {
-    void openAuthDialog();
 
     void showFragment(@IdRes int containerViewID, Fragment fragment, String tag);
 
