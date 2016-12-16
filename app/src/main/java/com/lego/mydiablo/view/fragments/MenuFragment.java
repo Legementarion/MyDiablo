@@ -22,6 +22,9 @@ import android.widget.ToggleButton;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.presenter.fragment.MenuPresenter;
 import com.lego.mydiablo.presenter.fragment.MenuView;
@@ -57,6 +60,9 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     @BindView(R.id.region_tab_btn)
     ImageButton mRegionButton;
 
+    @BindView(R.id.admobs_header_banner)
+    AdView mAdView;
+
     @BindView(R.id.regionTV)
     TextView mRegionTextView;
     @BindView(R.id.idRegion)
@@ -89,6 +95,12 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
         mSeason.setTypeface(face);
         mSeasonHardcore.setTypeface(face);
         mRegionTextView.setTypeface(face);
+
+        MobileAds.initialize(getContext(), "ca-app-pub-1758982005334641~7881877614");
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("12345")
+                .build();
+        mAdView.loadAd(adRequest);
 
         RegionAdapter regionAdapter = new RegionAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.region));
         mRegionsSpinner.setAdapter(regionAdapter);

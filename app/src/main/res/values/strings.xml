@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MyDiablo</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="admob_id_header_banner">ca-app-pub-1758982005334641/9358610812</string>
 
     <string name="bt_normal">Normal</string>
     <string name="bt_hardcore">HardCore</string>
