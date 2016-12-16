@@ -32,7 +32,7 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
     private RealmDataController mRealmDataController;
     private EventBus mEventBus = EventBus.getDefault();
 
-    HeroTabsPresenter() {
+    public HeroTabsPresenter() {
     }
 
     public void getHeroFromDB(Fragment fragment, int rank) {

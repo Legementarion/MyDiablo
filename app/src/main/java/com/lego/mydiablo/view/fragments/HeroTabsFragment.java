@@ -81,7 +81,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     ImageView mImageLogo;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-//    @BindView(R.id.image_back)
+    //    @BindView(R.id.image_back)
 //    ImageButton mImageBackButton;
     @BindView(R.id.background_tool_bar)
     ImageView mImageBackgroundToolBar;
@@ -89,7 +89,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     RelativeLayout mAnimatorIconRelativeLayout;
     @BindView(R.id.app_bar)
     AppBarLayout mAppBarLayout;
-//    @BindView(R.id.text_view_title_toolbar)
+    //    @BindView(R.id.text_view_title_toolbar)
 //    TextView mTitleTextView;
 //    @BindView(R.id.image_title_toolbar)
 //    ImageView mImageTitle;
@@ -138,7 +138,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
     public static HeroTabsFragment newInstance(int rank) {
         Bundle args = new Bundle();
-        args.putInt("rank", rank);
+        args.putInt(TAG, rank);
         HeroTabsFragment fragment = new HeroTabsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -150,17 +150,17 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                              @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_hero_tabs, container, false);
         mUnbinder = ButterKnife.bind(this, mView);
-        if (getArguments() != null) {
-            setupViewPager(getArguments().getInt("rank"));
-            setTabs(inflater);
-        }
         Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
                 "fonts/blizzard.ttf");
 //        mToolBar.getTitle()..setTypeface(face);
         mToolBar.setNavigationIcon(R.drawable.ic_arrow_back);
         mToolBar.setNavigationOnClickListener(v -> backButton());
-
         mImageLogo.setImageDrawable(getResources().getDrawable(R.drawable.diablo_logo));
+
+        if (getArguments() != null) {
+            setupViewPager(getArguments().getInt(TAG));
+            setTabs(inflater);
+        }
         mTabLayout.setViewPager(mViewPager);
         mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
         setColorCoordinatorLayout();
@@ -331,7 +331,11 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(0);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
-        mHeroTabsPresenter.getHeroFromDB(this, rank);
+        if(mHeroTabsPresenter == null) {
+            mHeroTabsPresenter = new HeroTabsPresenter();
+        }else {
+            mHeroTabsPresenter.getHeroFromDB(this, rank);
+        }
     }
 
     private void animationFillingColor() {

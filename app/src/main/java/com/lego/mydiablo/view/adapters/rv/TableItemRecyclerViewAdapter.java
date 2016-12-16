@@ -35,7 +35,6 @@ import static com.lego.mydiablo.utils.Settings.mHeroId;
 /**
  * @author Lego on 12.09.2016.
  */
-
 public class TableItemRecyclerViewAdapter
         extends RecyclerView.Adapter<TableItemRecyclerViewAdapter.HeroViewHolder> {
 
