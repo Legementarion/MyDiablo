@@ -9,9 +9,9 @@
     <dimen name="_10dp">10dp</dimen>
     <dimen name="avatar_size">30dp</dimen>
 
-    <dimen name="size_image_stats_background">120dp</dimen>
+    <dimen name="size_image_stats_background">90dp</dimen>
     <dimen name="size_collapsing_toolbar_layout_stats_tabs">180dp</dimen>
-    <dimen name="size_image_stats">100dp</dimen>
+    <dimen name="size_image_stats">70dp</dimen>
     <dimen name="size_collapsing_toolbar_layout">256dp</dimen>
 
     <dimen name="text_margin">16dp</dimen>
