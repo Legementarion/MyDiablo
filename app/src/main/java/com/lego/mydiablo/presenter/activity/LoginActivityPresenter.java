@@ -27,9 +27,6 @@ import static com.lego.mydiablo.utils.Settings.mToken;
 @InjectViewState
 public class LoginActivityPresenter extends MvpPresenter<LoginActivityView> {
 
-    private int authOk = 1;
-    private int authError = 0;
-
     public void logIn() {
         String authUrl = HTTP + mCurrentZone + AUTHORIZE_URI + RESPONSE_TYPE + CREDENTIALS + REDIRECTION_URI + REDIRECT_URI;
         WebViewClient webViewClient = new WebViewClient() {
@@ -70,7 +67,7 @@ public class LoginActivityPresenter extends MvpPresenter<LoginActivityView> {
                         @Override
                         public void onError(Throwable e) {
                             Log.e("getAccessToken", e.toString());
-                            getViewState().closeAuth(authError);
+                            getViewState().authError();
                         }
 
                         @Override
@@ -80,7 +77,7 @@ public class LoginActivityPresenter extends MvpPresenter<LoginActivityView> {
                             RetrofitRequests retrofitRequests = RetrofitRequests.getInstance();
                             retrofitRequests.getEraCount();
                             retrofitRequests.getSeasonCount();
-                            getViewState().closeAuth(authOk);
+                            getViewState().closeAuth();
                         }
                     });
         }

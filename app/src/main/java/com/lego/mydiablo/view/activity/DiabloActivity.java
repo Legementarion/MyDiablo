@@ -17,13 +17,16 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.lego.mydiablo.R;
+import com.lego.mydiablo.data.model.Hero;
 import com.lego.mydiablo.presenter.activity.DiabloPresenter;
 import com.lego.mydiablo.presenter.activity.DiabloView;
 import com.lego.mydiablo.utils.Settings;
+import com.scand.realmbrowser.RealmBrowser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.realm.Realm;
 
 import static com.lego.mydiablo.utils.Settings.mCurrentLocale;
 import static com.lego.mydiablo.utils.Settings.mTwoPane;
@@ -49,6 +52,10 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
         mUnbinder = ButterKnife.bind(this);
         mCurrentLocale = Resources.getSystem().getConfiguration().locale.toString();
         mFragmentManager = getSupportFragmentManager();
+        Realm realm = Realm.getDefaultInstance();       //for db test
+        new RealmBrowser.Builder(this)
+                .add(realm, Hero.class)
+                .show();
         mDiabloPresenter.startConfig(this);
     }
 
@@ -67,16 +74,6 @@ public class DiabloActivity extends MvpAppCompatActivity implements DiabloView {
         this.doubleBackToExitPressedOnce = true;
         Snackbar.make(mContainer, R.string.doubleClick_backBtn, Snackbar.LENGTH_SHORT).show();
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d("AuthDiablo", "onActivityResult: ololo worked!!!" + requestCode);
-        Log.d("AuthDiablo", "onActivityResult: ololo worked!!!" + resultCode);
-        if (resultCode == RESULT_OK && requestCode == AUTH_CODE) {
-            Log.d("AuthDiablo", "onActivityResult: ololo worked!!!" + data.getIntExtra(LoginActivity.TAG_AUTH, 1));
-        }
     }
 
     @Override

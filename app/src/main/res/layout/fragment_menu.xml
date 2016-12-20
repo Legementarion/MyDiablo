@@ -34,13 +34,13 @@
                 ads:adSize="BANNER"
                 ads:adUnitId="@string/admob_id_header_banner"/>
 
-            <include
-                android:id="@+id/region_tab"
-                layout="@layout/region_tab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:visibility="gone"/>
+            <!--<include-->
+                <!--android:id="@+id/region_tab"-->
+                <!--layout="@layout/region_tab"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:visibility="gone"/>-->
 
             <ImageButton
                 android:id="@+id/region_tab_btn"

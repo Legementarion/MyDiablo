@@ -90,5 +90,6 @@
     <string name="stat_PrimaryResource">Primary Resource</string>
     <string name="stat_SecondaryResource">Secondary Resource</string>
     <string name="drawable">drawable</string>
+    <string name="region_choose">Choose your region</string>
 
 </resources>

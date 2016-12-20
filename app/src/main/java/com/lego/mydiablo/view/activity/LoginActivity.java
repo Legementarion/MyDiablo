@@ -6,6 +6,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -17,6 +18,8 @@ import com.lego.mydiablo.presenter.activity.LoginActivityView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.lego.mydiablo.R.string.internet_connection;
 
 public class LoginActivity extends MvpAppCompatActivity implements LoginActivityView {
 
@@ -48,13 +51,23 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginActivity
     }
 
     @Override
-    public void closeAuth(int authCode) {
+    public void closeAuth() {
         Intent intent = new Intent(this, DiabloActivity.class);
-        intent.putExtra(TAG_AUTH, authCode);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//        onActivityResult(AUTH_CODE, Activity.RESULT_OK, intent);
-//        finish();
         startActivityForResult(intent, AUTH_CODE);
+    }
+
+    @Override
+    public void authError() {
+        Toast.makeText(this, internet_connection, Toast.LENGTH_SHORT).show();
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, SplashActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 
     @Override

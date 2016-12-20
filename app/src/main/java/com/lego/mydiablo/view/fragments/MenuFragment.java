@@ -67,8 +67,8 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     TextView mRegionTextView;
     @BindView(R.id.idRegion)
     Spinner mRegionsSpinner;
-    @BindView(R.id.region_tab)
-    View mRegionTab;
+//    @BindView(R.id.region_tab)
+//    View mRegionTab;
     @BindView(R.id.region_tab_container)
     LinearLayout mLinearLayout;
 
@@ -147,46 +147,46 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
 
     @OnClick(R.id.region_tab_btn)
     void showRegionTab() {
-        if (mRegionTab.getVisibility() == View.VISIBLE) {
-            mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.hide_tab);
-            mAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    mRegionButton.setImageResource(android.R.drawable.arrow_down_float);
-                    mRegionTab.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            mLinearLayout.startAnimation(mAnimation);
-        } else {
-            mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.show_tab);
-            mAnimation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    mRegionTab.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    mRegionButton.setImageResource(android.R.drawable.arrow_up_float);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            mLinearLayout.startAnimation(mAnimation);
-        }
+//        if (mRegionTab.getVisibility() == View.VISIBLE) {
+//            mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.hide_tab);
+//            mAnimation.setAnimationListener(new Animation.AnimationListener() {
+//                @Override
+//                public void onAnimationStart(Animation animation) {
+//
+//                }
+//
+//                @Override
+//                public void onAnimationEnd(Animation animation) {
+//                    mRegionButton.setImageResource(android.R.drawable.arrow_down_float);
+//                    mRegionTab.setVisibility(View.GONE);
+//                }
+//
+//                @Override
+//                public void onAnimationRepeat(Animation animation) {
+//
+//                }
+//            });
+//            mLinearLayout.startAnimation(mAnimation);
+//        } else {
+//            mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.show_tab);
+//            mAnimation.setAnimationListener(new Animation.AnimationListener() {
+//                @Override
+//                public void onAnimationStart(Animation animation) {
+//                    mRegionTab.setVisibility(View.VISIBLE);
+//                }
+//
+//                @Override
+//                public void onAnimationEnd(Animation animation) {
+//                    mRegionButton.setImageResource(android.R.drawable.arrow_up_float);
+//                }
+//
+//                @Override
+//                public void onAnimationRepeat(Animation animation) {
+//
+//                }
+//            });
+//            mLinearLayout.startAnimation(mAnimation);
+//        }
     }
 
     /**

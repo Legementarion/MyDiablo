@@ -7,7 +7,9 @@ import com.arellomobile.mvp.MvpView;
 public interface LoginActivityView extends MvpView {
     void signIn(WebViewClient webViewClient, String authUrl);
 
-    void closeAuth(int authCode);
+    void closeAuth();
+
+    void authError();
 
     void hideProgress();
 }

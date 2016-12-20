@@ -105,12 +105,13 @@ android {
             testCompile 'junit:junit:4.12'
 
             //Other
-            apt 'com.jakewharton:butterknife-compiler:8.2.1'
-            compile 'com.jakewharton:butterknife:8.2.1'
+            compile 'com.jakewharton:butterknife:8.4.0'
+            annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
             compile 'com.squareup.picasso:picasso:2.5.2'
             compile 'me.tatarka:gradle-retrolambda:3.3.0'
             compile 'com.squareup.leakcanary:leakcanary-android:1.4'
             compile 'org.greenrobot:eventbus:3.0.0'
+            compile 'com.scand:realm-browser:0.1.13'
         }
 
         apply plugin: 'com.google.gms.google-services'

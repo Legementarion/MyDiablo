@@ -35,6 +35,8 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashActivi
     ImageView mImageViewTW;
     @BindView(R.id.splash_kr_imageView)
     ImageView mImageViewKR;
+    @BindView(R.id.splash_title)
+    TextView mTextViewTitle;
     @BindView(R.id.splash_eu_textView)
     TextView mTextViewEU;
     @BindView(R.id.splash_us_textView)
@@ -69,16 +71,18 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashActivi
     private void setUI() {
         mLinearLayout.setBackground(null);
         mLinearLayout.setBackgroundColor(getResources().getColor(R.color.background_detail));
-
-        Typeface face = Typeface.createFromAsset(getAssets(),"fonts/blizzard.ttf");
+        String[] regionArray = getResources().getStringArray(R.array.region);
+        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/blizzard.ttf");
         mTextViewEU.setTypeface(face);
-        mTextViewEU.setText("EU");
+        mTextViewTitle.setTypeface(face);
+        mTextViewTitle.setText(R.string.region_choose);
+        mTextViewEU.setText(regionArray[0]);
         mTextViewUS.setTypeface(face);
-        mTextViewUS.setText("US");
+        mTextViewUS.setText(regionArray[1]);
         mTextViewTW.setTypeface(face);
-        mTextViewTW.setText("TW");
+        mTextViewTW.setText(regionArray[2]);
         mTextViewKR.setTypeface(face);
-        mTextViewKR.setText("KR");
+        mTextViewKR.setText(regionArray[3]);
     }
 
     @OnClick({R.id.eu, R.id.us, R.id.tw, R.id.kr})
@@ -102,6 +106,5 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashActivi
         mUnbinder.unbind();
         super.onDestroy();
     }
-
 
 }
