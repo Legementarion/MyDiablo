@@ -2,7 +2,6 @@ package com.lego.mydiablo.data.model;
 
 import io.realm.RealmObject;
 
-
 public class Stats extends RealmObject {
 
     private int mLife;
