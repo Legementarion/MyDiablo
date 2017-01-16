@@ -37,7 +37,6 @@ public class Stats extends RealmObject {
 
     public Stats(){}
 
-
     public int getLife() {
         return mLife;
     }
