@@ -55,10 +55,4 @@ public class MenuPresenter extends MvpPresenter<MenuView> {
         getViewState().updatePressButton(sChecked);
         bus.post(new FragmentEvent(ItemListFragment.newInstance(), ItemListFragment.TAG));
     }
-
-    @Override
-    protected void onFirstViewAttach() {
-        super.onFirstViewAttach();
-        getViewState().showTab();
-    }
 }

@@ -44,7 +44,6 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     MenuPresenter mMenuPresenter;
 
     public static final String TAG = "Menu";
-    private Animation mAnimation;
 
     /**
      * Кнопки меню
@@ -57,20 +56,9 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     ToggleButton mSeason;
     @BindView(R.id.bt_season_hardcore)
     ToggleButton mSeasonHardcore;
-    @BindView(R.id.region_tab_btn)
-    ImageButton mRegionButton;
 
-    @BindView(R.id.admobs_header_banner)
+    @BindView(R.id.header_banner)
     AdView mAdView;
-
-    @BindView(R.id.regionTV)
-    TextView mRegionTextView;
-    @BindView(R.id.idRegion)
-    Spinner mRegionsSpinner;
-//    @BindView(R.id.region_tab)
-//    View mRegionTab;
-    @BindView(R.id.region_tab_container)
-    LinearLayout mLinearLayout;
 
     private Unbinder mUnbinder;
 
@@ -94,42 +82,18 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
         mHardcore.setTypeface(face);
         mSeason.setTypeface(face);
         mSeasonHardcore.setTypeface(face);
-        mRegionTextView.setTypeface(face);
 
         MobileAds.initialize(getContext(), "ca-app-pub-1758982005334641~7881877614");
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("12345")
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
-
-        RegionAdapter regionAdapter = new RegionAdapter(getContext(), R.layout.spinner, getResources().getStringArray(R.array.region));
-        mRegionsSpinner.setAdapter(regionAdapter);
-        mRegionsSpinner.getBackground().setColorFilter(getResources().getColor(R.color.btn_text), PorterDuff.Mode.SRC_ATOP);
-        mRegionsSpinner.setSelection(getResources().getStringArray(R.array.region).length - 1);
-
-//        calcSize();
 
         return rootView;
     }
 
     private void calcSize() {
-        Picasso.with(getContext()).load(R.drawable.btn_on_off).resize(100,100).into(new Target(){
 
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                mHardcore.setBackground(new BitmapDrawable(getContext().getResources(), bitmap));
-            }
-
-            @Override
-            public void onBitmapFailed(final Drawable errorDrawable) {
-                Log.d("TAG", "FAILED");
-            }
-
-            @Override
-            public void onPrepareLoad(final Drawable placeHolderDrawable) {
-                Log.d("TAG", "Prepare Load");
-            }
-        });
     }
 
     @Override
@@ -143,50 +107,6 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
     void pressButton(View view) {
         unCheckButton();
         mMenuPresenter.pressButton(view);
-    }
-
-    @OnClick(R.id.region_tab_btn)
-    void showRegionTab() {
-//        if (mRegionTab.getVisibility() == View.VISIBLE) {
-//            mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.hide_tab);
-//            mAnimation.setAnimationListener(new Animation.AnimationListener() {
-//                @Override
-//                public void onAnimationStart(Animation animation) {
-//
-//                }
-//
-//                @Override
-//                public void onAnimationEnd(Animation animation) {
-//                    mRegionButton.setImageResource(android.R.drawable.arrow_down_float);
-//                    mRegionTab.setVisibility(View.GONE);
-//                }
-//
-//                @Override
-//                public void onAnimationRepeat(Animation animation) {
-//
-//                }
-//            });
-//            mLinearLayout.startAnimation(mAnimation);
-//        } else {
-//            mAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.show_tab);
-//            mAnimation.setAnimationListener(new Animation.AnimationListener() {
-//                @Override
-//                public void onAnimationStart(Animation animation) {
-//                    mRegionTab.setVisibility(View.VISIBLE);
-//                }
-//
-//                @Override
-//                public void onAnimationEnd(Animation animation) {
-//                    mRegionButton.setImageResource(android.R.drawable.arrow_up_float);
-//                }
-//
-//                @Override
-//                public void onAnimationRepeat(Animation animation) {
-//
-//                }
-//            });
-//            mLinearLayout.startAnimation(mAnimation);
-//        }
     }
 
     /**
@@ -222,32 +142,6 @@ public class MenuFragment extends MvpAppCompatFragment implements MenuView {
             default:
                 break;
         }
-    }
-
-    @Override
-    public void showTab() {
-        showRegionTab();
-    }
-
-    @Override
-    public void blockUI() {
-        mNormal.setEnabled(false);
-        mHardcore.setEnabled(false);
-        mSeason.setEnabled(false);
-        mSeasonHardcore.setEnabled(false);
-    }
-
-    @Override
-    public void unBlockUI() {
-        mNormal.setEnabled(true);
-        mHardcore.setEnabled(true);
-        mSeason.setEnabled(true);
-        mSeasonHardcore.setEnabled(true);
-    }
-
-    @Override
-    public void setRegionPosition(int region) {
-        mRegionsSpinner.setSelection(region);
     }
 
 }
