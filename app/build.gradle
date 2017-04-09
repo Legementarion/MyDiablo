@@ -4,7 +4,7 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '23.0.3'
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.lego.mydiablo"
@@ -41,10 +41,10 @@ android {
             compile fileTree(dir: 'libs', include: ['*.jar'])
 
             //base support libs
-            compile 'com.android.support:appcompat-v7:25.1.0'
-            compile 'com.android.support:design:25.1.0'
-            compile 'com.android.support:support-v4:25.1.0'
-            compile 'com.android.support:recyclerview-v7:25.1.0'
+            compile 'com.android.support:appcompat-v7:25.3.1'
+            compile 'com.android.support:design:25.3.1'
+            compile 'com.android.support:support-v4:25.3.1'
+            compile 'com.android.support:recyclerview-v7:25.3.1'
             compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
 
             //RX (react)
@@ -84,7 +84,9 @@ android {
             compile 'com.google.android.gms:play-services-plus:10.0.1'
 
             //Test
-            androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+            androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+                exclude group: 'com.android.support', module: 'support-annotations'
+            })
             testCompile 'org.robolectric:robolectric:3.1.4'
             testCompile 'org.mockito:mockito-core:1.10.19'
             testCompile 'junit:junit:4.12'
