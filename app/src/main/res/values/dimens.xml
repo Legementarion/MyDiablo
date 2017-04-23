@@ -9,9 +9,9 @@
     <dimen name="_10dp">10dp</dimen>
     <dimen name="avatar_size">30dp</dimen>
 
-    <dimen name="size_image_stats_background">90dp</dimen>
+    <dimen name="size_image_stats_background">150dp</dimen>
     <dimen name="size_collapsing_toolbar_layout_stats_tabs">180dp</dimen>
-    <dimen name="size_image_stats">70dp</dimen>
+    <dimen name="size_image_stats">140dp</dimen>
     <dimen name="size_collapsing_toolbar_layout">256dp</dimen>
 
     <dimen name="text_margin">16dp</dimen>
@@ -20,4 +20,9 @@
     <dimen name="btn_w">197dp</dimen>
     <dimen name="btn_h">57dp</dimen>
     <dimen name="btn_text_size">18sp</dimen>
+
+    //splash screen
+    <dimen name="flag_w_size_image">480dp</dimen>
+    <dimen name="flag_h_size_image">320dp</dimen>
+
 </resources>

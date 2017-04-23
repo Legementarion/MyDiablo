@@ -14,9 +14,9 @@ import com.lego.mydiablo.view.activity.DiabloActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import static com.google.android.gms.internal.zzs.TAG;
-
 public class DiabloFirebaseMessagingService extends FirebaseMessagingService {
+
+    public static final String TAG ="FireBase:";
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // There are two types of messages data messages and notification messages. Data messages are handled
@@ -30,7 +30,7 @@ public class DiabloFirebaseMessagingService extends FirebaseMessagingService {
 
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
+        Log.d("FireBase:", "From: " + remoteMessage.getFrom());
         sendNotification(remoteMessage.getFrom());
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {

@@ -21,11 +21,11 @@
 
         <ImageView
             android:id="@+id/idClass"
-            android:layout_width="82dp"
-            android:layout_height="64dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:scaleType="fitCenter"
-            tools:ignore="ContentDescription"
-            android:layout_weight="1"/>
+            tools:ignore="ContentDescription" />
 
         <LinearLayout
             android:layout_width="match_parent"
