@@ -3,7 +3,6 @@ package com.lego.mydiablo.view.fragments;
 import android.animation.Animator;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -13,21 +12,17 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -40,7 +35,7 @@ import com.arellomobile.mvp.presenter.PresenterType;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.lego.mydiablo.data.model.Hero;
-import com.lego.mydiablo.dialog.PickDialog;
+import com.lego.mydiablo.dialog.PickHeroDialog;
 import com.lego.mydiablo.presenter.fragment.HeroTabsPresenter;
 import com.lego.mydiablo.presenter.fragment.HeroTabsView;
 import com.lego.mydiablo.view.adapters.HeroTabsPagerAdapter;
@@ -176,7 +171,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
             mAdapter.removeFragments();
             mViewPager.setAdapter(mAdapter);
             mTabLayout.setViewPager(mViewPager);
-            mHeroTabsPresenter.addTab(data.getIntExtra(PickDialog.TAG_PICK_SELECTED, 1));
+            mHeroTabsPresenter.addTab(data.getIntExtra(PickHeroDialog.TAG_PICK_SELECTED, 1));
         }
     }
 
@@ -199,9 +194,9 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     @StateStrategyType(SkipStrategy.class)
     public void openPicker() {
         mAdapter.getPageTitle(0);
-        DialogFragment fragment = new PickDialog();
-        fragment.setTargetFragment(this, REQUEST_PICK);
-        fragment.show(getFragmentManager(), fragment.getClass().getName());
+//        DialogFragment fragment = new PickHeroDialog();
+//        fragment.setTargetFragment(this, REQUEST_PICK);
+//        fragment.show(getFragmentManager(), fragment.getClass().getName());
     }
 
     @Override

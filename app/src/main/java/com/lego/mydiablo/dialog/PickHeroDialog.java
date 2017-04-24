@@ -27,7 +27,7 @@ import butterknife.Unbinder;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class PickDialog extends DialogFragment implements UserHeroPick {
+public class PickHeroDialog extends DialogFragment implements UserHeroPick {
 
     @BindView(R.id.item_list)
     RecyclerView mRecyclerView;
@@ -40,8 +40,7 @@ public class PickDialog extends DialogFragment implements UserHeroPick {
     //тэг для передачи результата обратно
     public static final String TAG_PICK_SELECTED = "pick";
 
-
-    public PickDialog() {
+    public PickHeroDialog() {
         //do nothing
     }
 
