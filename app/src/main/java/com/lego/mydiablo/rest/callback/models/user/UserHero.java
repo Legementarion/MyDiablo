@@ -14,6 +14,10 @@ public class UserHero {
     private String hClass;
     @SerializedName("gender")
     private int gender;
+    @SerializedName("level")
+    private int level;
+    @SerializedName("paragonLevel")
+    private int paragon;
     @SerializedName("hardcore")
     private boolean hardcore;
     @SerializedName("seasonal")
@@ -65,5 +69,21 @@ public class UserHero {
 
     public void setSeasonal(boolean seasonal) {
         this.seasonal = seasonal;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getParagon() {
+        return paragon;
+    }
+
+    public void setParagon(int paragon) {
+        this.paragon = paragon;
     }
 }

@@ -11,13 +11,13 @@ import android.widget.TextView;
 import com.lego.mydiablo.R;
 import com.lego.mydiablo.presenter.fragment.HeroTabsPresenter;
 import com.lego.mydiablo.rest.callback.models.user.UserHero;
+import com.lego.mydiablo.utils.HeroUtils;
+import com.lego.mydiablo.utils.ImgUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.lego.mydiablo.utils.ImgUtils.pickImageDash;
 
 public class HeroCardRecyclerAdapter
         extends RecyclerView.Adapter<HeroCardRecyclerAdapter.HeroViewHolder> {
@@ -42,9 +42,12 @@ public class HeroCardRecyclerAdapter
     public void onBindViewHolder(HeroViewHolder holder, int position) {
         if (!mHeroList.isEmpty()) {
             UserHero hero = mHeroList.get(position);
-            holder.mContentView.setText(hero.getName());
-//            holder.mRankView.setText(hero.gethClass());
-//            holder.mClassView.setImageDrawable(pickImageDash(mContext, hero.gethClass()));
+            holder.mHeroName.setText(hero.getName());
+            holder.mLevelView.setText(String.valueOf(hero.getLevel()));
+            holder.mParagonView.setText(String.valueOf(hero.getParagon()));
+            holder.mClassView.setText(hero.gethClass());
+            holder.mImageClassView.setImageDrawable(ImgUtils.pickHeroIcon(mContext, hero.gethClass() + "_"
+                    + HeroUtils.castGender(hero.getGender())));
             holder.mView.setOnClickListener(v ->
                     mHeroTabsPresenter.addTab(hero.getId())
             );
@@ -65,14 +68,16 @@ public class HeroCardRecyclerAdapter
 
     class HeroViewHolder extends RecyclerView.ViewHolder {
         View mView;
-//        @BindView(R.id.id)
-//        TextView mIdView;
         @BindView(R.id.title)
-        TextView mContentView;
-//        @BindView(R.id.rank)
-//        TextView mRankView;
-//        @BindView(R.id.idClass)
-//        ImageView mClassView;
+        TextView mHeroName;
+        @BindView(R.id.card_hero_class_value)
+        TextView mClassView;
+        @BindView(R.id.card_hero_paragon_value)
+        TextView mParagonView;
+        @BindView(R.id.card_hero_level_value)
+        TextView mLevelView;
+        @BindView(R.id.headerImage)
+        ImageView mImageClassView;
 
         HeroViewHolder(View view) {
             super(view);
@@ -82,7 +87,7 @@ public class HeroCardRecyclerAdapter
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mHeroName.getText() + "'";
         }
     }
 
