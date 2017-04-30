@@ -13,6 +13,9 @@ public interface HeroTabsView extends MvpView {
     @StateStrategyType(SkipStrategy.class)
     void openPicker();
 
+    @StateStrategyType(SkipStrategy.class)
+    void closePicker();
+
     void setHeroAdapter(Hero hero);
 
     void showUserProgressBar();

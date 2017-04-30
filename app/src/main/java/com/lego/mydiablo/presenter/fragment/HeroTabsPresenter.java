@@ -2,6 +2,7 @@ package com.lego.mydiablo.presenter.fragment;
 
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -44,8 +45,11 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
         }
     }
 
-    public void compare() {
-        getViewState().openPicker();
+    public void compare(int visibility) {
+        if (visibility == View.GONE)
+            getViewState().openPicker();
+        else
+            getViewState().closePicker();
     }
 
     public void addTab(int userHeroId) {

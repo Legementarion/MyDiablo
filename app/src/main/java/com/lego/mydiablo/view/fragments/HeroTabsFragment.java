@@ -173,13 +173,13 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         if (mAdapter.getCount() > 1) {
             Snackbar snackbar = Snackbar.make(view, "Compare another one?", Snackbar.LENGTH_LONG)
                     .setAction("YES", view1 ->
-                            mHeroTabsPresenter.compare()
+                            mHeroTabsPresenter.compare(heroContainer.getVisibility())
                     );
             snackbar.setActionTextColor(Color.RED);
             snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
             snackbar.show();
         } else {
-            mHeroTabsPresenter.compare();
+            mHeroTabsPresenter.compare(heroContainer.getVisibility());
         }
     }
 
@@ -193,9 +193,10 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(this::showUserProgressBar)
-                .doAfterTerminate(()->{
+                .doAfterTerminate(() -> {
                     hideUserProgressBar();
-                    heroContainer.setVisibility(View.VISIBLE);})
+                    heroContainer.setVisibility(View.VISIBLE);
+                })
                 .subscribe(new Subscriber<UserHeroList>() {
                     @Override
                     public void onCompleted() {
@@ -212,6 +213,11 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                         mHeroCardRecyclerAdapter.setItems(heroList.getHeroes());
                     }
                 });
+    }
+
+    @Override
+    public void closePicker() {
+        heroContainer.setVisibility(View.GONE);
     }
 
     @Override
@@ -234,7 +240,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
     @Override
     public void addCompareFragments(Hero hero, Hero userHero) {
-        heroContainer.setVisibility(View.GONE);
+        closePicker();
         mViewPager.setCurrentItem(0);
         mAdapter.removeFragments();
         mViewPager.setAdapter(mAdapter);
@@ -347,9 +353,9 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(0);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
-        if(mHeroTabsPresenter == null) {
+        if (mHeroTabsPresenter == null) {
             mHeroTabsPresenter = new HeroTabsPresenter();
-        }else {
+        } else {
             mHeroTabsPresenter.getHeroFromDB(this, rank);
         }
     }

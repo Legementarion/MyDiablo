@@ -17,7 +17,7 @@ public class UserHero {
     @SerializedName("level")
     private int level;
     @SerializedName("paragonLevel")
-    private int paragon;
+    private int paragonLevel;
     @SerializedName("hardcore")
     private boolean hardcore;
     @SerializedName("seasonal")
@@ -80,10 +80,10 @@ public class UserHero {
     }
 
     public int getParagon() {
-        return paragon;
+        return paragonLevel;
     }
 
     public void setParagon(int paragon) {
-        this.paragon = paragon;
+        this.paragonLevel = paragon;
     }
 }
