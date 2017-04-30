@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bali_details_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <!--android:background="@color/place_details_background"-->
-    <!--&gt;-->
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/background_detail">
 
-    <!--<android.support.v7.widget.CardView-->
-        <!--android:id="@+id/cardview"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/item_place_details_height"-->
-        <!--android:layout_gravity="bottom"-->
-        <!--android:layout_marginEnd="@dimen/default_layout_margin_halved"-->
-        <!--android:layout_marginStart="@dimen/default_layout_margin_halved"-->
-        <!--android:background="@color/white">-->
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_place_details_height"
+        android:layout_gravity="bottom"
+        android:layout_marginEnd="@dimen/default_layout_margin_halved"
+        android:layout_marginStart="@dimen/default_layout_margin_halved"
+        android:background="@color/white">
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="vertical">-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <!--<ImageView-->
-                <!--android:id="@+id/headerImage"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="150dp"-->
-                <!--android:scaleType="fitXY"-->
-                <!--android:src="@drawable/monkey_forest_1" />-->
+            <ImageView
+                android:id="@+id/headerImage"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/diablo_logo" />
 
-            <!--<TextView-->
-                <!--android:id="@+id/title"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:padding="@dimen/default_layout_margin"-->
-                <!--android:text="MONKEY FOREST"-->
-                <!--android:textAppearance="@style/RobotoBold"-->
-                <!--android:textColor="@color/item_place_title"-->
-                <!--android:textSize="@dimen/textsize_very_huge"-->
-                <!--android:textStyle="bold"-->
-                <!--android:transitionName="titleTransition" />-->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_layout_margin"
+                android:text="MONKEY FOREST"
+                android:textColor="@color/btn_text"
+                android:textSize="@dimen/textsize_very_huge"
+                android:textStyle="bold"
+                android:transitionName="titleTransition" />
 
             <!--<LinearLayout-->
                 <!--android:id="@+id/descriptionLayout"-->
@@ -52,7 +50,7 @@
                     <!--android:layout_width="20dp"-->
                     <!--android:layout_height="20dp"-->
                     <!--android:layout_gravity="center_vertical"-->
-                    <!--android:src="@drawable/ic_clock" />-->
+                    <!--android:src="@drawable/" />-->
 
                 <!--<TextView-->
                     <!--android:id="@+id/hours"-->
@@ -66,7 +64,7 @@
                     <!--android:maxLines="1"-->
                     <!--android:text="08:30 - 18:00"-->
                     <!--android:textAppearance="@style/RobotoMedium"-->
-                    <!--android:textColor="@color/item_place_details_subtitle"-->
+                    <!--android:textColor="@color/btn_text"-->
                     <!--android:textSize="@dimen/textsize_big" />-->
 
                 <!--<ImageView-->
@@ -120,8 +118,8 @@
                 <!--android:padding="@dimen/default_layout_margin"-->
                 <!--android:text="@string/lorem"-->
                 <!--android:textAppearance="@style/RobotoThin"-->
-                <!--android:textColor="@color/item_place_description" />-->
-        <!--</LinearLayout>-->
+                <!--android:textColor="@color/btn_text" />-->
+        </LinearLayout>
 
         <!--<TextView-->
             <!--android:id="@+id/takeMe"-->
@@ -132,9 +130,9 @@
             <!--android:drawableStart="@drawable/ic_near_me_black_24dp"-->
             <!--android:gravity="center"-->
             <!--android:padding="@dimen/default_layout_margin"-->
-            <!--android:text="TAKE ME THERE"-->
+            <!--android:text="TAKE ME"-->
             <!--android:textAppearance="@style/RobotoBold"-->
-            <!--android:textColor="@color/white" />-->
+            <!--android:textColor="@color/btn_text" />-->
 
-    <!--</android.support.v7.widget.CardView>-->
+    </android.support.v7.widget.CardView>
 </FrameLayout>

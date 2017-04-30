@@ -44,7 +44,6 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
         }
     }
 
-    @StateStrategyType(SkipStrategy.class)
     public void compare() {
         getViewState().openPicker();
     }

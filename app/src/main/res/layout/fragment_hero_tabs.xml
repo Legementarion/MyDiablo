@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:id="@+id/main_content"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:paddingTop="@dimen/_10dp">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/_10dp">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -29,20 +30,20 @@
                 android:contentDescription="@null"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"/>
+                app:layout_collapseMode="parallax" />
 
             <LinearLayout
                 android:id="@+id/background_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/background_detail"
-                android:orientation="vertical"/>
+                android:orientation="vertical" />
 
             <LinearLayout
                 android:id="@+id/background_linear_layout_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"/>
+                android:orientation="vertical" />
 
             <RelativeLayout
                 android:id="@+id/animator_icon_relative_layout"
@@ -57,7 +58,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:src="@drawable/background_oval"
-                    tools:ignore="ContentDescription"/>
+                    tools:ignore="ContentDescription" />
 
                 <ProgressBar
                     android:id="@+id/user_info_progressBar"
@@ -69,7 +70,7 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="20dp"
                     android:layout_marginTop="20dp"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/image_logo_tabs"
@@ -77,7 +78,7 @@
                     android:layout_height="@dimen/size_image_stats"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    tools:ignore="ContentDescription"/>
+                    tools:ignore="ContentDescription" />
 
             </RelativeLayout>
 
@@ -100,46 +101,15 @@
                 app:stl_titleOffset="auto_center"
                 app:stl_underlineColor="@color/transparent"
                 app:tabGravity="center"
-                app:tabMode="scrollable"/>
+                app:tabMode="scrollable" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="@color/transparent"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="@color/transparent">
-
-
-
-                    <!--<ImageButton-->
-                        <!--android:id="@+id/image_back"-->
-                        <!--android:layout_width="30dp"-->
-                        <!--android:layout_height="@dimen/avatar_size"-->
-                        <!--android:layout_gravity="center_vertical"-->
-                        <!--android:background="@color/transparent"-->
-                        <!--android:contentDescription="@null"-->
-                        <!--android:gravity="end"-->
-                        <!--app:srcCompat="@drawable/ic_arrow_back"/>-->
-
-                    <!--<ImageView-->
-                        <!--android:id="@+id/image_title_toolbar"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center_horizontal"-->
-                        <!--android:contentDescription="@null"-->
-                        <!--android:scaleType="fitXY"/>-->
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/text_view_title_toolbar"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center_vertical"-->
-                        <!--android:layout_marginLeft="@dimen/_10dp"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:textColor="@color/icons"-->
-                        <!--android:textSize="18sp"/>-->
-            </android.support.v7.widget.Toolbar>
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -150,7 +120,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#120f0f"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -161,6 +131,19 @@
         android:src="@android:drawable/stat_notify_chat"
         app:fabSize="mini"
         app:layout_anchor="@+id/app_bar"
-        app:layout_anchorGravity="center_vertical|right"/>
+        app:layout_anchorGravity="center_vertical|right" />
+
+    <FrameLayout
+        android:id="@+id/heroesContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerviewOfHeroes"
+            android:layout_width="match_parent"
+            android:layout_height="220dp" />
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
