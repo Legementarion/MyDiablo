@@ -55,7 +55,7 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
     public void addTab(int userHeroId) {
         mCore.loadUserDetailHeroData(mBattleTag, userHeroId)
                 .cache()
-                .doOnSubscribe(() -> getViewState().showUserProgressBar())
+                .doOnSubscribe(() -> {getViewState().showUserProgressBar(); getViewState().closePicker();})
                 .doAfterTerminate(() -> getViewState().hideUserProgressBar())
                 .subscribe(new Subscriber<Hero>() {
                     @Override
@@ -91,7 +91,7 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
 
     public String getUserHeroIcon() {
         if (mUserHero != null) {
-            return mUserHero.getHeroClass() + "_" + castGender(mRatingHero.getGender());
+            return mUserHero.getHeroClass() + "_" + castGender(mUserHero.getGender());
         } else {
             return "avatar";
         }

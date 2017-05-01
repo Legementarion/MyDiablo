@@ -240,7 +240,6 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
     @Override
     public void addCompareFragments(Hero hero, Hero userHero) {
-        closePicker();
         mViewPager.setCurrentItem(0);
         mAdapter.removeFragments();
         mViewPager.setAdapter(mAdapter);
