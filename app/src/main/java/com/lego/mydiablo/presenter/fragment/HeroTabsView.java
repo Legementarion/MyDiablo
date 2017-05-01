@@ -2,9 +2,7 @@ package com.lego.mydiablo.presenter.fragment;
 
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
-import com.arellomobile.mvp.viewstate.strategy.StateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
-import com.google.android.gms.awareness.fence.FenceState;
 import com.lego.mydiablo.data.model.Hero;
 
 public interface HeroTabsView extends MvpView {

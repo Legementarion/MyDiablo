@@ -6,21 +6,21 @@ import com.google.gson.annotations.SerializedName;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserHero {
-    @SerializedName("id")
+    @JsonProperty("id")
     private int id;
-    @SerializedName("name")
+    @JsonProperty("name")
     private String name;
     @JsonProperty("class")
     private String hClass;
-    @SerializedName("gender")
+    @JsonProperty("gender")
     private int gender;
-    @SerializedName("level")
+    @JsonProperty("level")
     private int level;
-    @SerializedName("paragonLevel")
+    @JsonProperty("paragonLevel")
     private int paragonLevel;
-    @SerializedName("hardcore")
+    @JsonProperty("hardcore")
     private boolean hardcore;
-    @SerializedName("seasonal")
+    @JsonProperty("seasonal")
     private boolean seasonal;
 
     public int getId() {

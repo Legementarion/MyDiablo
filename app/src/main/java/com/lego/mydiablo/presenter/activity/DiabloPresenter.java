@@ -1,9 +1,6 @@
 package com.lego.mydiablo.presenter.activity;
 
-import android.content.Context;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -127,7 +124,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     }
 
     private void switchFragment(Fragment fragment, String tag) {
-        /**проверка на количество фрагментов на экране*/
+        /**проверка на количество фрагментов на экране */
         getViewState().checkOrientation();
         switch (tag) {
             case MenuFragment.TAG:

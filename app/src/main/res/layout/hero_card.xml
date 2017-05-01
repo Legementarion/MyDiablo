@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <android.support.design.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:background="@color/background_detail">
@@ -31,7 +31,7 @@
                     android:scaleType="centerInside"
                     android:src="@drawable/diablo_logo" />
 
-            </RelativeLayout>
+            </android.support.design.widget.CoordinatorLayout>
 
             <TextView
                 android:id="@+id/title"
