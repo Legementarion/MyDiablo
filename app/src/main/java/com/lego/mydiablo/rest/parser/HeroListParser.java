@@ -34,7 +34,6 @@ import java.util.Map;
 import io.realm.RealmList;
 import retrofit2.Call;
 import rx.Observable;
-import rx.Observable.OnSubscribe;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -308,37 +307,31 @@ public class HeroListParser {
     }
 
     private Observable<ResponseItem> getBody(Call<ResponseItem> itemCall) {
-        return Observable.create(new OnSubscribe<ResponseItem>() {
-            @Override
-            public void call(Subscriber<? super ResponseItem> subscriber) {
-                if (!subscriber.isUnsubscribed()) {
-                    try {
-                        subscriber.onNext(itemCall.execute().body());
-                        subscriber.onCompleted();
-                    } catch (IOException e) {
-                        subscriber.onError(e);
-                    }
+        return Observable.create(subscriber -> {
+            if (!subscriber.isUnsubscribed()) {
+                try {
+                    subscriber.onNext(itemCall.execute().body());
+                    subscriber.onCompleted();
+                } catch (IOException e) {
+                    subscriber.onError(e);
                 }
             }
         });
     }
 
     private Observable<Call<ResponseItem>> getItem(HeroDetail hero) {
-        return Observable.create(new OnSubscribe<Call<ResponseItem>>() {
-            @Override
-            public void call(Subscriber<? super Call<ResponseItem>> subscriber) {
-                if (!subscriber.isUnsubscribed()) {
-                    try {
-                        if (hero.getItems() != null)
-                            for (Map.Entry<String, ItemDetail> entry : hero.getItems()
-                                    .entrySet()) {
-                                ItemDetail value = entry.getValue();
-                                checkItem(subscriber, value);
-                            }
-                        subscriber.onCompleted();
-                    } catch (Exception e) {
-                        subscriber.onError(e);
-                    }
+        return Observable.create(subscriber -> {
+            if (!subscriber.isUnsubscribed()) {
+                try {
+                    if (hero.getItems() != null)
+                        for (Map.Entry<String, ItemDetail> entry : hero.getItems()
+                                .entrySet()) {
+                            ItemDetail value = entry.getValue();
+                            checkItem(subscriber, value);
+                        }
+                    subscriber.onCompleted();
+                } catch (Exception e) {
+                    subscriber.onError(e);
                 }
             }
         });

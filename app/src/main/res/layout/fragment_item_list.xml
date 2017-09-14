@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:fitsSystemWindows="true"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:ignore="ContentDescription">
 
     <LinearLayout
         android:id="@+id/spinner_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10dp"
+        android:layout_marginBottom="@dimen/_10dp"
+        android:layout_marginTop="@dimen/_10dp"
         android:orientation="horizontal">
 
         <ImageButton
@@ -21,7 +24,7 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:visibility="visible"
-            app:srcCompat="@drawable/ic_arrow_back"/>
+            app:srcCompat="@drawable/ic_arrow_back" />
 
         <Spinner
             android:id="@+id/idClass"
@@ -29,17 +32,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:entries="@array/hero_class"
-            android:spinnerMode="dialog"/>
+            android:spinnerMode="dialog" />
 
         <TextView
             android:id="@+id/seasonTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/_10dp"
             android:text="@string/season_spinner"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/btn_text"/>
+            android:textColor="@color/btn_text" />
 
         <Spinner
             android:id="@+id/idSeason"
@@ -47,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:entries="@array/season"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical" />
 
     </LinearLayout>
 
@@ -60,7 +62,7 @@
         android:indeterminate="true"
         android:max="100"
         android:visibility="gone"
-        tools:targetApi="lollipop"/>
+        tools:targetApi="lollipop" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -76,7 +78,7 @@
             <include
                 layout="@layout/item_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </FrameLayout>

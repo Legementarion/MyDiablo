@@ -30,6 +30,7 @@ import rx.Subscriber;
 import static com.lego.mydiablo.utils.HeroUtils.castGender;
 import static com.lego.mydiablo.utils.HeroUtils.getDate;
 import static com.lego.mydiablo.utils.ImgUtils.pickHeroIcon;
+import static com.lego.mydiablo.utils.ImgUtils.pickUserHeroIcon;
 import static com.lego.mydiablo.utils.Settings.mHeroId;
 
 /**
@@ -62,7 +63,7 @@ public class TableItemRecyclerViewAdapter
         Hero hero = mHeroList.get(position);
         holder.mIdView.setText("#" + hero.getRank());
         holder.mContentView.setText(hero.getBattleTag());
-        holder.mClassView.setImageDrawable(pickHeroIcon(mContext, hero.getHeroClass() + "_" + castGender(hero.getGender())));
+        holder.mClassView.setImageDrawable(pickUserHeroIcon(mContext, hero.getHeroClass() + "_" + castGender(hero.getGender())));
         holder.mRankView.setText("Rift - " + hero.getRiftLevel() + "  " + getDate(hero.getRiftTime()));
         holder.mView.setTag(hero.getId());
         mHeroId = hero.getRank();

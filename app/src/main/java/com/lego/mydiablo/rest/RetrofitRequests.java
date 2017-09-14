@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lego.mydiablo.rest.callback.models.game.Era;
 import com.lego.mydiablo.rest.callback.models.game.Season;
-import com.lego.mydiablo.rest.callback.models.item.ResponseItem;
 import com.lego.mydiablo.rest.callback.models.heroes.HeroDetail;
+import com.lego.mydiablo.rest.callback.models.item.ResponseItem;
 import com.lego.mydiablo.rest.callback.models.leaderboard.HeroList;
 import com.lego.mydiablo.rest.callback.models.user.UserHeroList;
 

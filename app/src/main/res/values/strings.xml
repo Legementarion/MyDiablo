@@ -44,6 +44,7 @@
         <item>--</item>
     </string-array>
 
+    //hero items
     <string name="stats">ATTRIBUTES</string>
     <string name="head">head</string>
     <string name="torso">torso</string>
@@ -59,6 +60,7 @@
     <string name="neck">neck</string>
     <string name="offhand">offhand</string>
 
+    //hero stats
     <string name="stat_Life">Life</string>
     <string name="stat_Damage">Damage</string>
     <string name="stat_Toughness">Toughness</string>
@@ -89,7 +91,15 @@
     <string name="stat_LifeOnHit">Life On Hit</string>
     <string name="stat_PrimaryResource">Primary Resource</string>
     <string name="stat_SecondaryResource">Secondary Resource</string>
-    <string name="drawable">drawable</string>
-    <string name="region_choose">Choose your region</string>
 
+    //hero params
+    <string name="level">Level:</string>
+    <string name="paragon">Paragon:</string>
+    <string name="hero_class">Class:</string>
+
+    <string name="region_choose">Choose your region</string>
+    <string name="choose_me">CHOOSE ME</string>
+
+    //utils
+    <string name="drawable">drawable</string>
 </resources>

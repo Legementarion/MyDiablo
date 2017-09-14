@@ -2,6 +2,7 @@ package com.lego.mydiablo.presenter.fragment;
 
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -44,15 +45,17 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
         }
     }
 
-    @StateStrategyType(SkipStrategy.class)
-    public void compare() {
-        getViewState().openPicker();
+    public void compare(int visibility) {
+        if (visibility == View.GONE)
+            getViewState().openPicker();
+        else
+            getViewState().closePicker();
     }
 
     public void addTab(int userHeroId) {
         mCore.loadUserDetailHeroData(mBattleTag, userHeroId)
                 .cache()
-                .doOnSubscribe(() -> getViewState().showUserProgressBar())
+                .doOnSubscribe(() -> {getViewState().showUserProgressBar(); getViewState().closePicker();})
                 .doAfterTerminate(() -> getViewState().hideUserProgressBar())
                 .subscribe(new Subscriber<Hero>() {
                     @Override
@@ -88,7 +91,7 @@ public class HeroTabsPresenter extends MvpPresenter<HeroTabsView> {
 
     public String getUserHeroIcon() {
         if (mUserHero != null) {
-            return mUserHero.getHeroClass() + "_" + castGender(mRatingHero.getGender());
+            return mUserHero.getHeroClass() + "_" + castGender(mUserHero.getGender());
         } else {
             return "avatar";
         }

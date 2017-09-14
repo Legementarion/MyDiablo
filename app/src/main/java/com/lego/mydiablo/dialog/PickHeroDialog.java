@@ -55,7 +55,7 @@ public class PickHeroDialog extends DialogFragment implements UserHeroPick {
     }
 
     private void init() {
-        mUserHeroListRecyclerAdapter = new UserHeroListRecyclerAdapter(getContext(), Collections.EMPTY_LIST, this);
+        mUserHeroListRecyclerAdapter = new UserHeroListRecyclerAdapter(getContext(), Collections.emptyList(), this);
         mRecyclerView.setAdapter(mUserHeroListRecyclerAdapter);
         getDialog().setTitle("With whom to compare?");
         mCore.loadUserHeroList()

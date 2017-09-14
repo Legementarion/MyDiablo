@@ -124,7 +124,7 @@ public class DiabloPresenter extends MvpPresenter<DiabloView> {
     }
 
     private void switchFragment(Fragment fragment, String tag) {
-        /**проверка на количество фрагментов на экране*/
+        /**проверка на количество фрагментов на экране */
         getViewState().checkOrientation();
         switch (tag) {
             case MenuFragment.TAG:

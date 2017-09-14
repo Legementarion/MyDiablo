@@ -30,4 +30,6 @@
         <item>@color/grey</item>
     </integer-array>
 
+    <color name="button_red">#e74c3c</color>
+
 </resources>

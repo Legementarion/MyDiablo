@@ -6,17 +6,21 @@ import com.google.gson.annotations.SerializedName;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserHero {
-    @SerializedName("id")
+    @JsonProperty("id")
     private int id;
-    @SerializedName("name")
+    @JsonProperty("name")
     private String name;
     @JsonProperty("class")
     private String hClass;
-    @SerializedName("gender")
+    @JsonProperty("gender")
     private int gender;
-    @SerializedName("hardcore")
+    @JsonProperty("level")
+    private int level;
+    @JsonProperty("paragonLevel")
+    private int paragonLevel;
+    @JsonProperty("hardcore")
     private boolean hardcore;
-    @SerializedName("seasonal")
+    @JsonProperty("seasonal")
     private boolean seasonal;
 
     public int getId() {
@@ -65,5 +69,21 @@ public class UserHero {
 
     public void setSeasonal(boolean seasonal) {
         this.seasonal = seasonal;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getParagon() {
+        return paragonLevel;
+    }
+
+    public void setParagon(int paragon) {
+        this.paragonLevel = paragon;
     }
 }

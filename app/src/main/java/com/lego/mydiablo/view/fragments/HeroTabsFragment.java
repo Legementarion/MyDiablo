@@ -1,10 +1,7 @@
 package com.lego.mydiablo.view.fragments;
 
 import android.animation.Animator;
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +12,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -35,18 +36,24 @@ import com.arellomobile.mvp.presenter.PresenterType;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.lego.mydiablo.data.model.Hero;
-import com.lego.mydiablo.dialog.PickHeroDialog;
+import com.lego.mydiablo.logic.Core;
 import com.lego.mydiablo.presenter.fragment.HeroTabsPresenter;
 import com.lego.mydiablo.presenter.fragment.HeroTabsView;
+import com.lego.mydiablo.rest.callback.models.user.UserHeroList;
 import com.lego.mydiablo.view.adapters.HeroTabsPagerAdapter;
+import com.lego.mydiablo.view.adapters.rv.HeroCardRecyclerAdapter;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import com.lego.mydiablo.R;
+
+import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 import static com.lego.mydiablo.utils.Const.COLOR;
 import static com.lego.mydiablo.utils.Const.EMPTY_VALUE;
@@ -58,8 +65,11 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     HeroTabsPresenter mHeroTabsPresenter;
 
     public static final String TAG = "Detail";
-    private static final int REQUEST_PICK = 1;
 
+    @BindView(R.id.recyclerviewOfHeroes)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.heroesContainer)
+    FrameLayout heroContainer;
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
     @BindView(R.id.user_info_progressBar)
@@ -76,18 +86,12 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     ImageView mImageLogo;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    //    @BindView(R.id.image_back)
-//    ImageButton mImageBackButton;
     @BindView(R.id.background_tool_bar)
     ImageView mImageBackgroundToolBar;
     @BindView(R.id.animator_icon_relative_layout)
     RelativeLayout mAnimatorIconRelativeLayout;
     @BindView(R.id.app_bar)
     AppBarLayout mAppBarLayout;
-    //    @BindView(R.id.text_view_title_toolbar)
-//    TextView mTitleTextView;
-//    @BindView(R.id.image_title_toolbar)
-//    ImageView mImageTitle;
     @BindView(R.id.toolbar)
     Toolbar mToolBar;
     @BindView(R.id.collapsing_toolbar_layout_param_tabs)
@@ -106,6 +110,7 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     private Unbinder mUnbinder;
     private AnimationListener animationListenerInvisible;
     private AnimationListener animationListenerVisible;
+    private HeroCardRecyclerAdapter mHeroCardRecyclerAdapter;
 
     private final SimpleOnPageChangeListener mOnPageChangeListener = new SimpleOnPageChangeListener() {
         @Override
@@ -145,12 +150,9 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
                              @Nullable Bundle savedInstanceState) {
         View mView = inflater.inflate(R.layout.fragment_hero_tabs, container, false);
         mUnbinder = ButterKnife.bind(this, mView);
-        Typeface face = Typeface.createFromAsset(getActivity().getAssets(),
-                "fonts/blizzard.ttf");
-//        mToolBar.getTitle()..setTypeface(face);
         mToolBar.setNavigationIcon(R.drawable.ic_arrow_back);
         mToolBar.setNavigationOnClickListener(v -> backButton());
-        mImageLogo.setImageDrawable(getResources().getDrawable(R.drawable.diablo_logo));
+        mImageLogo.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.diablo_logo));
 
         if (getArguments() != null) {
             setupViewPager(getArguments().getInt(TAG));
@@ -158,21 +160,12 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         }
         mTabLayout.setViewPager(mViewPager);
         mMaxScrollSize = getResources().getDimensionPixelSize(R.dimen.size_collapsing_toolbar_layout);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
         setColorCoordinatorLayout();
         animation();
         return mView;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_PICK) {
-            mViewPager.setCurrentItem(0);
-            mAdapter.removeFragments();
-            mViewPager.setAdapter(mAdapter);
-            mTabLayout.setViewPager(mViewPager);
-            mHeroTabsPresenter.addTab(data.getIntExtra(PickHeroDialog.TAG_PICK_SELECTED, 1));
-        }
     }
 
     @OnClick(R.id.fab)
@@ -180,13 +173,13 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         if (mAdapter.getCount() > 1) {
             Snackbar snackbar = Snackbar.make(view, "Compare another one?", Snackbar.LENGTH_LONG)
                     .setAction("YES", view1 ->
-                            mHeroTabsPresenter.compare()
+                            mHeroTabsPresenter.compare(heroContainer.getVisibility())
                     );
             snackbar.setActionTextColor(Color.RED);
             snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
             snackbar.show();
         } else {
-            mHeroTabsPresenter.compare();
+            mHeroTabsPresenter.compare(heroContainer.getVisibility());
         }
     }
 
@@ -194,9 +187,37 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
     @StateStrategyType(SkipStrategy.class)
     public void openPicker() {
         mAdapter.getPageTitle(0);
-//        DialogFragment fragment = new PickHeroDialog();
-//        fragment.setTargetFragment(this, REQUEST_PICK);
-//        fragment.show(getFragmentManager(), fragment.getClass().getName());
+        mHeroCardRecyclerAdapter = new HeroCardRecyclerAdapter(getContext(), Collections.emptyList(), mHeroTabsPresenter);
+        mRecyclerView.setAdapter(mHeroCardRecyclerAdapter);
+        Core.getInstance().loadUserHeroList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(this::showUserProgressBar)
+                .doAfterTerminate(() -> {
+                    hideUserProgressBar();
+                    heroContainer.setVisibility(View.VISIBLE);
+                })
+                .subscribe(new Subscriber<UserHeroList>() {
+                    @Override
+                    public void onCompleted() {
+                        unsubscribe();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("loadUserHeroList", "onError: " + e);
+                    }
+
+                    @Override
+                    public void onNext(UserHeroList heroList) {
+                        mHeroCardRecyclerAdapter.setItems(heroList.getHeroes());
+                    }
+                });
+    }
+
+    @Override
+    public void closePicker() {
+        heroContainer.setVisibility(View.GONE);
     }
 
     @Override
@@ -219,6 +240,11 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
 
     @Override
     public void addCompareFragments(Hero hero, Hero userHero) {
+        mViewPager.setCurrentItem(0);
+        mAdapter.removeFragments();
+        mViewPager.setAdapter(mAdapter);
+        mTabLayout.setViewPager(mViewPager);
+
         mAdapter.compare(hero, userHero);
         mTabLayout.setViewPager(mViewPager);
     }
@@ -326,9 +352,9 @@ public class HeroTabsFragment extends MvpAppCompatFragment implements HeroTabsVi
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setCurrentItem(0);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
-        if(mHeroTabsPresenter == null) {
+        if (mHeroTabsPresenter == null) {
             mHeroTabsPresenter = new HeroTabsPresenter();
-        }else {
+        } else {
             mHeroTabsPresenter.getHeroFromDB(this, rank);
         }
     }
